@@ -466,6 +466,33 @@ contra él.
   que ya se intentó enviar, nunca un campo aún sin tocar.
 - **Teléfono:** 16px y `14px` de padding — por debajo de 16px iOS hace zoom.
 
+### Campo del hero por tubo (WebGL, opcional)
+
+El fondo del hero puede pasar por un shader: `CRTFilterWebGL`
+(`src/lib/CRTFilter.js`, MIT). La regla que gobierna la pieza salió de tres
+intentos fallidos de lo contrario: **el diseño no se toca**. El logo sigue siendo
+el mismo SVG con su mismo florecimiento, el texto sigue siendo DOM, el barrido
+fino sigue cruzando la letra y la viñeta sigue donde estaba.
+
+Lo único que hace el canvas es **sustituir a `.hero::before`**: pinta los mismos
+cuatro degradados del cañón, con sus mismos valores, y los pasa por el shader. A
+cambio, ese fondo deja de ser una imagen fija y pasa a ser un tubo encendido.
+
+- **Qué aporta:** grano de fósforo que se mueve, parpadeo de red y un barrido
+  rodante muy tenue. La textura local del campo sube de 2.5 a 6.3 de desviación
+  en la zona encendida, con el color del cañón intacto (51,25,27 frente a
+  46,21,22).
+- **El grano sólo aparece donde hay luz**, y no por ajuste: el shader suma el
+  ruido y después multiplica por la textura, así que sobre el negro se anula
+  solo. Es lo que hace el fósforo, y evita el velo gris que dejaría un ruido
+  plano sobre toda la banda.
+- **Se activa** en ≥900px, con WebGL y sin petición de más contraste. Con menos
+  movimiento pedido se dibuja un fotograma y se para: el campo sigue, el latido
+  no. En cualquier otro caso queda el `::before` de siempre, que es el mismo
+  dibujo.
+- **Coste:** la textura se sube una vez, no por fotograma, y el bucle se detiene
+  en cuanto el hero sale de pantalla.
+
 ### Selector de idioma
 
 El único mando de la página. Va suelto en el canto superior derecho del **hero**,
@@ -498,7 +525,7 @@ al final.
 
 ### Motion
 
-Dos momentos autorizados y un solo gesto permanente.
+Dos momentos autorizados, un gesto permanente y un fondo vivo.
 
 - **Arranque del banner** (`rdBoot`, `.55s cubic-bezier(.16,1,.3,1)`, escalón de
   55ms por fila): el logo se dibuja fila a fila al cargar. Es lo primero que
@@ -509,6 +536,10 @@ Dos momentos autorizados y un solo gesto permanente.
   índice) lo pone la plantilla, no un temporizador.
 - **Cursor de bloque** (`rdBlink`, `1.1s step-end infinite`): el único gesto
   animado permanente de la marca.
+- **Campo del hero** (`requestAnimationFrame`, sólo en escritorio con WebGL):
+  grano de fósforo y parpadeo de red sobre el fondo del hero. No dibuja nada
+  nuevo, sólo mantiene encendido lo que ya había. Se detiene en cuanto el hero
+  sale de pantalla, y con `prefers-reduced-motion` no llega a arrancar.
 - **Transiciones de estado:** `.15s ease` sobre color, fondo y borde. El
   skip-link usa `.18s cubic-bezier(.16,1,.3,1)`.
 - **`prefers-reduced-motion`:** todo cae a `.001ms`, el cursor se queda sólido,
@@ -520,6 +551,14 @@ scroll —un filete con una gota cayendo— y se retiró: parada, en una captura
 se lee como "hay más abajo" sino como un defecto de render. Un gesto que sólo
 significa algo mientras se mueve no es una afordancia, es un artefacto. Si vuelve
 a hacer falta, la forma legible es un galón, que se reconoce quieto.
+
+**La Regla de la Capa que se Suma.** Un efecto se añade **detrás** de lo que ya
+funciona, nunca reestructurando lo que ya funciona. Tres intentos de meter el
+logo dentro del shader —para que la lente le doblara la luz— acabaron los tres
+en un halo más blando o en un churrete, porque al arte le quitaban su propio
+florecimiento para devolvérselo peor. Lo que sí cabe es sustituir una capa que ya
+era fondo, con sus mismos valores, y ganar que esté viva. **Si un efecto exige
+desmontar el diseño para entrar, el que sobra es el efecto.**
 
 **La Regla del Revelado Reversible.** Nada se oculta si no hay quien lo
 desoculte. El estado inicial del revelado cuelga de `.rd-js`, una clase que el

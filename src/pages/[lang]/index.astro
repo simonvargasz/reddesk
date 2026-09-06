@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import SiteFooter from '../../components/SiteFooter.astro';
 import AsciiBanner from '../../components/AsciiBanner.astro';
+import HeroField from '../../components/HeroField.astro';
 import LangSwitcher from '../../components/LangSwitcher.astro';
 import TerminalPanel from '../../components/TerminalPanel.astro';
 import SectionHeader from '../../components/SectionHeader.astro';
@@ -22,6 +23,8 @@ const t = dict(locale);
          por arriba. El único mando que sobrevive al hero es el selector de
          idioma, que se va con el scroll como todo lo demás. -->
     <section class="hero">
+      <HeroField />
+
       <div class="hero__langs">
         <LangSwitcher current={locale} label={t.nav.language} />
       </div>

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-06T16:36:17-03:00",
+  "generatedAt": "2026-09-06T16:52:09-03:00",
   "title": "Design System: Red Desk",
   "extensions": {
     "colorMeta": {
@@ -289,6 +289,11 @@
         "name": "skip",
         "value": ".18s cubic-bezier(.16,1,.3,1)",
         "purpose": "Entrada del skip-link."
+      },
+      {
+        "name": "field",
+        "value": "requestAnimationFrame sobre un shader WebGL, solo en >=900px con WebGL",
+        "purpose": "Grano de fosforo y parpadeo de red sobre el fondo del hero. No dibuja nada nuevo, solo mantiene encendido lo que ya habia. Se detiene cuando el hero sale de pantalla y con prefers-reduced-motion no arranca."
       }
     ],
     "breakpoints": [
@@ -383,6 +388,14 @@
       "description": "La firma de la marca: prompt en Rojo Fósforo, texto en versalitas mono y bloque de cursor que emite.",
       "html": "<p class=\"ds-prompt\"><span class=\"ds-prompt-sign\">$</span><span class=\"ds-prompt-text\">Soluciones digitales a medida</span><span class=\"ds-prompt-cursor\"></span></p>",
       "css": ".ds-prompt { display: flex; align-items: center; gap: 9px; margin: 0; font-family: var(--rd-mono, 'IBM Plex Mono', monospace); font-size: 17px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--rd-ink-2, #D6D2CD); } .ds-prompt-sign { color: var(--rd-red-ink, #FF4A54); font-weight: 500; text-shadow: 0 0 10px rgba(255,74,84,.7), 0 0 24px rgba(255,74,84,.35); } .ds-prompt-text { text-shadow: 0 0 12px rgba(214,210,205,.38); } .ds-prompt-cursor { display: inline-block; flex: none; width: 9px; height: 17px; background: var(--rd-red-ink, #FF4A54); box-shadow: 0 0 10px rgba(255,74,84,.85), 0 0 22px rgba(255,74,84,.45); animation: dsBlink2 1.1s step-end infinite; } @keyframes dsBlink2 { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } } @media (prefers-reduced-motion: reduce) { .ds-prompt-cursor { animation: none; } }"
+    },
+    {
+      "name": "Hero Field (WebGL)",
+      "kind": "decoration",
+      "refersTo": "hero-field",
+      "description": "Canvas que sustituye a .hero::before: pinta los mismos cuatro degradados del canon, con sus mismos valores, y los pasa por CRTFilterWebGL (MIT). El diseno no se toca —logo, texto, barrido y vineta siguen igual—; lo que cambia es que el fondo deja de ser fijo. El grano solo aparece donde hay luz porque el shader suma ruido y luego multiplica por la textura. Solo en >=900px, con WebGL y sin peticion de mas contraste.",
+      "html": "<canvas class=\"ds-hero-field\" aria-hidden=\"true\"></canvas>",
+      "css": ".ds-hero-field { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; pointer-events: none; -webkit-mask-image: var(--rd-hero-fade); mask-image: var(--rd-hero-fade); }"
     }
   ],
   "narrative": {
@@ -477,6 +490,11 @@
         "name": "La Regla de la Afordancia que se Explica Sola",
         "section": "motion",
         "body": "El hero llevo una senal de scroll —un filete con una gota cayendo— y se retiro: parada, en una captura, no se lee como \"hay mas abajo\" sino como un defecto de render. Un gesto que solo significa algo mientras se mueve no es una afordancia, es un artefacto. Si vuelve a hacer falta, la forma legible es un galon, que se reconoce quieto."
+      },
+      {
+        "name": "La Regla de la Capa que se Suma",
+        "section": "motion",
+        "body": "Un efecto se anade detras de lo que ya funciona, nunca reestructurando lo que ya funciona. Tres intentos de meter el logo dentro del shader acabaron los tres en un halo mas blando o en un churrete, porque al arte le quitaban su propio florecimiento para devolverselo peor. Lo que si cabe es sustituir una capa que ya era fondo, con sus mismos valores, y ganar que este viva. Si un efecto exige desmontar el diseno para entrar, el que sobra es el efecto."
       }
     ],
     "dos": [

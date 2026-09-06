@@ -1,0 +1,304 @@
+---
+/**
+ * El campo de luz del hero, pasado por un tubo.
+ *
+ * `CRTFilterWebGL` (src/lib/CRTFilter.js, MIT) filtra el bitmap de un <canvas>,
+ * no el DOM. La regla que gobierna este componente es la que salió de los tres
+ * intentos anteriores:
+ *
+ *   EL DISEÑO NO SE TOCA. El logo sigue siendo el mismo SVG con su mismo
+ *   filtro —florecimiento completo y aberración sobre el halo—, el texto sigue
+ *   siendo DOM, el barrido fino de `.hero::after` sigue cruzando la letra y la
+ *   viñeta sigue donde estaba. Nada de lo que se ve cambia de sitio ni de forma.
+ *
+ * Lo único que hace el canvas es **sustituir a `.hero::before`**: pinta los
+ * mismos cuatro degradados del cañón y los pasa por el shader. A cambio, ese
+ * fondo deja de ser una imagen fija y pasa a ser un tubo encendido: grano de
+ * fósforo que se mueve, parpadeo de red y la curvatura del vidrio sobre los
+ * propios degradados.
+ *
+ * El grano aparece sólo donde hay luz, y no por ajuste: el shader suma el ruido
+ * y después multiplica por la textura, así que sobre el negro se anula solo. Es
+ * exactamente lo que hace el fósforo —sólo granula lo que está encendido—, y
+ * evita el velo gris que dejaría un ruido plano sobre toda la banda.
+ *
+ * Degradado visible: sin WebGL, en teléfono o con más contraste pedido, no se
+ * monta y queda el `::before` de siempre. Con menos movimiento pedido se dibuja
+ * un fotograma y se para: el campo sigue, el latido no.
+ */
+---
+<style>
+  :global(.hero__field) {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    /* El canvas ocupa el sitio exacto de `::before`, con su misma máscara: el
+       campo se disuelve hacia abajo en vez de cortarse contra el cuerpo. */
+    -webkit-mask-image: var(--rd-hero-fade);
+            mask-image: var(--rd-hero-fade);
+  }
+  /* Lo pone el script cuando el tubo ya está pintando, y sólo entonces se
+     retira el degradado de CSS al que sustituye. Dibujar los dos sería doblar
+     el rojo. */
+  :global(.hero[data-field])::before { display: none; }
+</style>
+
+<script>
+  import { CRTFilterWebGL } from '../lib/CRTFilter.js';
+
+  /* La librería trae por defecto una pantalla averiada. Aquí el monitor está
+     sano y, sobre todo, discreto: lo que aporta es que el fondo esté vivo, no
+     que se note un filtro encima.
+
+     `retraceLines` va encendido con intensidad 0 a propósito: esa rama es la
+     que multiplica por 1.9 y compensa el `col *= texture` de más arriba del
+     shader, que eleva la imagen al cuadrado. Su barrido propio se queda apagado
+     porque el de la página ya existe, va a 3px y cruza la letra; el del shader
+     va a ~7px y sólo cubriría el fondo, y dos tramas distintas sobre la misma
+     banda dan muaré.
+
+     `verticalJitter` se pasa a 0: el shader desplaza `uv.y` DESPUÉS del último
+     muestreo, así que ese parámetro no hace nada. Mejor no fingir. */
+  const CONFIG = {
+    barrelDistortion: 0.05,
+    curvature: 0.05,
+    chromaticAberration: 0.0016,
+    staticNoise: 0.16,
+    horizontalTearing: 0.00012,
+    glowBloom: 0.02,
+    verticalJitter: 0,
+    retraceLines: true,
+    scanlineIntensity: 0,
+    dotMask: false,
+    brightness: 1,
+    contrast: 1,
+    desaturation: 0,
+    flicker: 0.02,
+    signalLoss: 0.015,
+  };
+
+  /* Los mismos cuatro degradados de `.hero::before`, con sus mismos valores.
+     No se retocan a ojo: de la transferencia del shader se encarga
+     `linearise()`. */
+  const FIELD = {
+    base: '#141312',
+    arc: 'rgba(255, 255, 255, .034)',
+    arcFar: 'rgba(255, 255, 255, .011)',
+    cannon: 'rgba(140, 20, 32, .28)',
+    cannonFar: 'rgba(140, 20, 32, .10)',
+    wash: 'rgba(255, 255, 255, .026)',
+  };
+
+  type Filter = {
+    gl: WebGLRenderingContext | null;
+    program: WebGLProgram | null;
+    texture: WebGLTexture;
+    sourceCanvas: HTMLCanvasElement;
+    glcanvas: HTMLCanvasElement;
+    config: typeof CONFIG;
+    animationFrameId: number | null;
+    start(): void;
+    dirty: boolean;
+    running: boolean;
+    renderCRT(): void;
+    play(): void;
+    pause(): void;
+  };
+
+  /* La fuente es estática: el campo no cambia. El `renderCRT` original hace un
+     `getImageData` de todo el canvas en CADA fotograma —megas de lectura de
+     vuelta por frame— para subir una textura que no ha cambiado. Aquí la
+     textura se sube sólo al repintar, y el bucle queda en una llamada de dibujo
+     con los uniformes de tiempo, que es lo que da el grano y el parpadeo. */
+  class StaticSourceCRT extends (CRTFilterWebGL as any) {
+    renderCRT(this: Filter) {
+      const { gl, program } = this;
+      if (!gl || !program) return;
+
+      gl.bindTexture(gl.TEXTURE_2D, this.texture);
+      if (this.dirty) {
+        const ctx = this.sourceCanvas.getContext('2d')!;
+        gl.texImage2D(
+          gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE,
+          ctx.getImageData(0, 0, this.sourceCanvas.width, this.sourceCanvas.height),
+        );
+        this.dirty = false;
+      }
+
+      gl.useProgram(program);
+      const u = (n: string) => gl.getUniformLocation(program, n);
+      const c = this.config;
+      gl.uniform1f(u('u_time'), performance.now() / 1000);
+      gl.uniform1f(u('u_barrel'), c.barrelDistortion);
+      gl.uniform1f(u('u_aberration'), c.chromaticAberration);
+      gl.uniform1f(u('u_noise'), c.staticNoise);
+      gl.uniform1f(u('u_tearing'), c.horizontalTearing);
+      gl.uniform1f(u('u_glow'), c.glowBloom);
+      gl.uniform1f(u('u_jitter'), c.verticalJitter);
+      gl.uniform1i(u('u_retrace'), c.retraceLines ? 1 : 0);
+      gl.uniform1i(u('u_dotMask'), c.dotMask ? 1 : 0);
+      gl.uniform1f(u('u_brightness'), c.brightness);
+      gl.uniform1f(u('u_contrast'), c.contrast);
+      gl.uniform1f(u('u_desaturation'), c.desaturation);
+      gl.uniform1f(u('u_flicker'), c.flicker);
+      gl.uniform1f(u('u_scanlineIntensity'), c.scanlineIntensity);
+      gl.uniform1f(u('u_curvature'), c.curvature);
+      gl.uniform1f(u('u_signalLoss'), c.signalLoss);
+
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
+      this.animationFrameId = this.running ? requestAnimationFrame(() => this.renderCRT()) : null;
+    }
+
+    play(this: Filter) {
+      if (this.running) return;
+      this.running = true;
+      this.renderCRT();
+    }
+
+    pause(this: Filter) {
+      this.running = false;
+      if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId);
+      this.animationFrameId = null;
+    }
+  }
+
+  /* El shader muestrea la textura dos veces y multiplica una por la otra —eleva
+     la imagen al cuadrado— y después la multiplica por ~1.9. Es decir
+     `salida ≈ 1.9 · entrada²`, y sin compensar eso el rojo del cañón sale más
+     oscuro y más saturado del que es. Se pre-compensa con la inversa una sola
+     vez al pintar: es más barato y más honesto que ajustar cada valor a ojo
+     hasta que "se parezca". */
+  const GAIN = 1.9;
+  function linearise(ctx: CanvasRenderingContext2D, w: number, h: number) {
+    const img = ctx.getImageData(0, 0, w, h);
+    const lut = new Uint8ClampedArray(256);
+    for (let v = 0; v < 256; v++) lut[v] = Math.round(255 * Math.sqrt(v / 255 / GAIN));
+    const d = img.data;
+    for (let i = 0; i < d.length; i += 4) {
+      d[i] = lut[d[i]]; d[i + 1] = lut[d[i + 1]]; d[i + 2] = lut[d[i + 2]];
+    }
+    ctx.putImageData(img, 0, 0);
+  }
+
+  /** Los cuatro degradados de `.hero::before`, en 2D y con sus mismos valores. */
+  function paintField(ctx: CanvasRenderingContext2D, w: number, h: number) {
+    ctx.fillStyle = FIELD.base;
+    ctx.fillRect(0, 0, w, h);
+
+    // Los degradados del CSS son elípticos; en canvas sólo hay radiales, así
+    // que se dibuja circular sobre un lienzo escalado en x.
+    const radial = (cx: number, cy: number, rx: number, ry: number, stops: [number, string][]) => {
+      ctx.save();
+      ctx.scale(rx / ry, 1);
+      const g = ctx.createRadialGradient((cx * ry) / rx, cy, 0, (cx * ry) / rx, cy, ry);
+      stops.forEach(([o, c]) => g.addColorStop(o, c));
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, (w * rx) / ry, h);
+      ctx.restore();
+    };
+
+    // El arco de refracción: un vidrio convexo no devuelve una banda recta.
+    radial(w * 0.5, h * 1.75, w * 1.2, h * 1.75, [
+      [0.70, 'rgba(255, 255, 255, 0)'], [0.78, FIELD.arc],
+      [0.86, FIELD.arcFar], [0.96, 'rgba(255, 255, 255, 0)'],
+    ]);
+    // El reflejo diagonal de la sala.
+    const sheen = ctx.createLinearGradient(0, 0, w * 0.62, h);
+    sheen.addColorStop(0, FIELD.arc);
+    sheen.addColorStop(0.2, FIELD.arcFar);
+    sheen.addColorStop(0.42, 'rgba(255, 255, 255, 0)');
+    ctx.fillStyle = sheen;
+    ctx.fillRect(0, 0, w, h);
+    // El cañón: la mancha roja que enciende el centro alto de la banda.
+    radial(w * 0.5, h * 0.34, w * 0.72, h * 0.92, [
+      [0, FIELD.cannon], [0.46, FIELD.cannonFar], [0.78, 'rgba(140, 20, 32, 0)'],
+    ]);
+    // El lavado blanco de arriba.
+    radial(w * 0.5, h * 0.28, w, h * 0.9, [
+      [0, FIELD.wash], [0.78, 'rgba(255, 255, 255, 0)'],
+    ]);
+  }
+
+  /* ---------- montaje ---------- */
+
+  const hero = document.querySelector<HTMLElement>('.hero');
+
+  /* En teléfono un bucle de rAF sobre un canvas a pantalla completa es batería a
+     cambio de poco, y la audiencia evalúa desde el móvil. Quien pide más
+     contraste quiere menos capas, no un tubo. En los dos casos queda el
+     `::before` de siempre, que es exactamente el mismo dibujo. */
+  const wanted =
+    matchMedia('(min-width: 900px)').matches &&
+    !matchMedia('(prefers-contrast: more)').matches &&
+    !matchMedia('(prefers-reduced-transparency: reduce)').matches;
+
+  /* Un campo de luz no es movimiento; el grano y el parpadeo sí. Con menos
+     movimiento pedido se dibuja un fotograma y se para. */
+  const still = !matchMedia('(prefers-reduced-motion: no-preference)').matches;
+
+  if (hero && wanted) {
+    let filter: Filter | null = null;
+    let live: HTMLCanvasElement | null = null;
+
+    const build = () => {
+      hero.removeAttribute('data-field');
+      if (filter) { filter.pause(); live?.remove(); filter = null; live = null; }
+
+      const rect = hero.getBoundingClientRect();
+      /* El shader corre por fragmento sobre toda la banda. El campo es todo de
+         baja frecuencia salvo el grano, que se genera en el propio shader a
+         resolución de pantalla: subir la textura por encima de esto no añade
+         nada que se vea. */
+      const scale = Math.min(
+        window.devicePixelRatio || 1, 2,
+        Math.sqrt(2.6e6 / Math.max(1, rect.width * rect.height)),
+      );
+      const src = document.createElement('canvas');
+      src.width = Math.round(rect.width * scale);
+      src.height = Math.round(rect.height * scale);
+      src.className = 'hero__field';
+
+      const ctx = src.getContext('2d', { willReadFrequently: true });
+      if (!ctx) return;
+      paintField(ctx, src.width, src.height);
+      linearise(ctx, src.width, src.height);
+
+      // `start()` mete el canvas de WebGL en el hueco del fuente y retira el
+      // fuente, así que el fuente tiene que estar en el DOM antes.
+      hero.insertBefore(src, hero.firstChild);
+      const f = new StaticSourceCRT(src, CONFIG) as unknown as Filter;
+      if (!f.gl || !f.program) { src.remove(); return; }
+
+      f.dirty = true;
+      f.running = false;
+      f.start();
+      f.glcanvas.setAttribute('aria-hidden', 'true');
+      filter = f;
+      live = f.glcanvas;
+      hero.setAttribute('data-field', '');
+      if (still) { f.config.flicker = 0; f.config.staticNoise = 0; f.config.signalLoss = 0; }
+      else f.play();
+    };
+
+    build();
+
+    // Fuera de pantalla no se dibuja: el hero es lo primero de la página y el
+    // resto del scroll no tiene por qué pagar un bucle de rAF.
+    if (!still) {
+      new IntersectionObserver((entries) => {
+        if (!filter) return;
+        if (entries.some((e) => e.isIntersecting)) filter.play();
+        else filter.pause();
+      }).observe(hero);
+    }
+
+    let t = 0;
+    addEventListener('resize', () => {
+      clearTimeout(t);
+      t = window.setTimeout(build, 180);
+    });
+  }
+</script>
