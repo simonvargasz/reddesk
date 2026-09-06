@@ -11,12 +11,13 @@
 import raw from '../assets/ascii-logo.txt?raw';
 import { buildBanner, buildStackedBanner } from '../lib/ascii.mjs';
 
-/* Radio del filo, en unidades del arte, así que escala con el logo. La
-   composición apilada lo lleva un punto más corto: ocupa el ancho entero de un
-   teléfono y se mira a 30cm, donde el mismo valor proporcional pesa más. */
+/* Radios del florecimiento, en unidades del arte, así que escalan con el logo.
+   Pero escalar no es lo mismo que leerse igual: la composición apilada ocupa el
+   ancho entero de un teléfono y se mira a 30cm, y ahí el mismo halo proporcional
+   se come el bloque. La apilada florece menos. */
 const ART = {
-  wide:  { tight: 0.075, edge: 0.55 },
-  stack: { tight: 0.065, edge: 0.45 },
+  wide:  { bloom: { wide: 0.30, tight: 0.075 }, halo: 0.34, edge: 0.55 },
+  stack: { bloom: { wide: 0.21, tight: 0.065 }, halo: 0.24, edge: 0.45 },
 };
 const wide = buildBanner(raw);
 const stack = buildStackedBanner(raw);
@@ -36,32 +37,32 @@ const PX_PER_EM = 19; // equivalente al font-size máximo de la maqueta
       focusable="false"
     >
       <defs>
-        <!-- Sólo el filo: un desenfoque corto bajo el arte nítido, que conserva
+        <!-- Florecimiento, y nada más. El fósforo no dibuja bordes: los quema.
+             Dos desenfoques bajo el arte nítido dan el halo, y cada uno conserva
              el color del trazo que lo emite —cosa que un drop-shadow de un solo
              color no puede hacer—.
 
-             Aquí hubo dos capas más, y las dos se retiraron por cómo se ven, no
-             por cómo se calculan:
-
-               · un HALO ancho, el florecimiento del fósforo. Medido no tenía ni
-                 un píxel desviado al azul —cero en 275.000—, pero sobre el
-                 bloque blanco quedaba casi neutro (177,167,168) contra un fondo
-                 muy rojo (51,27,29), y una mancha neutra sobre un rojo saturado
-                 el ojo la lee cian. El artefacto de color no estaba en los
-                 píxeles, estaba en la percepción, y la única forma de quitarlo
-                 era quitar la mancha neutra.
-               · una ABERRACIÓN cromática sobre ese halo, correcta como óptica y
-                 sobrante en un monitor de un solo fósforo rojo. -->
+             Aquí hubo también una aberración cromática, separando el canal R del
+             par G+B sobre el halo. Es correcta como óptica y se retiró de todas
+             formas: sobre los bloques blancos del logo se lee como una aureola
+             de color, cálida por un flanco y cian por el otro, y este monitor es
+             de un solo fósforo. Un tubo rojo no tiene por qué separar espectro
+             que no emite. -->
         <filter
           id={`rd-bloom-${id}`}
-          x="-10%" y="-25%" width="120%" height="150%"
+          x="-30%" y="-70%" width="160%" height="240%"
           color-interpolation-filters="sRGB"
         >
-          <feGaussianBlur in="SourceGraphic" stdDeviation={a.tight} result="tight" />
+          <feGaussianBlur in="SourceGraphic" stdDeviation={a.bloom.wide} result="wide" />
+          <feComponentTransfer in="wide" result="halo">
+            <feFuncA type="linear" slope={a.halo} />
+          </feComponentTransfer>
+          <feGaussianBlur in="SourceGraphic" stdDeviation={a.bloom.tight} result="tight" />
           <feComponentTransfer in="tight" result="edge">
             <feFuncA type="linear" slope={a.edge} />
           </feComponentTransfer>
           <feMerge>
+            <feMergeNode in="halo" />
             <feMergeNode in="edge" />
             <feMergeNode in="SourceGraphic" />
           </feMerge>
@@ -116,8 +117,8 @@ const PX_PER_EM = 19; // equivalente al font-size máximo de la maqueta
   @media (prefers-reduced-motion: reduce) {
     .banner__row { animation: none; }
   }
-  /* Quien pide más contraste quiere el filo desnudo: el CSS gana al atributo
-     de presentación. */
+  /* Quien pide más contraste quiere el filo de la letra, no el halo ni la
+     franja de color: el CSS gana al atributo de presentación. */
   @media (prefers-contrast: more) {
     .banner__lit { filter: none; }
   }
