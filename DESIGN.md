@@ -380,10 +380,14 @@ hacia los cantos van sobre superficies-pantalla —donde se consultan datos— y
 nunca sobre prosa corrida. `.screen-surface` es la utilidad que lo aplica; el
 hero es su versión intensa.
 
-**La Regla de la Óptica sobre la Luz.** La aberración cromática se aplica al halo,
-jamás al trazo. Sobre el arte nítido daba franjas saturadas de anaglifo y se comía
-el filo del bloque; sobre la luz da un degradado y la letra se queda intacta. Lo
-que refracta es lo que el fósforo emite, no el fósforo.
+**La Regla del Fósforo Único.** El sistema **no separa espectro**. Hubo aquí una
+aberración cromática —el canal R contra el par G+B, sobre el halo del logo y sobre
+los cantos del hero— y era correcta como óptica: es lo que hace un vidrio curvo.
+Se retiró igualmente. Sobre los bloques blancos se leía como una aureola de color,
+cálida por un flanco y cian por el otro, y este monitor es de **un solo fósforo
+rojo**: un tubo que emite una longitud de onda no tiene por qué refractar el resto.
+La regla que sobrevive del intento es la del sitio, y sigue en pie para cualquier
+óptica futura: **se aplica a la luz que el fósforo emite, jamás al trazo.**
 
 **La Regla del Contraste Manda.** Un efecto óptico sólo existe donde hay contraste
 que lo sostenga. Se probó arquear el barrido para leer la curvatura del tubo: es
@@ -439,8 +443,7 @@ entera bajo `prefers-contrast: more` y `prefers-reduced-transparency: reduce`.
 
 El **hero** usa el mismo barrido en dos pseudo-elementos de la propia sección:
 `::before` lleva el resplandor del cañón, el arco de refracción y el reflejo
-diagonal detrás del texto; `::after` el barrido, la aberración de los cantos y una
-viñeta ancha por delante. Misma textura que los paneles —el mismo token—, con la
+diagonal detrás del texto; `::after` el barrido y una viñeta ancha por delante. Misma textura que los paneles —el mismo token—, con la
 luz como única diferencia.
 
 Las dos capas van enmascaradas por un degradado vertical (`--rd-hero-fade`) que

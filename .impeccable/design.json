@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-06T16:36:17-03:00",
+  "generatedAt": "2026-09-06T17:10:31-03:00",
   "title": "Design System: Red Desk",
   "extensions": {
     "colorMeta": {
@@ -249,11 +249,6 @@
         "purpose": "Fósforo del bloque de cursor."
       },
       {
-        "name": "halo-aberration",
-        "value": "feColorMatrix R / G+B + feOffset dx ±0.13 (unidades del arte) + feBlend screen",
-        "purpose": "Aberración cromática del vidrio curvo, aplicada al halo del logo y nunca al trazo: la luz emitida se abre en cálido por un flanco y frío por el otro, y la letra conserva el filo."
-      },
-      {
         "name": "refraction-arc",
         "value": "radial-gradient(120% 175% at 50% 175%, transparent 70%, rgba(255,255,255,.034) 78%, rgba(255,255,255,.011) 86%, transparent 96%)",
         "purpose": "El arco de luz que devuelve un cristal convexo. Sube ~150px del canto al centro; es la lectura de curvatura que sí modula lo bastante para verse."
@@ -459,9 +454,9 @@
         "body": "Sólo las pantallas tienen esquina, porque sólo ellas son objetos físicos con bisel. Un control es una etiqueta estampada y no se redondea."
       },
       {
-        "name": "La Regla de la Óptica sobre la Luz",
+        "name": "La Regla del Fósforo Único",
         "section": "elevation",
-        "body": "La aberración cromática se aplica al halo, jamás al trazo. Sobre el arte nítido daba franjas saturadas de anaglifo y se comía el filo del bloque; sobre la luz da un degradado y la letra se queda intacta. Lo que refracta es lo que el fósforo emite, no el fósforo."
+        "body": "El sistema no separa espectro. Hubo una aberracion cromatica —el canal R contra el par G+B, sobre el halo del logo y sobre los cantos del hero— y era correcta como optica: es lo que hace un vidrio curvo. Se retiro igualmente, porque sobre los bloques blancos se leia como una aureola de color, calida por un flanco y cian por el otro, y este monitor es de un solo fosforo rojo: un tubo que emite una longitud de onda no tiene por que refractar el resto. La regla del sitio sigue en pie para cualquier optica futura: se aplica a la luz que el fosforo emite, jamas al trazo."
       },
       {
         "name": "La Regla del Contraste Manda",
