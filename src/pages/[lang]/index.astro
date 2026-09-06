@@ -194,18 +194,17 @@ const t = dict(locale);
         rgba(140, 20, 32, .28) 0%, rgba(140, 20, 32, .10) 46%, transparent 78%),
       radial-gradient(100% 90% at 50% 28%, rgba(255, 255, 255, .026), transparent 78%);
   }
-  /* El cristal, delante de todo:
-     1. la aberración de los cantos, donde el vidrio se curva más y separa el
-        espectro — cálido por donde entra la luz, frío por donde sale;
-     2. el barrido, mismo token que los paneles;
-     3. la viñeta, ancha y tardía: apaga los flancos de una banda apaisada, no
-        las esquinas de una caja. */
+  /* El cristal, delante de todo: el barrido —mismo token que los paneles— y la
+     viñeta, ancha y tardía, que apaga los flancos de una banda apaisada y no
+     las esquinas de una caja.
+
+     Aquí hubo una tercera capa: una aberración de cantos, cálida por la
+     izquierda y fría por la derecha. Se fue con la del logo y por la misma
+     razón: este monitor es de un solo fósforo, y una banda azul en el canto
+     derecho no se lee como refracción sino como un tinte que nadie pidió. */
   .hero::after {
     z-index: 2;
     background:
-      linear-gradient(90deg,
-        rgba(255, 132, 120, .055) 0%, transparent 11%,
-        transparent 89%, rgba(122, 190, 255, .05) 100%),
       var(--rd-scan-soft),
       radial-gradient(120% 130% at 50% 45%, transparent 62%, rgba(0, 0, 0, .34) 100%);
   }

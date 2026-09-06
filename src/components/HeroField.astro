@@ -74,10 +74,13 @@
      campo de degradados suaves sólo aportan bandas que no estaban en el diseño.
 
      Queda lo único del shader que sí depende del tiempo: el parpadeo de red. */
+  /* `chromaticAberration` a 0 por la misma razón que se retiró la del logo: el
+     sistema no separa espectro. Un tubo de un solo fósforo rojo no refracta
+     longitudes de onda que no emite. */
   const CONFIG = {
     barrelDistortion: 0.05,
     curvature: 0.05,
-    chromaticAberration: 0.0016,
+    chromaticAberration: 0,
     staticNoise: 0,
     horizontalTearing: 0,
     glowBloom: 0.02,

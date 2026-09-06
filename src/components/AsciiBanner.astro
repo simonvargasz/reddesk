@@ -11,18 +11,13 @@
 import raw from '../assets/ascii-logo.txt?raw';
 import { buildBanner, buildStackedBanner } from '../lib/ascii.mjs';
 
-/* Radios del florecimiento y separación de canales, en unidades del arte, así
-   que escalan con el logo. Pero escalar no es lo mismo que leerse igual: la
-   composición apilada ocupa el ancho entero de un teléfono y se mira a 30cm, y
-   ahí el mismo halo proporcional se come el bloque. La apilada florece menos y
-   separa menos.
-
-   La separación va sobre el halo, que está desenfocado, así que admite un
-   desplazamiento holgado sin convertirse en franja: es un degradado de color
-   dentro de la luz, no un canto. */
+/* Radios del florecimiento, en unidades del arte, así que escalan con el logo.
+   Pero escalar no es lo mismo que leerse igual: la composición apilada ocupa el
+   ancho entero de un teléfono y se mira a 30cm, y ahí el mismo halo proporcional
+   se come el bloque. La apilada florece menos. */
 const ART = {
-  wide:  { bloom: { wide: 0.30, tight: 0.075 }, halo: 0.34, edge: 0.55, ca: 0.13 },
-  stack: { bloom: { wide: 0.21, tight: 0.065 }, halo: 0.24, edge: 0.45, ca: 0.08 },
+  wide:  { bloom: { wide: 0.30, tight: 0.075 }, halo: 0.34, edge: 0.55 },
+  stack: { bloom: { wide: 0.21, tight: 0.065 }, halo: 0.24, edge: 0.45 },
 };
 const wide = buildBanner(raw);
 const stack = buildStackedBanner(raw);
@@ -42,27 +37,17 @@ const PX_PER_EM = 19; // equivalente al font-size máximo de la maqueta
       focusable="false"
     >
       <defs>
-        <!-- Dos efectos ópticos encadenados, en el orden en que ocurren de
-             verdad: primero el fósforo emite, después el cristal separa lo que
-             emite.
+        <!-- Florecimiento, y nada más. El fósforo no dibuja bordes: los quema.
+             Dos desenfoques bajo el arte nítido dan el halo, y cada uno conserva
+             el color del trazo que lo emite —cosa que un drop-shadow de un solo
+             color no puede hacer—.
 
-             1. Florecimiento. El fósforo no dibuja bordes: los quema. Dos
-                desenfoques bajo el arte nítido dan el halo, y cada uno conserva
-                el color del trazo que lo emite, cosa que un drop-shadow de un
-                solo color no puede hacer.
-             2. Aberración cromática. Un vidrio curvo no refracta todas las
-                longitudes de onda con el mismo ángulo: el rojo se adelanta y el
-                cian se retrasa. Se separa el canal R del par G+B y se desplazan
-                en sentidos opuestos —la aberración lateral de libro, no el
-                rojo-contra-cian estampado del glitch, que mueve la imagen entera
-                y no separa nada.
-
-                Y se aplica SÓLO AL HALO, nunca al arte nítido. Es lo que refracta
-                de verdad: el cristal desvía la luz que el fósforo emite, no los
-                bordes del propio fósforo. Sobre el trazo nítido daba franjas
-                saturadas de anaglifo y se comía el filo del bloque; sobre la luz
-                da un degradado cálido por un lado y frío por el otro, y la letra
-                se queda intacta. -->
+             Aquí hubo también una aberración cromática, separando el canal R del
+             par G+B sobre el halo. Es correcta como óptica y se retiró de todas
+             formas: sobre los bloques blancos del logo se lee como una aureola
+             de color, cálida por un flanco y cian por el otro, y este monitor es
+             de un solo fósforo. Un tubo rojo no tiene por qué separar espectro
+             que no emite. -->
         <filter
           id={`rd-bloom-${id}`}
           x="-30%" y="-70%" width="160%" height="240%"
@@ -76,22 +61,8 @@ const PX_PER_EM = 19; // equivalente al font-size máximo de la maqueta
           <feComponentTransfer in="tight" result="edge">
             <feFuncA type="linear" slope={a.edge} />
           </feComponentTransfer>
-          <feColorMatrix in="halo" type="matrix" result="haloR"
-            values="1 0 0 0 0
-                    0 0 0 0 0
-                    0 0 0 0 0
-                    0 0 0 1 0" />
-          <feOffset in="haloR" dx={-a.ca} result="haloRo" />
-          <feColorMatrix in="halo" type="matrix" result="haloGB"
-            values="0 0 0 0 0
-                    0 1 0 0 0
-                    0 0 1 0 0
-                    0 0 0 1 0" />
-          <feOffset in="haloGB" dx={a.ca} result="haloGBo" />
-          <feBlend in="haloRo" in2="haloGBo" mode="screen" result="haloCA" />
-
           <feMerge>
-            <feMergeNode in="haloCA" />
+            <feMergeNode in="halo" />
             <feMergeNode in="edge" />
             <feMergeNode in="SourceGraphic" />
           </feMerge>
