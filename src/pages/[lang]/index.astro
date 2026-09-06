@@ -439,13 +439,46 @@ const t = dict(locale);
      que sustituyen al aire que ya no sobra. */
   @media (max-width: 599px) {
     /* El pliegue de un teléfono es corto: con el aire de escritorio el hero se
-       pasaba del alto de la pantalla y la señal de scroll caía fuera, que es
-       justo la que dice que hay página debajo. */
+       pasaba del alto de la pantalla. */
     .hero { padding-block: 64px 60px; }
+
+    /* Toda la óptica baja un punto. En una pantalla de mano el cañón y la
+       viñeta ocupan proporcionalmente mucho más que en un monitor, y lo que en
+       escritorio es atmósfera aquí se convierte en velo sobre el texto. */
+    .hero::before {
+      background:
+        radial-gradient(120% 175% at 50% 175%,
+          transparent 70%,
+          rgba(255, 255, 255, .024) 78%,
+          rgba(255, 255, 255, .008) 86%,
+          transparent 96%),
+        radial-gradient(78% 88% at 50% 30%,
+          rgba(140, 20, 32, .19) 0%, rgba(140, 20, 32, .07) 46%, transparent 78%),
+        radial-gradient(100% 90% at 50% 26%, rgba(255, 255, 255, .018), transparent 78%);
+    }
+    .hero::after {
+      background:
+        var(--rd-scan-soft),
+        radial-gradient(130% 130% at 50% 45%, transparent 66%, rgba(0, 0, 0, .22) 100%);
+    }
+
+    /* Justificar con tres o cuatro palabras por renglón no es justificar: o
+       abre ríos entre palabras o parte `sis-temas` y `ha-cen`. A esta medida el
+       centrado es la forma correcta de la misma intención. */
+    .hero__lead {
+      text-align: center;
+      hyphens: manual;
+    }
 
     /* Con el prompt y el cursor, la línea sólo cabe entera apretando el
        interletraje. */
     .hero__tagline { letter-spacing: 0.04em; gap: 5px; }
+
+    /* El selector es lo primero que se ve y no debería serlo: se aprieta de
+       flanco, conservando los 44px de diana que pide el dedo. */
+    .hero__langs { top: 10px; }
+    .hero__langs :global(.langs) { gap: 2px; }
+    .hero__langs :global(.langs__item) { padding: 15px 12px; letter-spacing: 0.08em; }
 
     .hero__actions { gap: 10px; width: 100%; }
     .hero__actions .btn { flex: 1 1 0; min-width: 132px; }

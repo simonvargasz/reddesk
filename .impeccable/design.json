@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-06T15:14:42-03:00",
+  "generatedAt": "2026-09-06T16:36:17-03:00",
   "title": "Design System: Red Desk",
   "extensions": {
     "colorMeta": {
@@ -229,6 +229,11 @@
     },
     "shadows": [
       {
+        "name": "screen-vignette",
+        "value": "radial-gradient(... transparent 62%, rgba(0,0,0,.34) 100%) — rgba(0,0,0,.22) por debajo de 600px",
+        "purpose": "El unico negro anadido de la pagina, y no es sombra: es el canto del tubo apagandose. Baja un tercio en el movil porque ahi ocupa mucho mas de la pantalla."
+      },
+      {
         "name": "focus-glow",
         "value": "0 0 16px rgba(255,74,84,.45)",
         "purpose": "No es sombra, es emisión. Acompaña al outline de 2px en todo elemento enfocable."
@@ -274,11 +279,6 @@
         "name": "scroll-reveal",
         "value": ".55s cubic-bezier(.16,1,.3,1) sobre opacidad y 14px de subida, con --rd-reveal-delay de 90–100ms por índice",
         "purpose": "Cada pieza aparece una vez al entrar en pantalla y deja de observarse. Es lo que sustituye al menú: la página se lee bajando."
-      },
-      {
-        "name": "drop",
-        "value": "2.6s cubic-bezier(.45,0,.55,1) infinite",
-        "purpose": "La gota que recorre el filete de la señal de scroll, al pie del hero."
       },
       {
         "name": "state",
@@ -383,14 +383,6 @@
       "description": "La firma de la marca: prompt en Rojo Fósforo, texto en versalitas mono y bloque de cursor que emite.",
       "html": "<p class=\"ds-prompt\"><span class=\"ds-prompt-sign\">$</span><span class=\"ds-prompt-text\">Soluciones digitales a medida</span><span class=\"ds-prompt-cursor\"></span></p>",
       "css": ".ds-prompt { display: flex; align-items: center; gap: 9px; margin: 0; font-family: var(--rd-mono, 'IBM Plex Mono', monospace); font-size: 17px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--rd-ink-2, #D6D2CD); } .ds-prompt-sign { color: var(--rd-red-ink, #FF4A54); font-weight: 500; text-shadow: 0 0 10px rgba(255,74,84,.7), 0 0 24px rgba(255,74,84,.35); } .ds-prompt-text { text-shadow: 0 0 12px rgba(214,210,205,.38); } .ds-prompt-cursor { display: inline-block; flex: none; width: 9px; height: 17px; background: var(--rd-red-ink, #FF4A54); box-shadow: 0 0 10px rgba(255,74,84,.85), 0 0 22px rgba(255,74,84,.45); animation: dsBlink2 1.1s step-end infinite; } @keyframes dsBlink2 { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } } @media (prefers-reduced-motion: reduce) { .ds-prompt-cursor { animation: none; } }"
-    },
-    {
-      "name": "Scroll Cue",
-      "kind": "decoration",
-      "refersTo": "scroll-cue",
-      "description": "La única señal de que hay página debajo. Un filete de 1px con una gota que cae, al pie del hero. En tinta y nunca en rojo: un filete rojo suelto está prohibido por el sistema. Decorativa y aria-hidden.",
-      "html": "<span class=\"ds-scroll\" aria-hidden=\"true\"></span>",
-      "css": ".ds-scroll { position: relative; display: block; width: 1px; height: 36px; overflow: hidden; background: linear-gradient(to bottom, transparent, rgba(154,149,143,.5)); } .ds-scroll::after { content: \"\"; position: absolute; inset-inline: 0; top: -36px; height: 36px; background: linear-gradient(to bottom, transparent, var(--rd-ink-2, #D6D2CD)); animation: dsDrop 2.6s cubic-bezier(.45,0,.55,1) infinite; } @keyframes dsDrop { 0% { transform: translateY(0); opacity: 0; } 30% { opacity: 1; } 100% { transform: translateY(72px); opacity: 0; } } @media (prefers-reduced-motion: reduce) { .ds-scroll::after { animation: none; top: 0; opacity: .7; } }"
     }
   ],
   "narrative": {
@@ -437,6 +429,11 @@
         "body": "La escala entera subió un punto sobre la maqueta —cuerpo 14.5 → 16.5px, prosa 17 → 19px— porque la audiencia evalúa en huecos de la jornada, muchas veces de pie. Un tamaño que se lee bien sentado a 60cm no es el mismo que se lee cansado; la página no gana nada por caber en menos pantallas, y sí pierde si obliga a acercarse."
       },
       {
+        "name": "La Regla de la Optica a Distancia de Brazo",
+        "section": "colors",
+        "body": "Toda la capa optica baja un punto por debajo de 600px: barrido de 0.14 a 0.085 de alfa, vineta de 0.34 a 0.22, canon de 0.28 a 0.19, y el florecimiento del logo apilado a dos tercios del de la composicion ancha con la mitad de separacion de canales. La misma capa que a 60cm es atmosfera, a 30cm es velo sobre el texto, y en una pantalla de mano ocupa una fraccion mucho mayor del campo visual. Medido, la entradilla sube de 17.7:1 a 18.9:1 solo por aflojar la optica."
+      },
+      {
         "name": "La Regla de la Nota al Margen",
         "section": "typography",
         "body": "Decir lo que no se hace vale la pena; gritarlo, no. La acotacion de \"lo que no hace\" llevaba rotulo en Rojo Fosforo y cuerpo a tamano de texto, y competia de tu a tu con las tres tarjetas que tiene encima. Ahora va sin rojo, un punto mas pequena y colgada de un filete. Que algo deba estar explicito no significa que deba estar alto: el rojo se reserva para lo que si se hace."
@@ -475,6 +472,11 @@
         "name": "La Regla del Revelado Reversible",
         "section": "motion",
         "body": "Nada se oculta si no hay quien lo desoculte. El estado inicial del revelado cuelga de `.rd-js`, una clase que el layout escribe en <html> antes de pintar, y el observador marca `data-shown` al entrar en pantalla. Sin JavaScript —o sin IntersectionObserver— no hay nada oculto que un fallo pudiera dejar invisible para siempre. Una animación de entrada que puede tragarse el contenido no es una animación, es un riesgo."
+      },
+      {
+        "name": "La Regla de la Afordancia que se Explica Sola",
+        "section": "motion",
+        "body": "El hero llevo una senal de scroll —un filete con una gota cayendo— y se retiro: parada, en una captura, no se lee como \"hay mas abajo\" sino como un defecto de render. Un gesto que solo significa algo mientras se mueve no es una afordancia, es un artefacto. Si vuelve a hacer falta, la forma legible es un galon, que se reconoce quieto."
       }
     ],
     "dos": [

@@ -11,23 +11,28 @@
 import raw from '../assets/ascii-logo.txt?raw';
 import { buildBanner, buildStackedBanner } from '../lib/ascii.mjs';
 
-/* Radios del florecimiento, en unidades del arte: escalan con el logo, así que
-   el halo se ve igual de ancho a 570px que a 284px. */
-const BLOOM = { wide: 0.30, tight: 0.075 };
-/* Separación de canales. Va sobre el halo, que está desenfocado a 0.30, así que
-   admite un desplazamiento holgado sin convertirse en franja: es un degradado de
-   color dentro de la luz, no un canto. También en unidades del arte, para que
-   escale con el logo. */
-const CA = 0.13;
+/* Radios del florecimiento y separación de canales, en unidades del arte, así
+   que escalan con el logo. Pero escalar no es lo mismo que leerse igual: la
+   composición apilada ocupa el ancho entero de un teléfono y se mira a 30cm, y
+   ahí el mismo halo proporcional se come el bloque. La apilada florece menos y
+   separa menos.
+
+   La separación va sobre el halo, que está desenfocado, así que admite un
+   desplazamiento holgado sin convertirse en franja: es un degradado de color
+   dentro de la luz, no un canto. */
+const ART = {
+  wide:  { bloom: { wide: 0.30, tight: 0.075 }, halo: 0.34, edge: 0.55, ca: 0.13 },
+  stack: { bloom: { wide: 0.21, tight: 0.065 }, halo: 0.24, edge: 0.45, ca: 0.08 },
+};
 const wide = buildBanner(raw);
 const stack = buildStackedBanner(raw);
 const PX_PER_EM = 19; // equivalente al font-size máximo de la maqueta
 ---
 <div class="banner">
   {[
-    { id: 'wide', b: wide, cls: 'banner__svg--wide' },
-    { id: 'stack', b: stack, cls: 'banner__svg--stack' },
-  ].map(({ id, b, cls }) => (
+    { id: 'wide', b: wide, cls: 'banner__svg--wide', a: ART.wide },
+    { id: 'stack', b: stack, cls: 'banner__svg--stack', a: ART.stack },
+  ].map(({ id, b, cls, a }) => (
     <svg
       class:list={['banner__svg', cls]}
       viewBox={`0 0 ${b.width.toFixed(3)} ${b.height.toFixed(3)}`}
@@ -63,26 +68,26 @@ const PX_PER_EM = 19; // equivalente al font-size máximo de la maqueta
           x="-30%" y="-70%" width="160%" height="240%"
           color-interpolation-filters="sRGB"
         >
-          <feGaussianBlur in="SourceGraphic" stdDeviation={BLOOM.wide} result="wide" />
+          <feGaussianBlur in="SourceGraphic" stdDeviation={a.bloom.wide} result="wide" />
           <feComponentTransfer in="wide" result="halo">
-            <feFuncA type="linear" slope="0.34" />
+            <feFuncA type="linear" slope={a.halo} />
           </feComponentTransfer>
-          <feGaussianBlur in="SourceGraphic" stdDeviation={BLOOM.tight} result="tight" />
+          <feGaussianBlur in="SourceGraphic" stdDeviation={a.bloom.tight} result="tight" />
           <feComponentTransfer in="tight" result="edge">
-            <feFuncA type="linear" slope="0.55" />
+            <feFuncA type="linear" slope={a.edge} />
           </feComponentTransfer>
           <feColorMatrix in="halo" type="matrix" result="haloR"
             values="1 0 0 0 0
                     0 0 0 0 0
                     0 0 0 0 0
                     0 0 0 1 0" />
-          <feOffset in="haloR" dx={-CA} result="haloRo" />
+          <feOffset in="haloR" dx={-a.ca} result="haloRo" />
           <feColorMatrix in="halo" type="matrix" result="haloGB"
             values="0 0 0 0 0
                     0 1 0 0 0
                     0 0 1 0 0
                     0 0 0 1 0" />
-          <feOffset in="haloGB" dx={CA} result="haloGBo" />
+          <feOffset in="haloGB" dx={a.ca} result="haloGBo" />
           <feBlend in="haloRo" in2="haloGBo" mode="screen" result="haloCA" />
 
           <feMerge>
@@ -121,8 +126,10 @@ const PX_PER_EM = 19; // equivalente al font-size máximo de la maqueta
      muerto el tercio derecho del cristal. La maqueta original lo topaba en
      570px porque el hero iba a sangre y no tenía marco que llenar. */
   .banner__svg--wide { max-width: min(100%, 820px); }
-  /* La apilada crece hasta ser legible y para: más ancha comería el viewport. */
-  .banner__svg--stack { display: none; max-width: 400px; }
+  /* La apilada iba a sangre de canalón a canalón y el logo dejaba de tener
+     aire: en un teléfono, un bloque que toca los dos bordes se lee apretado,
+     no grande. Se le deja margen y sigue mandando en la pantalla. */
+  .banner__svg--stack { display: none; max-width: min(87%, 320px); }
 
   @media (max-width: 599px) {
     .banner__svg--wide { display: none; }

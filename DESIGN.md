@@ -256,7 +256,10 @@ instrumento y la prosa como voz.
   sección, bajo su filete rotulado.
 - **Subtitle** (600, 21px, -0.02em): títulos de tarjeta y de paso de proceso.
 - **Lead** (400, `clamp(18px, 2.2vw, 24px)`, 1.55): la entradilla del hero,
-  centrada bajo el logo. El único texto que emite (halo blanco al 22%), porque
+  centrada bajo el logo y justificada de renglón. Por debajo de 600px suelta la
+  justificación: con tres o cuatro palabras por línea, o abre ríos entre palabras
+  o parte `sis-temas`, y a esa medida el centrado es la forma correcta de la
+  misma intención. El único texto que emite (halo blanco al 22%), porque
   está sobre el tubo.
 - **Body** (400, 19px, 1.7, máx. 62ch): prosa de sección.
 - **Body compact** (400, 16.5px, 1.7): cuerpo de tarjeta y de paso.
@@ -286,6 +289,15 @@ la primera cosa que el ojo leía de la sección era una negación. Ahora va sin
 rojo, un punto más pequeña y colgada de un filete, como la nota que corrige al
 pie de una tabla. **Que algo deba estar explícito no significa que deba estar
 alto.** El rojo se reserva para lo que sí se hace.
+
+**La Regla de la Óptica a Distancia de Brazo.** Toda la capa óptica baja un
+punto por debajo de 600px: el barrido de 0.14 a 0.085 de alfa, la viñeta de 0.34
+a 0.22, el cañón de 0.28 a 0.19, y el florecimiento del logo apilado a dos
+tercios del de la composición ancha, con la mitad de separación de canales. La
+razón no es estética sino de distancia: **la misma capa que a 60cm es atmósfera,
+a 30cm es velo sobre el texto**, y en una pantalla de mano ocupa además una
+fracción mucho mayor del campo visual. Medido, la entradilla sube de 17.7:1 a
+18.9:1 sólo por aflojar la óptica.
 
 **La Regla de la Lectura sin Fatiga.** La escala entera subió un punto sobre la
 maqueta —cuerpo 14.5 → 16.5px, prosa 17 → 19px— porque la audiencia evalúa en
@@ -349,6 +361,10 @@ canto al centro.
 - **Ninguna sombra proyectada.** El sistema no tiene una sola. La última que
   quedaba era la del cajón de navegación, y se fue con la barra; no hay nada que
   se superponga físicamente a nada.
+- **Viñeta de pantalla** (`rgba(0, 0, 0, .34)` en escritorio,
+  `rgba(0, 0, 0, .22)` en teléfono): el único negro que se añade en toda la
+  página, y no es una sombra: es el canto del tubo apagándose. Baja un tercio en
+  el móvil porque ahí ocupa proporcionalmente mucho más de la pantalla.
 - **Halo de foco** (`box-shadow: 0 0 16px rgba(255,74,84,.45)`): no es sombra,
   es emisión. Acompaña al `outline` de 2px en todo elemento enfocable.
 
@@ -464,13 +480,6 @@ se busca cuando ya se ha leído.
 - **Táctil (≤860px o puntero grueso):** 13px y `15px 16px` de relleno. Tres
   celdas de 7px de flanco son una diana imposible.
 
-### Señal de scroll
-
-Sin menú que anuncie que hay página debajo, el hero lleva una señal al pie: un
-filete de 1px de 36px con una gota que cae cada 2.6s. Va en **tinta, nunca en
-rojo** —un filete rojo suelto está prohibido por el sistema— y es decorativa:
-`aria-hidden`, sin texto que un lector deba oír.
-
 ### Section header (componente de firma)
 
 Un filete rotulado que **es** el límite de la sección: filete corto de 22px,
@@ -489,7 +498,7 @@ al final.
 
 ### Motion
 
-Tres momentos autorizados y un solo gesto permanente.
+Dos momentos autorizados y un solo gesto permanente.
 
 - **Arranque del banner** (`rdBoot`, `.55s cubic-bezier(.16,1,.3,1)`, escalón de
   55ms por fila): el logo se dibuja fila a fila al cargar. Es lo primero que
@@ -498,8 +507,6 @@ Tres momentos autorizados y un solo gesto permanente.
   subida): cada pieza aparece una vez, al entrar en pantalla, y deja de mirarse.
   El escalón entre hermanos de una rejilla (`--rd-reveal-delay`, 90–100ms por
   índice) lo pone la plantilla, no un temporizador.
-- **Gota de la señal de scroll** (`rdDrop`, `2.6s`): recorre el filete del pie
-  del hero.
 - **Cursor de bloque** (`rdBlink`, `1.1s step-end infinite`): el único gesto
   animado permanente de la marca.
 - **Transiciones de estado:** `.15s ease` sobre color, fondo y borde. El
@@ -507,6 +514,12 @@ Tres momentos autorizados y un solo gesto permanente.
 - **`prefers-reduced-motion`:** todo cae a `.001ms`, el cursor se queda sólido,
   el material revelado aparece sin subida ni espera, la gota se para y el scroll
   suave se desactiva.
+
+**La Regla de la Afordancia que se Explica Sola.** El hero llevó una señal de
+scroll —un filete con una gota cayendo— y se retiró: parada, en una captura, no
+se lee como "hay más abajo" sino como un defecto de render. Un gesto que sólo
+significa algo mientras se mueve no es una afordancia, es un artefacto. Si vuelve
+a hacer falta, la forma legible es un galón, que se reconoce quieto.
 
 **La Regla del Revelado Reversible.** Nada se oculta si no hay quien lo
 desoculte. El estado inicial del revelado cuelga de `.rd-js`, una clase que el
