@@ -7,7 +7,7 @@
 interface Props { command: string; lines: string[]; last: string; }
 const { command, lines, last } = Astro.props;
 ---
-<div class="term" role="img" aria-label={`${command}: ${[...lines, last].join('. ')}`}>
+<div class="term screen-surface" role="img" aria-label={`${command}: ${[...lines, last].join('. ')}`}>
   <div class="term__bar" aria-hidden="true">
     <span class="term__dot term__dot--live"></span>
     <span class="term__dot"></span>
@@ -25,8 +25,6 @@ const { command, lines, last } = Astro.props;
     width: 100%;
     max-width: 460px;
     background: var(--rd-panel);
-    border: 1px solid var(--rd-graphite);
-    border-radius: 8px;
     overflow: hidden;
   }
   .term__bar {
@@ -42,16 +40,21 @@ const { command, lines, last } = Astro.props;
   .term__body {
     padding: 26px;
     font-family: var(--rd-mono);
-    font-size: 12.5px;
-    line-height: 2;
+    font-size: 14px;
+    line-height: 1.95;
     color: var(--rd-ink-2);
   }
   .term__prompt { color: var(--rd-ink-4); }
+  /* Las salidas largas parten de línea: la sangría francesa las alinea
+     tras la flecha en vez de dejarlas caer bajo ella. */
+  .term__out, .term__last { padding-left: 1.5em; text-indent: -1.5em; }
   .term__out { color: var(--rd-ink-3); }
-  .term__last { color: var(--rd-ink); display: flex; align-items: center; gap: 6px; }
-  .term__cursor { width: 7px; height: 13px; }
+  .term__last { color: var(--rd-ink); }
+  .term__cursor { width: 7px; height: 14px; vertical-align: -2px; margin-left: 4px; }
 
-  @media (max-width: 420px) {
-    .term__body { padding: 20px; font-size: 11.5px; }
+  @media (max-width: 599px) {
+    .term { max-width: none; }
+    /* Menos margen, misma tipografía: en el móvil el texto no encoge. */
+    .term__body { padding: 20px 18px; font-size: 14.5px; line-height: 1.9; }
   }
 </style>

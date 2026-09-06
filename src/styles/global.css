@@ -12,8 +12,9 @@ button, input, select, textarea { font: inherit; color: inherit; }
 html {
   color-scheme: dark;
   scroll-behavior: smooth;
-  /* El header es sticky: sin esto el anclaje queda debajo de él. */
-  scroll-padding-top: 84px;
+  /* Sin barra pegajosa nada tapa el destino: sólo el aire que evita que el
+     rótulo de sección quede pegado al canto de la pantalla. */
+  scroll-padding-top: clamp(20px, 4vw, 36px);
 }
 body {
   /* En páginas cortas (404) el footer se apoya en el fondo del viewport. */
@@ -23,8 +24,8 @@ body {
   background: var(--rd-black);
   color: var(--rd-ink);
   font-family: var(--rd-sans);
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: 17px;
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-wrap: break-word;
@@ -55,11 +56,20 @@ input, textarea, select { caret-color: var(--rd-red-ink); }
 :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
   outline: 2px solid var(--rd-focus);
   outline-offset: 3px;
+  /* El foco también emite: es el mismo fósforo que el resto de la página. */
+  box-shadow: 0 0 16px rgba(255, 74, 84, .45);
 }
 
 /* ---------- utilidades ---------- */
-.shell { max-width: var(--rd-shell); margin-inline: auto; padding-inline: var(--rd-gutter); }
-.section { padding-block: var(--rd-section); border-top: 1px solid var(--rd-graphite); }
+/* En horizontal con muesca, el canal seguro puede pasar del canalón. */
+.shell {
+  max-width: var(--rd-shell);
+  margin-inline: auto;
+  padding-left: max(var(--rd-gutter), env(safe-area-inset-left));
+  padding-right: max(var(--rd-gutter), env(safe-area-inset-right));
+}
+/* Sin filete propio: el rótulo de SectionHeader es el límite de la sección. */
+.section { padding-block: var(--rd-section); }
 .section--deep { background: var(--rd-black-deep); }
 
 .mono { font-family: var(--rd-mono); }
@@ -89,15 +99,41 @@ input, textarea, select { caret-color: var(--rd-red-ink); }
   z-index: 50;
   background: var(--rd-red); color: var(--rd-ink);
   font-family: var(--rd-mono); font-size: 12px; letter-spacing: 0.06em;
-  padding: 12px 18px;
+  padding: 14px 18px;
   transition: transform .18s cubic-bezier(.16,1,.3,1);
 }
 .skip-link:focus-visible { transform: translateY(0); color: var(--rd-ink); }
 
+/* ---------- superficies-pantalla ----------
+   La prosa vive sobre el escritorio; los datos viven en pantallas. Esta es la
+   versión plana del vidrio del hero: mismo filete, mismo barrido, misma caída
+   hacia los cantos, sin la geometría curva, que es de un solo tubo. */
+.screen-surface {
+  position: relative;
+  isolation: isolate;
+  border: 1px solid var(--rd-glass-edge);
+  border-radius: var(--rd-radius);
+}
+.screen-surface > * { position: relative; z-index: 1; }
+.screen-surface::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    var(--rd-scan-soft),
+    radial-gradient(98% 120% at 50% 38%, transparent 46%, rgba(0, 0, 0, .34) 100%);
+}
+@media (prefers-contrast: more), (prefers-reduced-transparency: reduce) {
+  .screen-surface::after { display: none; }
+}
+
 /* ---------- botones ---------- */
 .btn {
   display: inline-flex; align-items: center; justify-content: center;
-  font-family: var(--rd-mono); font-size: 12px; font-weight: 500;
+  font-family: var(--rd-mono); font-size: 13px; font-weight: 500;
   letter-spacing: 0.06em; text-transform: uppercase;
   padding: 15px 24px;
   border: 1px solid transparent;
@@ -114,8 +150,18 @@ input, textarea, select { caret-color: var(--rd-red-ink); }
 .btn[disabled] { opacity: .5; cursor: not-allowed; }
 .btn[disabled]:hover { background: var(--rd-red); }
 
+/* Sin ratón no hay hover que compense un blanco pequeño: 48px de alto real. */
+@media (max-width: 599px), (pointer: coarse) {
+  .btn { font-size: 14px; padding: 16px 22px; }
+}
+@media (hover: none) {
+  .btn--primary:hover { background: var(--rd-red); }
+  .btn--ghost:hover { border-color: var(--rd-graphite-2); }
+  a:hover { color: var(--rd-red-ink); }
+}
+
 /* ---------- cursor de bloque ----------
-   El único gesto animado permanente de la marca. */
+   El gesto permanente de la marca; el revelado de abajo es de una sola vez. */
 .cursor {
   display: inline-block; flex: none;
   background: var(--rd-red-ink);
@@ -123,9 +169,31 @@ input, textarea, select { caret-color: var(--rd-red-ink); }
 }
 @keyframes rdBlink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
 
+/* ---------- revelado al desplazar ----------
+   Sin barra de navegación la página se lee bajando, así que el material tiene
+   que llegar al ritmo del desplazamiento en vez de estar ya todo puesto.
+
+   Sólo se esconde bajo `.rd-js`, la clase que el layout escribe en el propio
+   <html> antes de pintar: si el script no corre —o si el observador no existe—
+   nunca hay nada oculto que un fallo pudiera dejar invisible para siempre.
+
+   El gesto es el de una terminal imprimiendo: sube unos píxeles y aparece, sin
+   escala ni desenfoque. `--rd-reveal-delay` escalona a los hermanos de una
+   rejilla; lo pone la plantilla por índice, no un temporizador. */
+.rd-js [data-reveal] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity .55s cubic-bezier(.16, 1, .3, 1) var(--rd-reveal-delay, 0ms),
+    transform .55s cubic-bezier(.16, 1, .3, 1) var(--rd-reveal-delay, 0ms);
+}
+.rd-js [data-reveal][data-shown] { opacity: 1; transform: none; }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .cursor { animation: none; opacity: 1; }
+  /* El material aparece igual, sin desplazamiento ni espera. */
+  .rd-js [data-reveal] { opacity: 1; transform: none; }
   *, *::before, *::after {
     animation-duration: .001ms !important;
     animation-iteration-count: 1 !important;
@@ -135,5 +203,6 @@ input, textarea, select { caret-color: var(--rd-red-ink); }
 
 @media print {
   body { background: #fff; color: #000; }
-  .skip-link, .site-header { display: none; }
+  .skip-link { display: none; }
+  .rd-js [data-reveal] { opacity: 1; transform: none; }
 }

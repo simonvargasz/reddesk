@@ -1,6 +1,5 @@
 ---
 import Base from '../layouts/Base.astro';
-import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import { DEFAULT_LOCALE } from '../config';
 import { t as dict } from '../i18n';
@@ -9,7 +8,6 @@ const locale = DEFAULT_LOCALE;
 const t = dict(locale);
 ---
 <Base t={t} locale={locale} noindex>
-  <SiteHeader t={t} locale={locale} />
   <main id="main" class="nf">
     <div class="shell nf__inner">
       <p class="nf__code" aria-hidden="true">$ 404</p>

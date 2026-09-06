@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "appRoot": "/home/sim/landings/reddesk",
+  "repoRoot": "/home/sim/landings/reddesk",
+  "contextRoot": "/home/sim/landings/reddesk",
+  "sessionRoot": "/home/sim/landings/reddesk/.impeccable/live",
+  "productPath": "/home/sim/landings/reddesk/PRODUCT.md",
+  "designPath": "/home/sim/landings/reddesk/DESIGN.md",
+  "resolvedFrom": "cwd"
+}

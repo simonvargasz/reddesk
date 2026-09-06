@@ -48,7 +48,7 @@ const year = new Date().getFullYear();
   .wordmark { display: flex; align-items: center; gap: 6px; }
   .wordmark__text {
     font-family: var(--rd-mono);
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 500;
     line-height: 1;
     color: var(--rd-ink);
@@ -62,5 +62,19 @@ const year = new Date().getFullYear();
     margin: 24px auto 0;
     color: var(--rd-ink-4);
     letter-spacing: 0.1em;
+  }
+
+  @media (max-width: 860px), (pointer: coarse) {
+    .site-footer__legal { line-height: 2.4; }
+    .site-footer__legal a { display: inline-block; padding-block: 12px; }
+  }
+
+  @media (max-width: 599px) {
+    .site-footer { padding-block: 30px 34px; }
+    .site-footer__inner { flex-direction: column; align-items: flex-start; gap: 24px; }
+    .site-footer__end { flex-direction: column; align-items: flex-start; gap: 18px; }
+    .wordmark__text { font-size: 16px; }
+    .wordmark__block { width: 9px; height: 17px; }
+    .site-footer__built { margin-top: 22px; line-height: 1.8; }
   }
 </style>

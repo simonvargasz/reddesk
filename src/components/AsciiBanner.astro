@@ -2,30 +2,108 @@
 /**
  * Banner ASCII de Red Desk. La retícula la calcula src/lib/ascii.mjs, que
  * comparte con el generador de OG images; el arte vive en assets/ascii-logo.txt.
+ *
+ * Dos composiciones del mismo arte, conmutadas por CSS (sin JS, sin salto):
+ *  - ancha: "RED_DESK" en una línea, para >=600px.
+ *  - apilada: "RED_" sobre "DESK", para teléfonos. En una sola línea el bloque
+ *    mediría 6px de lado en un móvil; apilado mide 12px y el logo manda.
  */
 import raw from '../assets/ascii-logo.txt?raw';
-import { buildBanner, ROW_H } from '../lib/ascii.mjs';
+import { buildBanner, buildStackedBanner } from '../lib/ascii.mjs';
 
-const { rects, rows, width, height } = buildBanner(raw);
+/* Radios del florecimiento, en unidades del arte: escalan con el logo, así que
+   el halo se ve igual de ancho a 570px que a 284px. */
+const BLOOM = { wide: 0.30, tight: 0.075 };
+/* Separación de canales. Va sobre el halo, que está desenfocado a 0.30, así que
+   admite un desplazamiento holgado sin convertirse en franja: es un degradado de
+   color dentro de la luz, no un canto. También en unidades del arte, para que
+   escale con el logo. */
+const CA = 0.13;
+const wide = buildBanner(raw);
+const stack = buildStackedBanner(raw);
 const PX_PER_EM = 19; // equivalente al font-size máximo de la maqueta
 ---
 <div class="banner">
-  <svg
-    class="banner__svg"
-    viewBox={`0 0 ${width.toFixed(3)} ${height.toFixed(3)}`}
-    width={Math.round(width * PX_PER_EM)}
-    height={Math.round(height * PX_PER_EM)}
-    aria-hidden="true"
-    focusable="false"
-  >
-    {Array.from({ length: rows }, (_, r) => (
-      <g class="banner__row" style={`--i:${r}`}>
-        {rects.filter((rect) => rect.r === r).map((rect) => (
-          <rect x={rect.x} y={rect.y} width={rect.w} height={rect.h} fill={rect.fill} />
+  {[
+    { id: 'wide', b: wide, cls: 'banner__svg--wide' },
+    { id: 'stack', b: stack, cls: 'banner__svg--stack' },
+  ].map(({ id, b, cls }) => (
+    <svg
+      class:list={['banner__svg', cls]}
+      viewBox={`0 0 ${b.width.toFixed(3)} ${b.height.toFixed(3)}`}
+      width={Math.round(b.width * PX_PER_EM)}
+      height={Math.round(b.height * PX_PER_EM)}
+      aria-hidden="true"
+      focusable="false"
+    >
+      <defs>
+        <!-- Dos efectos ópticos encadenados, en el orden en que ocurren de
+             verdad: primero el fósforo emite, después el cristal separa lo que
+             emite.
+
+             1. Florecimiento. El fósforo no dibuja bordes: los quema. Dos
+                desenfoques bajo el arte nítido dan el halo, y cada uno conserva
+                el color del trazo que lo emite, cosa que un drop-shadow de un
+                solo color no puede hacer.
+             2. Aberración cromática. Un vidrio curvo no refracta todas las
+                longitudes de onda con el mismo ángulo: el rojo se adelanta y el
+                cian se retrasa. Se separa el canal R del par G+B y se desplazan
+                en sentidos opuestos —la aberración lateral de libro, no el
+                rojo-contra-cian estampado del glitch, que mueve la imagen entera
+                y no separa nada.
+
+                Y se aplica SÓLO AL HALO, nunca al arte nítido. Es lo que refracta
+                de verdad: el cristal desvía la luz que el fósforo emite, no los
+                bordes del propio fósforo. Sobre el trazo nítido daba franjas
+                saturadas de anaglifo y se comía el filo del bloque; sobre la luz
+                da un degradado cálido por un lado y frío por el otro, y la letra
+                se queda intacta. -->
+        <filter
+          id={`rd-bloom-${id}`}
+          x="-30%" y="-70%" width="160%" height="240%"
+          color-interpolation-filters="sRGB"
+        >
+          <feGaussianBlur in="SourceGraphic" stdDeviation={BLOOM.wide} result="wide" />
+          <feComponentTransfer in="wide" result="halo">
+            <feFuncA type="linear" slope="0.34" />
+          </feComponentTransfer>
+          <feGaussianBlur in="SourceGraphic" stdDeviation={BLOOM.tight} result="tight" />
+          <feComponentTransfer in="tight" result="edge">
+            <feFuncA type="linear" slope="0.55" />
+          </feComponentTransfer>
+          <feColorMatrix in="halo" type="matrix" result="haloR"
+            values="1 0 0 0 0
+                    0 0 0 0 0
+                    0 0 0 0 0
+                    0 0 0 1 0" />
+          <feOffset in="haloR" dx={-CA} result="haloRo" />
+          <feColorMatrix in="halo" type="matrix" result="haloGB"
+            values="0 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    0 0 0 1 0" />
+          <feOffset in="haloGB" dx={CA} result="haloGBo" />
+          <feBlend in="haloRo" in2="haloGBo" mode="screen" result="haloCA" />
+
+          <feMerge>
+            <feMergeNode in="haloCA" />
+            <feMergeNode in="edge" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+
+      <g class="banner__lit" filter={`url(#rd-bloom-${id})`}>
+        {Array.from({ length: b.rows }, (_, r) => (
+          <g class="banner__row" style={`--i:${r}`}>
+            {b.rects.filter((rect) => rect.r === r).map((rect) => (
+              <rect x={rect.x} y={rect.y} width={rect.w} height={rect.h} fill={rect.fill} />
+            ))}
+          </g>
         ))}
       </g>
-    ))}
-  </svg>
+    </svg>
+  ))}
 </div>
 
 <style>
@@ -33,17 +111,37 @@ const PX_PER_EM = 19; // equivalente al font-size máximo de la maqueta
   .banner__svg {
     display: block;
     width: 100%;
-    /* Techo equivalente al font-size:19px de la maqueta (50 col x 0.6em). */
-    max-width: 570px;
     height: auto;
+    /* El logo manda el eje del hero: todo lo demás se alinea con su centro. */
+    margin-inline: auto;
+    /* El halo se sale de la caja del arte, y ahí es donde tiene que estar. */
+    overflow: visible;
   }
+  /* Dentro de una pantalla acotada, el logo llena la medida en vez de dejar
+     muerto el tercio derecho del cristal. La maqueta original lo topaba en
+     570px porque el hero iba a sangre y no tenía marco que llenar. */
+  .banner__svg--wide { max-width: min(100%, 820px); }
+  /* La apilada crece hasta ser legible y para: más ancha comería el viewport. */
+  .banner__svg--stack { display: none; max-width: 400px; }
+
+  @media (max-width: 599px) {
+    .banner__svg--wide { display: none; }
+    .banner__svg--stack { display: block; }
+  }
+
   .banner__row {
-    /* Único momento animado de la página: el banner se dibuja fila a fila. */
+    /* El arranque: el banner se dibuja fila a fila antes que nada, y el
+       revelado del resto de la página entra detrás. */
     animation: rdBoot .55s cubic-bezier(.16, 1, .3, 1) backwards;
     animation-delay: calc(var(--i) * 55ms);
   }
   @keyframes rdBoot { from { opacity: 0; } }
   @media (prefers-reduced-motion: reduce) {
     .banner__row { animation: none; }
+  }
+  /* Quien pide más contraste quiere el filo de la letra, no el halo ni la
+     franja de color: el CSS gana al atributo de presentación. */
+  @media (prefers-contrast: more) {
+    .banner__lit { filter: none; }
   }
 </style>

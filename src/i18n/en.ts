@@ -15,21 +15,12 @@ export const en: Dict = {
 
   nav: {
     skip: 'Skip to content',
-    menu: 'Menu',
-    close: 'Close',
     language: 'Language',
-    items: [
-      { href: '#enfoque', label: 'Approach' },
-      { href: '#que-hace', label: 'What it does' },
-      { href: '#proceso', label: 'Process' },
-    ],
-    cta: 'Contact',
   },
 
   hero: {
-    prompt: '$ whoami',
     tagline: 'Digital systems, built to fit',
-    lead: 'Red Desk is a software studio. It designs and builds systems that get used every day — by a company or by one person — and that leave the day lighter than they found it.',
+    lead: 'A software studio. Systems that get used every day — by a company or by one person — and leave the day lighter than they found it.',
     primary: 'What it does',
     secondary: 'Get in touch',
   },
@@ -38,8 +29,8 @@ export const en: Dict = {
     n: '01',
     title: 'Why Red Desk exists',
     body: [
-      'Most of the software we touch daily makes us work for it. It asks for data it already holds, expects us to remember steps it should remember itself, and grows by adding features instead of removing friction.',
-      'Red Desk exists to do the opposite: systems shaped around the actual work, noticeable because the day weighs less — not because there are more screens.',
+      'Most of the software we touch daily makes us work for it: it asks for data it already holds, and grows by adding features instead of removing friction.',
+      'Red Desk exists to do the opposite: systems shaped around the actual work, noticeable because the day weighs less and not because there are more screens.',
     ],
     terminal: {
       command: 'rd principles',
@@ -58,11 +49,11 @@ export const en: Dict = {
     items: [
       {
         title: 'Custom product',
-        body: 'Complete web and mobile applications, from first sketch to deployment. The code lives in your repository, nobody else’s.',
+        body: 'Complete web and mobile applications, from sketch to deployment. The code lives in your repository, nobody else’s.',
       },
       {
         title: 'Internal systems',
-        body: 'Dashboards, workflows and automation for the work currently scattered across spreadsheets, email threads and copy-paste.',
+        body: 'Dashboards, workflows and automation for the work that today lives across spreadsheets, email threads and copy-paste.',
       },
       {
         title: 'Integrations',
@@ -70,7 +61,7 @@ export const en: Dict = {
       },
     ],
     notLabel: 'What it does not do',
-    not: 'Red Desk does not sell templates, does not run campaigns or SEO, and does not take on work it cannot maintain afterwards.',
+    not: 'It does not sell templates, does not run campaigns, and does not take on work it cannot maintain afterwards.',
   },
 
   process: {
@@ -80,17 +71,17 @@ export const en: Dict = {
       {
         when: 'Week 1',
         title: 'Understand the real work',
-        body: 'It starts by watching how the task is done today, next to the person doing it. The process gets mapped as it is, not as it should be.',
+        body: 'The task gets mapped next to the person doing it, as it is done today and not as it should be.',
       },
       {
         when: 'Weeks 2–3',
         title: 'Clickable prototype',
-        body: 'Screens get tested before a single line of final code exists. Changing your mind at that stage costs nothing.',
+        body: 'Screens get tested before a single line of final code exists. Changing your mind there costs nothing.',
       },
       {
         when: 'Week 4 onward',
         title: 'Delivery every two weeks',
-        body: 'Every delivery is working and deployed. What comes next is decided with the system already in use, not on a document.',
+        body: 'Every delivery is working and deployed. What comes next is decided with the system already in use.',
       },
     ],
   },

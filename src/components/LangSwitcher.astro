@@ -29,4 +29,16 @@ const { current, label } = Astro.props;
   }
   .langs__item:hover { color: var(--rd-ink); }
   .langs__item[aria-current] { color: var(--rd-ink); background: var(--rd-graphite); }
+
+  /* Con el dedo, tres celdas de 7px de flanco son una diana imposible. */
+  @media (max-width: 860px), (pointer: coarse) {
+    .langs { gap: 6px; }
+    .langs__item {
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      padding: 15px 16px;
+      border: 1px solid var(--rd-graphite);
+    }
+    .langs__item[aria-current] { border-color: var(--rd-graphite-2); }
+  }
 </style>

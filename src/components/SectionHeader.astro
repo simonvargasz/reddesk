@@ -1,24 +1,53 @@
 ---
-interface Props { n: string; title: string; id?: string; }
-const { n, title, id } = Astro.props;
+/**
+ * La cabecera de sección es el límite de la sección: un filete rotulado, como el
+ * separador de una sesión de terminal. Por eso `.section` ya no lleva
+ * `border-top` — dos líneas seguidas serían redundantes.
+ *
+ * Los filetes son bordes CSS y no caracteres de dibujo de caja: IBM Plex Mono no
+ * los trae, por la misma razón que src/lib/ascii.mjs documenta para █ y ▁, y
+ * saldrían de una fuente de respaldo con otro avance.
+ *
+ * El rótulo es siempre lo primero que se revela de su sección: marca la entrada
+ * y da el compás al material que viene detrás.
+ */
+interface Props { n: string; title: string; id?: string; lg?: boolean; }
+const { n, title, id, lg = false } = Astro.props;
 ---
-<div class="sec-head">
-  <span class="sec-head__n" aria-hidden="true">{n}</span>
-  <h2 id={id}>{title}</h2>
+<div class:list={['sec-head', lg && 'sec-head--lg']} data-reveal>
+  <p class="sec-head__rule" aria-hidden="true">
+    <span class="sec-head__line sec-head__line--tick"></span>
+    <span class="sec-head__n">[{n}]</span>
+    <span class="sec-head__line"></span>
+  </p>
+  <h2 id={id} class="sec-head__title">{title}</h2>
 </div>
 
 <style>
-  .sec-head {
+  .sec-head { margin-bottom: clamp(32px, 4.5vw, 44px); }
+  .sec-head--lg { margin-bottom: 0; }
+
+  .sec-head__rule {
     display: flex;
-    align-items: baseline;
-    gap: 16px;
-    margin-bottom: clamp(32px, 4.5vw, 44px);
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 clamp(16px, 2vw, 22px);
   }
+  .sec-head__line { flex: 1; border-top: 1px solid var(--rd-graphite); }
+  .sec-head__line--tick { flex: none; width: 22px; }
   .sec-head__n {
+    flex: none;
     font-family: var(--rd-mono);
     font-size: var(--rd-t-label);
+    letter-spacing: 0.12em;
+    line-height: 1;
     color: var(--rd-red-ink);
-    flex: none;
   }
-  h2 { font-size: var(--rd-t-h2); letter-spacing: -0.02em; line-height: 1.15; }
+
+  .sec-head__title { font-size: var(--rd-t-h2); letter-spacing: -0.02em; line-height: 1.15; }
+  .sec-head--lg .sec-head__title {
+    font-size: var(--rd-t-h2-lg);
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+  }
 </style>

@@ -78,7 +78,7 @@ const ogSvg = (tagline) => {
   const bw = banner.width * scale;
   const bh = banner.height * scale;
   const bx = PAD;
-  const by = (H - bh) / 2 - 24;
+  const by = (H - bh) / 2 - 10;
 
   const rects = banner.rects
     .map((r) => `<rect x="${(r.x * scale).toFixed(2)}" y="${(r.y * scale).toFixed(2)}" width="${(r.w * scale).toFixed(2)}" height="${(r.h * scale).toFixed(2)}" fill="${r.fill}"/>`)
@@ -86,9 +86,8 @@ const ogSvg = (tagline) => {
 
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">
   <rect width="${W}" height="${H}" fill="${C.black}"/>
-  <text x="${PAD}" y="${by - 34}" font-family="${MONO}" font-size="20" letter-spacing="3.4" fill="${C.ink4}">$ whoami</text>
   <g transform="translate(${bx} ${by})">${rects}</g>
-  <text x="${PAD}" y="${by + bh + 62}" font-family="${MONO}" font-size="24" letter-spacing="3.8" fill="${C.ink2}">${tagline.toUpperCase()}</text>
+  <text x="${PAD}" y="${by + bh + 62}" font-family="${MONO}" font-size="24" letter-spacing="3.8" fill="${C.ink2}"><tspan fill="${C.redInk}">$</tspan> ${tagline.toUpperCase()}</text>
   <rect x="${PAD}" y="${H - 108}" width="${W - PAD * 2}" height="1" fill="${C.graphite}"/>
   <text x="${PAD}" y="${H - 66}" font-family="${MONO}" font-size="17" letter-spacing="2.6" fill="${C.ink4}">${host}</text>
   <rect x="${W - PAD - 13}" y="${H - 82}" width="13" height="21" fill="${C.redInk}"/>

@@ -15,21 +15,12 @@ export const pt: Dict = {
 
   nav: {
     skip: 'Ir para o conteúdo',
-    menu: 'Menu',
-    close: 'Fechar',
     language: 'Idioma',
-    items: [
-      { href: '#enfoque', label: 'Abordagem' },
-      { href: '#que-hace', label: 'O que faz' },
-      { href: '#proceso', label: 'Processo' },
-    ],
-    cta: 'Contato',
   },
 
   hero: {
-    prompt: '$ whoami',
     tagline: 'Soluções digitais sob medida',
-    lead: 'A Red Desk é um estúdio de software. Desenha e constrói sistemas usados todos os dias — de uma empresa ou de uma pessoa — que deixam o dia melhor do que estava.',
+    lead: 'Um estúdio de software. Sistemas usados todos os dias — de uma empresa ou de uma pessoa — que deixam o dia melhor do que estava.',
     primary: 'O que faz',
     secondary: 'Escrever',
   },
@@ -38,8 +29,8 @@ export const pt: Dict = {
     n: '01',
     title: 'Por que a Red Desk existe',
     body: [
-      'Quase todo software que usamos no dia a dia nos faz trabalhar para ele. Pede dados que já tem, obriga a lembrar passos que deveria lembrar sozinho, e cresce somando funções em vez de tirar atrito.',
-      'A Red Desk existe para fazer o contrário: sistemas ajustados ao trabalho real, que se percebem porque o dia pesa menos — não porque têm mais telas.',
+      'Quase todo software que usamos no dia a dia nos faz trabalhar para ele: pede dados que já tem e cresce somando funções em vez de tirar atrito.',
+      'A Red Desk existe para fazer o contrário: sistemas ajustados ao trabalho real, que se percebem porque o dia pesa menos e não porque têm mais telas.',
     ],
     terminal: {
       command: 'rd principios',
@@ -58,11 +49,11 @@ export const pt: Dict = {
     items: [
       {
         title: 'Produto sob medida',
-        body: 'Aplicações web e móveis completas, do primeiro esboço ao deploy. O código fica num repositório seu, de mais ninguém.',
+        body: 'Aplicações web e móveis completas, do esboço ao deploy. O código fica num repositório seu, de mais ninguém.',
       },
       {
         title: 'Sistemas internos',
-        body: 'Painéis, fluxos e automações para o trabalho que hoje vive espalhado entre planilhas, e-mails e copiar-colar.',
+        body: 'Painéis, fluxos e automações para o trabalho que hoje vive entre planilhas, e-mails e copiar-colar.',
       },
       {
         title: 'Integrações',
@@ -70,7 +61,7 @@ export const pt: Dict = {
       },
     ],
     notLabel: 'O que não faz',
-    not: 'A Red Desk não vende templates, não faz campanhas nem SEO, e não aceita um projeto que depois não consiga manter.',
+    not: 'Não vende templates, não faz campanhas, e não aceita um projeto que depois não consiga manter.',
   },
 
   process: {
@@ -80,7 +71,7 @@ export const pt: Dict = {
       {
         when: 'Semana 1',
         title: 'Entender o trabalho real',
-        body: 'Primeiro se observa como a tarefa é feita hoje, ao lado de quem a faz. O processo é mapeado como é, não como deveria ser.',
+        body: 'A tarefa é mapeada ao lado de quem a faz, como é feita hoje e não como deveria ser.',
       },
       {
         when: 'Semanas 2–3',
@@ -90,7 +81,7 @@ export const pt: Dict = {
       {
         when: 'A partir da 4',
         title: 'Entregas a cada duas semanas',
-        body: 'Cada entrega está funcionando e no ar. O que vem depois se decide com o sistema já em uso, não sobre um documento.',
+        body: 'Cada entrega está funcionando e no ar. O que vem depois se decide com o sistema já em uso.',
       },
     ],
   },

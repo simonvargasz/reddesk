@@ -70,3 +70,43 @@ export function buildBanner(raw, palette = { red: RED, ink: INK, sep: SEP }) {
     height: (rows.length - 1) * ROW_H + BLOCK_H,
   };
 }
+
+/**
+ * Variante apilada para pantallas estrechas: "red_" sobre "desk".
+ * Comparte escala entre las dos líneas (un solo viewBox), así que los bloques
+ * miden lo mismo arriba y abajo; en un teléfono el logo pasa de ~60px de alto
+ * a ~260px sin tocar el arte original.
+ */
+export const STACK_SPLIT = 22;  // primera columna de "DESK" (el "_" cierra "RED")
+export const STACK_GAP = ROW_H; // una fila en blanco entre ambas líneas
+
+export function buildStackedBanner(raw, palette = { red: RED, ink: INK, sep: SEP }) {
+  const { rects, rows } = buildBanner(raw, palette);
+  const cut = STACK_SPLIT * COL_W;
+  const lineH = (rows - 1) * ROW_H + BLOCK_H;
+
+  const top = rects.filter((rc) => rc.x < cut);
+  const bottom = rects.filter((rc) => rc.x >= cut);
+  const offX = Math.min(...bottom.map((rc) => rc.x));
+
+  const all = [
+    // El "_" cierra "RED" al final de la primera línea: solo suelto se lee como
+    // subrayado, así que se ensancha a dos celdas y se acerca a la D.
+    ...top.map((rc) => (rc.fill === palette.sep
+      ? { ...rc, x: rc.x - COL_W, w: COL_W * 2 }
+      : rc)),
+    ...bottom.map((rc) => ({
+      ...rc,
+      r: rc.r + rows,
+      x: rc.x - offX,
+      y: rc.y + lineH + STACK_GAP,
+    })),
+  ];
+
+  return {
+    rects: all,
+    rows: rows * 2,
+    width: Math.max(...all.map((rc) => rc.x + rc.w)),
+    height: lineH * 2 + STACK_GAP,
+  };
+}

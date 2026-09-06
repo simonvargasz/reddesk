@@ -1,0 +1,490 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-06T14:39:58-03:00",
+  "title": "Design System: Red Desk",
+  "extensions": {
+    "colorMeta": {
+      "oxide-red": {
+        "role": "primary",
+        "displayName": "Rojo Óxido",
+        "canonical": "#8C1420",
+        "tonalRamp": [
+          "#430A0F",
+          "#76111B",
+          "#A91827",
+          "#DC1F32",
+          "#E6505F",
+          "#ED838D",
+          "#F5B6BC",
+          "#FCE9EB"
+        ]
+      },
+      "oxide-red-hover": {
+        "role": "primary",
+        "displayName": "Rojo Óxido Encendido",
+        "canonical": "#B0121C",
+        "tonalRamp": [
+          "#45070B",
+          "#7A0D13",
+          "#AF121C",
+          "#E41724",
+          "#EC4954",
+          "#F27E85",
+          "#F7B3B7",
+          "#FDE8E9"
+        ]
+      },
+      "phosphor-red": {
+        "role": "primary",
+        "displayName": "Rojo Fósforo",
+        "canonical": "#FF4A54",
+        "tonalRamp": [
+          "#4C0004",
+          "#870007",
+          "#C1000B",
+          "#FB000E",
+          "#FF3742",
+          "#FF7179",
+          "#FFABB0",
+          "#FFE5E7"
+        ]
+      },
+      "room-black": {
+        "role": "neutral",
+        "displayName": "Negro de Cuarto",
+        "canonical": "#0F0E0E",
+        "tonalRamp": [
+          "#282525",
+          "#464141",
+          "#645D5D",
+          "#827979",
+          "#9E9797",
+          "#BAB6B6",
+          "#D7D4D4",
+          "#F3F2F2"
+        ]
+      },
+      "screen-black": {
+        "role": "neutral",
+        "displayName": "Negro de Pantalla",
+        "canonical": "#141312",
+        "tonalRamp": [
+          "#282624",
+          "#474340",
+          "#66615B",
+          "#847E77",
+          "#A09B96",
+          "#BCB8B4",
+          "#D7D5D3",
+          "#F3F2F2"
+        ]
+      },
+      "panel-black": {
+        "role": "neutral",
+        "displayName": "Negro de Panel",
+        "canonical": "#1B1A19",
+        "tonalRamp": [
+          "#282625",
+          "#464341",
+          "#64615D",
+          "#837E79",
+          "#9F9B97",
+          "#BBB8B5",
+          "#D7D5D3",
+          "#F3F2F2"
+        ]
+      },
+      "graphite": {
+        "role": "neutral",
+        "displayName": "Grafito",
+        "canonical": "#2A2724",
+        "tonalRamp": [
+          "#292623",
+          "#49433E",
+          "#686159",
+          "#877E74",
+          "#A39B93",
+          "#BDB8B3",
+          "#D8D5D2",
+          "#F3F2F1"
+        ]
+      },
+      "graphite-lit": {
+        "role": "neutral",
+        "displayName": "Grafito Encendido",
+        "canonical": "#4A4642",
+        "tonalRamp": [
+          "#282624",
+          "#474340",
+          "#66615B",
+          "#857E76",
+          "#A19B95",
+          "#BCB8B4",
+          "#D8D5D3",
+          "#F3F2F2"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Tinta",
+        "canonical": "#FFFFFF",
+        "tonalRamp": [
+          "#262626",
+          "#434343",
+          "#616161",
+          "#7E7E7E",
+          "#9B9B9B",
+          "#B8B8B8",
+          "#D5D5D5",
+          "#F2F2F2"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Tinta 2",
+        "canonical": "#D6D2CD",
+        "tonalRamp": [
+          "#2A2722",
+          "#4A443D",
+          "#6A6257",
+          "#8A7F71",
+          "#A59C91",
+          "#BFB9B1",
+          "#D9D6D1",
+          "#F4F2F1"
+        ]
+      },
+      "ink-3": {
+        "role": "neutral",
+        "displayName": "Tinta 3",
+        "canonical": "#B9B4AE",
+        "tonalRamp": [
+          "#292723",
+          "#48443E",
+          "#68615A",
+          "#877F75",
+          "#A29B94",
+          "#BDB8B3",
+          "#D8D5D2",
+          "#F3F2F1"
+        ]
+      },
+      "ink-4": {
+        "role": "neutral",
+        "displayName": "Tinta 4",
+        "canonical": "#9A958F",
+        "tonalRamp": [
+          "#282624",
+          "#474440",
+          "#66615C",
+          "#847E77",
+          "#A09B96",
+          "#BCB8B4",
+          "#D7D5D3",
+          "#F3F2F2"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "El titular de contacto. Las palabras más grandes de la página."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Titulares de sección, bajo su filete rotulado."
+      },
+      "subtitle": {
+        "displayName": "Subtitle",
+        "purpose": "Títulos de tarjeta y de paso de proceso."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "Entradilla del hero, centrada bajo el logo. El único texto que emite, porque está sobre el tubo."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Prosa de sección, máximo 62ch."
+      },
+      "body-compact": {
+        "displayName": "Body compact",
+        "purpose": "Cuerpo de tarjeta y de paso. Sube a 17px por debajo de 600px."
+      },
+      "control": {
+        "displayName": "Control",
+        "purpose": "Botones. Mono, versalitas."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Rótulos de sección y claves, en Rojo Fósforo. Mono."
+      },
+      "meta": {
+        "displayName": "Meta",
+        "purpose": "Metadatos, legales y pies, en Tinta 4. Mono."
+      }
+    },
+    "shadows": [
+      {
+        "name": "focus-glow",
+        "value": "0 0 16px rgba(255,74,84,.45)",
+        "purpose": "No es sombra, es emisión. Acompaña al outline de 2px en todo elemento enfocable."
+      },
+      {
+        "name": "primary-glow",
+        "value": "0 0 22px rgba(140,20,32,.55)",
+        "purpose": "Halo del botón primario cuando está sobre el tubo del hero."
+      },
+      {
+        "name": "cursor-glow",
+        "value": "0 0 10px rgba(255,74,84,.85), 0 0 22px rgba(255,74,84,.45)",
+        "purpose": "Fósforo del bloque de cursor."
+      },
+      {
+        "name": "halo-aberration",
+        "value": "feColorMatrix R / G+B + feOffset dx ±0.13 (unidades del arte) + feBlend screen",
+        "purpose": "Aberración cromática del vidrio curvo, aplicada al halo del logo y nunca al trazo: la luz emitida se abre en cálido por un flanco y frío por el otro, y la letra conserva el filo."
+      },
+      {
+        "name": "refraction-arc",
+        "value": "radial-gradient(120% 175% at 50% 175%, transparent 70%, rgba(255,255,255,.034) 78%, rgba(255,255,255,.011) 86%, transparent 96%)",
+        "purpose": "El arco de luz que devuelve un cristal convexo. Sube ~150px del canto al centro; es la lectura de curvatura que sí modula lo bastante para verse."
+      },
+      {
+        "name": "hero-fade",
+        "value": "linear-gradient(to bottom, transparent 0%, #000 5%, #000 42%, transparent 100%) como mask-image",
+        "purpose": "Disuelve las dos capas ópticas hacia abajo para que el hero se funda con el fondo del cuerpo en vez de cortarse contra el filete de la sección."
+      }
+    ],
+    "motion": [
+      {
+        "name": "boot",
+        "value": ".55s cubic-bezier(.16,1,.3,1), escalón de 55ms por fila",
+        "purpose": "El logo se dibuja fila a fila al cargar. Es lo primero que ocurre; el revelado de la página entra detrás."
+      },
+      {
+        "name": "blink",
+        "value": "1.1s step-end infinite",
+        "purpose": "El bloque de cursor. Único gesto animado permanente de la marca."
+      },
+      {
+        "name": "scroll-reveal",
+        "value": ".55s cubic-bezier(.16,1,.3,1) sobre opacidad y 14px de subida, con --rd-reveal-delay de 90–100ms por índice",
+        "purpose": "Cada pieza aparece una vez al entrar en pantalla y deja de observarse. Es lo que sustituye al menú: la página se lee bajando."
+      },
+      {
+        "name": "drop",
+        "value": "2.6s cubic-bezier(.45,0,.55,1) infinite",
+        "purpose": "La gota que recorre el filete de la señal de scroll, al pie del hero."
+      },
+      {
+        "name": "state",
+        "value": ".15s ease",
+        "purpose": "Color, fondo y borde en cambios de estado."
+      },
+      {
+        "name": "skip",
+        "value": ".18s cubic-bezier(.16,1,.3,1)",
+        "purpose": "Entrada del skip-link."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "phone",
+        "value": "599px",
+        "purpose": "Sube la escala tipográfica y aprieta el ritmo."
+      },
+      {
+        "name": "cards",
+        "value": "900px",
+        "purpose": "La rejilla de servicios pasa de una a tres columnas."
+      },
+      {
+        "name": "banner",
+        "value": "599px",
+        "purpose": "El logo pasa de una línea a dos (RED_ sobre DESK)."
+      },
+      {
+        "name": "touch",
+        "value": "860px o (pointer: coarse)",
+        "purpose": "Los blancos táctiles suben a 44px: correo en línea, celdas del selector de idioma."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Relleno de Rojo Óxido, canto vivo, mono en versalitas. La acción principal de cada sección.",
+      "html": "<button class=\"ds-btn-primary\">QUÉ HACE</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; background: var(--rd-red, #8C1420); color: var(--rd-ink, #fff); font-family: var(--rd-mono, 'IBM Plex Mono', monospace); font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; padding: 15px 24px; border: 1px solid transparent; border-radius: 0; cursor: pointer; transition: background-color .15s ease, color .15s ease; } .ds-btn-primary:hover { background: var(--rd-red-hover, #B0121C); } .ds-btn-primary:focus-visible { outline: 2px solid var(--rd-ink, #fff); outline-offset: 3px; box-shadow: 0 0 16px rgba(255,74,84,.45); }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Acción secundaria: sin relleno, borde de Grafito Encendido que sube a blanco en hover.",
+      "html": "<button class=\"ds-btn-ghost\">ESCRIBIR</button>",
+      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; justify-content: center; background: transparent; color: var(--rd-ink, #fff); font-family: var(--rd-mono, 'IBM Plex Mono', monospace); font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; padding: 15px 24px; border: 1px solid var(--rd-graphite-2, #4A4642); border-radius: 0; cursor: pointer; transition: border-color .15s ease; } .ds-btn-ghost:hover { border-color: var(--rd-ink, #fff); } .ds-btn-ghost:focus-visible { outline: 2px solid var(--rd-red-ink, #FF4A54); outline-offset: 3px; box-shadow: 0 0 16px rgba(255,74,84,.45); }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Campo de canto vivo con clave mono encima. El foco tiñe el borde de Rojo Fósforo.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-field-key\">CORREO</span><input class=\"ds-field-input\" type=\"email\" placeholder=\"hola@reddesk.com\"></label>",
+      "css": ".ds-field { display: flex; flex-direction: column; gap: 8px; } .ds-field-key { font-family: var(--rd-mono, 'IBM Plex Mono', monospace); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--rd-ink-4, #9A958F); } .ds-field-input { background: var(--rd-black, #141312); border: 1px solid var(--rd-graphite, #2A2724); border-radius: 0; color: var(--rd-ink, #fff); font-family: var(--rd-mono, 'IBM Plex Mono', monospace); font-size: 14px; padding: 12px 14px; caret-color: var(--rd-red-ink, #FF4A54); transition: border-color .15s ease; } .ds-field-input::placeholder { color: var(--rd-ink-4, #9A958F); } .ds-field-input:hover { border-color: var(--rd-graphite-2, #4A4642); } .ds-field-input:focus-visible { border-color: var(--rd-red-ink, #FF4A54); outline: 2px solid var(--rd-red-ink, #FF4A54); outline-offset: 3px; box-shadow: 0 0 16px rgba(255,74,84,.45); }"
+    },
+    {
+      "name": "Language Switcher",
+      "kind": "nav",
+      "refersTo": "lang-switcher",
+      "description": "El único mando de la página, ahora que no hay barra. Va suelto en el canto del hero y se marcha con el scroll; se repite al pie. Sin marco sobre el hero: la caja táctil lo convertía justo en la barra que se quitó.",
+      "html": "<nav class=\"ds-langs\" aria-label=\"Idioma\"><a class=\"ds-lang\" href=\"#\" aria-current=\"true\">ES</a><a class=\"ds-lang\" href=\"#\">EN</a><a class=\"ds-lang\" href=\"#\">PT</a></nav>",
+      "css": ".ds-langs { display: flex; align-items: center; gap: 2px; } .ds-lang { font-family: var(--rd-mono, 'IBM Plex Mono', monospace); font-size: 12px; letter-spacing: 0.1em; line-height: 1; color: var(--rd-ink-4, #9A958F); text-decoration: none; padding: 5px 7px; border: 1px solid transparent; transition: color .15s ease, background-color .15s ease; } .ds-lang:hover { color: var(--rd-ink, #fff); } .ds-lang[aria-current] { color: var(--rd-ink, #fff); background: var(--rd-graphite, #2A2724); } .ds-lang:focus-visible { outline: 2px solid var(--rd-red-ink, #FF4A54); outline-offset: 3px; box-shadow: 0 0 16px rgba(255,74,84,.45); } @media (max-width: 860px), (pointer: coarse) { .ds-langs { gap: 6px; } .ds-lang { font-size: 13px; letter-spacing: 0.12em; padding: 15px 16px; } }"
+    },
+    {
+      "name": "Section Header Rule",
+      "kind": "custom",
+      "description": "Componente de firma: el filete rotulado ES el límite de la sección. Los filetes son bordes CSS, no caracteres de dibujo de caja.",
+      "html": "<div class=\"ds-sechead\"><p class=\"ds-sechead-rule\"><span class=\"ds-sechead-tick\"></span><span class=\"ds-sechead-n\">[01]</span><span class=\"ds-sechead-line\"></span></p><h2 class=\"ds-sechead-title\">Por qué existe Red Desk</h2></div>",
+      "css": ".ds-sechead-rule { display: flex; align-items: center; gap: 10px; margin: 0 0 20px; } .ds-sechead-line { flex: 1; border-top: 1px solid var(--rd-graphite, #2A2724); } .ds-sechead-tick { flex: none; width: 22px; border-top: 1px solid var(--rd-graphite, #2A2724); } .ds-sechead-n { flex: none; font-family: var(--rd-mono, 'IBM Plex Mono', monospace); font-size: 11px; letter-spacing: 0.12em; line-height: 1; color: var(--rd-red-ink, #FF4A54); } .ds-sechead-title { margin: 0; font-family: var(--rd-sans, 'Space Grotesk', sans-serif); font-size: 34px; font-weight: 600; line-height: 1.15; letter-spacing: -0.02em; color: var(--rd-ink, #fff); }"
+    },
+    {
+      "name": "Screen Surface",
+      "kind": "card",
+      "refersTo": "screen-surface",
+      "description": "Componente de firma: el material compartido del sistema. Filete de vidrio, radio de 6px, barrido suave y viñeta hacia los cantos. Va sobre datos, nunca sobre prosa corrida.",
+      "html": "<div class=\"ds-screen\"><p class=\"ds-screen-body\">Los datos viven en pantallas.</p></div>",
+      "css": ".ds-screen { position: relative; isolation: isolate; background: var(--rd-panel, #1B1A19); border: 1px solid var(--rd-graphite, #2A2724); border-radius: 6px; padding: 28px; } .ds-screen > * { position: relative; z-index: 1; } .ds-screen::after { content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none; border-radius: inherit; background: repeating-linear-gradient(to bottom, rgba(0,0,0,.14) 0 1px, transparent 1px 3px), radial-gradient(98% 120% at 50% 38%, transparent 46%, rgba(0,0,0,.34) 100%); } .ds-screen-body { margin: 0; font-family: var(--rd-sans, 'Space Grotesk', sans-serif); font-size: 14.5px; line-height: 1.7; color: var(--rd-ink-3, #B9B4AE); }"
+    },
+    {
+      "name": "Terminal Panel",
+      "kind": "custom",
+      "description": "Ventana con barra de título y tres puntos. Las salidas llevan sangría francesa para que las líneas partidas se alineen tras la flecha.",
+      "html": "<div class=\"ds-term\"><div class=\"ds-term-bar\"><span class=\"ds-term-dot ds-term-dot-live\"></span><span class=\"ds-term-dot\"></span><span class=\"ds-term-dot\"></span></div><div class=\"ds-term-body\"><p class=\"ds-term-cmd\"><span class=\"ds-term-prompt\">$</span> rd principios</p><p class=\"ds-term-out\">&rarr; el sistema se adapta al trabajo, no al revés</p><p class=\"ds-term-last\">&rarr; se entrega funcionando <span class=\"ds-cursor\"></span></p></div></div>",
+      "css": ".ds-term { background: var(--rd-panel, #1B1A19); border: 1px solid var(--rd-graphite, #2A2724); border-radius: 6px; overflow: hidden; max-width: 460px; } .ds-term-bar { height: 34px; background: var(--rd-graphite, #2A2724); display: flex; align-items: center; gap: 6px; padding-inline: 12px; } .ds-term-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--rd-graphite-2, #4A4642); } .ds-term-dot-live { background: var(--rd-red, #8C1420); } .ds-term-body { padding: 26px; font-family: var(--rd-mono, 'IBM Plex Mono', monospace); font-size: 12.5px; line-height: 2; color: var(--rd-ink-2, #D6D2CD); } .ds-term-body p { margin: 0; } .ds-term-prompt { color: var(--rd-ink-4, #9A958F); } .ds-term-out, .ds-term-last { padding-left: 1.5em; text-indent: -1.5em; } .ds-term-out { color: var(--rd-ink-3, #B9B4AE); } .ds-term-last { color: var(--rd-ink, #fff); } .ds-cursor { display: inline-block; width: 7px; height: 13px; vertical-align: -2px; margin-left: 4px; background: var(--rd-red-ink, #FF4A54); animation: dsBlink 1.1s step-end infinite; } @keyframes dsBlink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } } @media (prefers-reduced-motion: reduce) { .ds-cursor { animation: none; } }"
+    },
+    {
+      "name": "Service Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Celda de la rejilla de servicios. Canto vivo: el radio vive en el contenedor, no en la celda.",
+      "html": "<div class=\"ds-card\"><span class=\"ds-card-rule\"></span><h3 class=\"ds-card-title\">Producto a medida</h3><p class=\"ds-card-body\">Aplicaciones web y móviles completas, del primer boceto al despliegue.</p></div>",
+      "css": ".ds-card { background: var(--rd-black, #141312); padding: 32px; display: flex; flex-direction: column; gap: 14px; border-radius: 0; } .ds-card-rule { width: 26px; height: 6px; background: var(--rd-red, #8C1420); } .ds-card-title { margin: 0; font-family: var(--rd-sans, 'Space Grotesk', sans-serif); font-size: 19px; font-weight: 600; letter-spacing: -0.02em; color: var(--rd-ink, #fff); } .ds-card-body { margin: 0; font-family: var(--rd-sans, 'Space Grotesk', sans-serif); font-size: 14.5px; line-height: 1.7; color: var(--rd-ink-3, #B9B4AE); }"
+    },
+    {
+      "name": "Prompt Line",
+      "kind": "custom",
+      "description": "La firma de la marca: prompt en Rojo Fósforo, texto en versalitas mono y bloque de cursor que emite.",
+      "html": "<p class=\"ds-prompt\"><span class=\"ds-prompt-sign\">$</span><span class=\"ds-prompt-text\">Soluciones digitales a medida</span><span class=\"ds-prompt-cursor\"></span></p>",
+      "css": ".ds-prompt { display: flex; align-items: center; gap: 9px; margin: 0; font-family: var(--rd-mono, 'IBM Plex Mono', monospace); font-size: 17px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--rd-ink-2, #D6D2CD); } .ds-prompt-sign { color: var(--rd-red-ink, #FF4A54); font-weight: 500; text-shadow: 0 0 10px rgba(255,74,84,.7), 0 0 24px rgba(255,74,84,.35); } .ds-prompt-text { text-shadow: 0 0 12px rgba(214,210,205,.38); } .ds-prompt-cursor { display: inline-block; flex: none; width: 9px; height: 17px; background: var(--rd-red-ink, #FF4A54); box-shadow: 0 0 10px rgba(255,74,84,.85), 0 0 22px rgba(255,74,84,.45); animation: dsBlink2 1.1s step-end infinite; } @keyframes dsBlink2 { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } } @media (prefers-reduced-motion: reduce) { .ds-prompt-cursor { animation: none; } }"
+    },
+    {
+      "name": "Scroll Cue",
+      "kind": "decoration",
+      "refersTo": "scroll-cue",
+      "description": "La única señal de que hay página debajo. Un filete de 1px con una gota que cae, al pie del hero. En tinta y nunca en rojo: un filete rojo suelto está prohibido por el sistema. Decorativa y aria-hidden.",
+      "html": "<span class=\"ds-scroll\" aria-hidden=\"true\"></span>",
+      "css": ".ds-scroll { position: relative; display: block; width: 1px; height: 36px; overflow: hidden; background: linear-gradient(to bottom, transparent, rgba(154,149,143,.5)); } .ds-scroll::after { content: \"\"; position: absolute; inset-inline: 0; top: -36px; height: 36px; background: linear-gradient(to bottom, transparent, var(--rd-ink-2, #D6D2CD)); animation: dsDrop 2.6s cubic-bezier(.45,0,.55,1) infinite; } @keyframes dsDrop { 0% { transform: translateY(0); opacity: 0; } 30% { opacity: 1; } 100% { transform: translateY(72px); opacity: 0; } } @media (prefers-reduced-motion: reduce) { .ds-scroll::after { animation: none; top: 0; opacity: .7; } }"
+    }
+  ],
+  "narrative": {
+    "northStar": "El monitor encendido",
+    "overview": "La página se mira como se mira un monitor de fósforo a oscuras: la primera pantalla está encendida —resplandor, barrido, letras que desbordan su trazo— y todo lo que viene después es mueble, material mate que no emite. Esa asimetría es el sistema entero. Cuando haya que decidir si un elemento nuevo brilla, la pregunta no es estética sino literal: ¿emite o está apoyado sobre la mesa? El tubo es un efecto, no un aparato: se probó darle marco y leía como widget pegado en vez de como apertura.\n\nDe ahí sale la doctrina que gobierna el reparto: la prosa vive sobre el escritorio, los datos viven en pantallas. El texto largo se lee sobre fondo plano, sin barrido ni viñeta, porque leer es la tarea. El panel de terminal, la rejilla de servicios y el formulario sí llevan vidrio, porque son superficies donde se consulta y se opera. Un párrafo con barrido encima sería costume; una tabla sin él sería una oportunidad perdida.\n\nEl mundo es de fósforo rojo sobre negro: un tubo de un solo color, no un CRT ámbar de museo. La marca ya era una terminal antes de este sistema —arte ASCII de bloques, cursor que parpadea, prompt $— y el vidrio no la disfraza, la explica. El carácter es instrumental y sin adorno: cada elemento declara su función y nada más.",
+    "keyCharacteristics": [
+      "El efecto de tubo es una capa de luz, no un objeto: el hero no tiene marco ni caja, y comparte su barrido con las superficies de datos.",
+      "La luz sustituye a la sombra: los objetos emiten, no proyectan.",
+      "Rojo de doble estado —apagado para masa, encendido para texto y señal.",
+      "Mono para el cromo, los datos y la medida; sans para la prosa. Nunca al revés.",
+      "Sólo las pantallas tienen esquina. Los controles son de canto vivo.",
+      "Todo el contenido aterriza en una columna de 1200px; sólo la luz va a sangre.",
+      "No hay cromo persistente: sin barra, sin menú. La página se lee bajando y el material aparece al ritmo del scroll."
+    ],
+    "rules": [
+      {
+        "name": "La Regla del Rojo que Cambia",
+        "section": "colors",
+        "body": "El rojo cambia según el fondo, y no es una preferencia: oxide-red como texto sobre negro da 2:1 y no se lee. Relleno sólido y texto sobre claro usan oxide-red; rojo como texto sobre oscuro usa phosphor-red. Elegir mal no es una variante fea, es un fallo de contraste."
+      },
+      {
+        "name": "La Regla de la Marca Única",
+        "section": "colors",
+        "body": "La marca Terminal RD (la ventana con `rd`) y el wordmark Cursor (`red_desk` con su bloque) nunca aparecen en la misma cara. Son dos expresiones de la misma identidad, no un lockup. Al quitarse la barra, la Terminal RD dejó de estar en la página: vive en los iconos y en las OG images. En la página manda el arte ASCII del hero, y el wordmark cierra al pie."
+      },
+      {
+        "name": "La Regla del Rojo Rotulado",
+        "section": "colors",
+        "body": "El rojo estructural sólo aparece rotulado —dentro de un [01], un prompt, un botón o un bloque de cursor— nunca como filete decorativo suelto."
+      },
+      {
+        "name": "La Regla del Reparto",
+        "section": "typography",
+        "body": "Mono para el cromo, los datos y la medida —etiquetas, selector de idioma, formularios, salida de terminal, botones—. Sans para todo lo que se lee seguido. Monoespaciar un párrafo para que parezca técnico es disfraz; en este sistema la mono ya significa algo y diluirla la deja sin significado."
+      },
+      {
+        "name": "La Regla del Teléfono",
+        "section": "typography",
+        "body": "La escala se dibujó para escritorio y sube por debajo de 600px: cuerpo 16.5 → 17px, entradilla 19 → 18.5px, etiqueta 12 → 12.5px. Un metadato de 10px se lee a 60cm, no a 30cm en la calle. Los campos de formulario no bajan de 16px porque por debajo Safari en iOS hace zoom al enfocar."
+      },
+      {
+        "name": "La Regla de la Lectura sin Fatiga",
+        "section": "typography",
+        "body": "La escala entera subió un punto sobre la maqueta —cuerpo 14.5 → 16.5px, prosa 17 → 19px— porque la audiencia evalúa en huecos de la jornada, muchas veces de pie. Un tamaño que se lee bien sentado a 60cm no es el mismo que se lee cansado; la página no gana nada por caber en menos pantallas, y sí pierde si obliga a acercarse."
+      },
+      {
+        "name": "La Regla de la Columna Única",
+        "section": "layout",
+        "body": "Todo el contenido aterriza en la misma medida, el hero incluido, que además va centrado sobre el eje de esa medida: su logo comparte centro con el rótulo [01] de la sección siguiente. Lo único que va a sangre es la luz —el resplandor y el barrido cubren la banda entera—, porque una capa atmosférica no tiene borde que desalinear. Un bloque de contenido a sangre en una página que vive en columna se lee como widget pegado, no como decisión."
+      },
+      {
+        "name": "La Regla de la Luz",
+        "section": "elevation",
+        "body": "Los objetos de este sistema emiten, no proyectan. Si un elemento nuevo necesita despegarse del fondo, sube de capa tonal o se enciende; no se le pone sombra. La única sombra legítima es la de algo que físicamente se superpone."
+      },
+      {
+        "name": "La Regla del Reparto de Material",
+        "section": "elevation",
+        "body": "El barrido, el filete de vidrio y la caída hacia los cantos van sobre superficies-pantalla —donde se consultan datos— y nunca sobre prosa corrida. .screen-surface es la utilidad que lo aplica; el hero es su versión intensa."
+      },
+      {
+        "name": "La Regla del Canto Vivo",
+        "section": "shapes",
+        "body": "Sólo las pantallas tienen esquina, porque sólo ellas son objetos físicos con bisel. Un control es una etiqueta estampada y no se redondea."
+      },
+      {
+        "name": "La Regla de la Óptica sobre la Luz",
+        "section": "elevation",
+        "body": "La aberración cromática se aplica al halo, jamás al trazo. Sobre el arte nítido daba franjas saturadas de anaglifo y se comía el filo del bloque; sobre la luz da un degradado y la letra se queda intacta. Lo que refracta es lo que el fósforo emite, no el fósforo."
+      },
+      {
+        "name": "La Regla del Contraste Manda",
+        "section": "elevation",
+        "body": "Un efecto óptico sólo existe donde hay contraste que lo sostenga. Se probó arquear el barrido para leer la curvatura del tubo: es geométricamente correcto y perceptualmente nulo, porque sobre fondo negro el barrido modula un nivel de luminancia. La curvatura vive en el arco de luz, que modula diez veces más. Antes de añadir un efecto, medir si se ve."
+      },
+      {
+        "name": "La Regla del Revelado Reversible",
+        "section": "motion",
+        "body": "Nada se oculta si no hay quien lo desoculte. El estado inicial del revelado cuelga de `.rd-js`, una clase que el layout escribe en <html> antes de pintar, y el observador marca `data-shown` al entrar en pantalla. Sin JavaScript —o sin IntersectionObserver— no hay nada oculto que un fallo pudiera dejar invisible para siempre. Una animación de entrada que puede tragarse el contenido no es una animación, es un riesgo."
+      }
+    ],
+    "dos": [
+      "Do separar el par de rojos por superficie: oxide-red para relleno y para texto sobre claro, phosphor-red para texto y señal sobre oscuro.",
+      "Do dar .screen-surface a toda superficie oscura nueva que cargue datos, y dejarla fuera de la prosa corrida.",
+      "Do mantener la prosa en Space Grotesk y reservar IBM Plex Mono para cromo, datos y medida.",
+      "Do dejar los controles de canto vivo y las pantallas con 6px.",
+      "Do subir la escala tipográfica por debajo de 600px y llevar los campos de formulario a 16px.",
+      "Do tematizar las superficies del navegador —selección, cursor de texto, barra de scroll, anillo de foco— con la paleta del sistema.",
+      "Do usar minmax(min(Npx, 100%), 1fr) en toda rejilla auto-fit.",
+      "Do anclar cualquier elemento a sangre a la medida de 1200px antes de darlo por bueno."
+    ],
+    "donts": [
+      "Don't inventar datos, métricas, casos o testimonios para llenar un hueco de prueba. El panel de terminal ya sustituyó métricas falsas por principios verificables; ese es el estándar.",
+      "Don't usar filetes rojos sueltos. El rojo estructural aparece rotulado —[01], prompt, botón, cursor— nunca como línea decorativa.",
+      "Don't poner oxide-red como texto sobre negro: da 2:1 y no se lee.",
+      "Don't colocar la marca Terminal RD y el wordmark Cursor en la misma cara.",
+      "Don't añadir sombras proyectadas para despegar paneles del fondo. En este sistema se sube de capa tonal o se enciende.",
+      "Don't monoespaciar prosa para que parezca técnica."
+    ]
+  }
+}

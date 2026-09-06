@@ -35,17 +35,42 @@
   --rd-t-h1:    clamp(36px, 5.4vw, 62px);
   --rd-t-h2:    clamp(26px, 3.2vw, 34px);
   --rd-t-h2-lg: clamp(28px, 3.6vw, 40px);
-  --rd-t-h3:    19px;
-  --rd-t-lead:  17px;
-  --rd-t-body:  14.5px;
-  --rd-t-label: 11px;   /* etiquetas mono */
-  --rd-t-meta:  10px;   /* metadatos mono */
+  --rd-t-h3:    21px;
+  --rd-t-lead:  19px;
+  --rd-t-body:  16.5px;
+  --rd-t-label: 12px;   /* etiquetas mono */
+  --rd-t-meta:  11.5px; /* metadatos mono */
 
   /* ritmo */
   --rd-shell:   1200px;
   --rd-gutter:  clamp(20px, 4vw, 32px);
   --rd-section: clamp(64px, 9vw, 88px);
 
+  /* vocabulario de pantalla: el barrido y el filete que comparten el hero y las
+     superficies de datos (panel de terminal, rejilla de tarjetas, contacto) */
+  --rd-radius: 6px;
+  --rd-glass-edge: var(--rd-graphite);
+  --rd-scan-soft: repeating-linear-gradient(
+    to bottom, rgba(0, 0, 0, .14) 0 1px, transparent 1px 3px);
   /* foco: se sobrescribe sobre superficies rojas */
   --rd-focus: var(--rd-red-ink);
+}
+
+/* ---------- teléfono ----------
+   La maqueta se dibujó para escritorio y se lee a 60cm, no a 30cm y en la
+   calle. En pantalla estrecha la escala sube otro punto y el ritmo se aprieta,
+   para que el texto gane el espacio que dejan los márgenes. */
+@media (max-width: 599px) {
+  :root {
+    --rd-t-h2:    clamp(24px, 7vw, 30px);
+    --rd-t-h2-lg: clamp(26px, 7.6vw, 32px);
+    --rd-t-h3:    21px;
+    --rd-t-lead:  18.5px;
+    --rd-t-body:  17px;
+    --rd-t-label: 12.5px;
+    --rd-t-meta:  11.5px;
+
+    --rd-gutter:  18px;
+    --rd-section: 60px;
+  }
 }
