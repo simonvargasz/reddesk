@@ -100,11 +100,11 @@
      `linearise()`. */
   const FIELD = {
     base: '#141312',
-    arc: 'rgba(255, 255, 255, .034)',
-    arcFar: 'rgba(255, 255, 255, .011)',
+    arc: 'rgba(255, 176, 168, .030)',
+    arcFar: 'rgba(255, 176, 168, .010)',
     cannon: 'rgba(140, 20, 32, .28)',
     cannonFar: 'rgba(140, 20, 32, .10)',
-    wash: 'rgba(255, 255, 255, .026)',
+    wash: 'rgba(255, 186, 178, .024)',
   };
 
   type Filter = {
@@ -220,13 +220,6 @@
       [0.70, 'rgba(255, 255, 255, 0)'], [0.78, FIELD.arc],
       [0.86, FIELD.arcFar], [0.96, 'rgba(255, 255, 255, 0)'],
     ]);
-    // El reflejo diagonal de la sala.
-    const sheen = ctx.createLinearGradient(0, 0, w * 0.62, h);
-    sheen.addColorStop(0, FIELD.arc);
-    sheen.addColorStop(0.2, FIELD.arcFar);
-    sheen.addColorStop(0.42, 'rgba(255, 255, 255, 0)');
-    ctx.fillStyle = sheen;
-    ctx.fillRect(0, 0, w, h);
     // El cañón: la mancha roja que enciende el centro alto de la banda.
     radial(w * 0.5, h * 0.34, w * 0.72, h * 0.92, [
       [0, FIELD.cannon], [0.46, FIELD.cannonFar], [0.78, 'rgba(140, 20, 32, 0)'],

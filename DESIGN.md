@@ -380,6 +380,17 @@ hacia los cantos van sobre superficies-pantalla —donde se consultan datos— y
 nunca sobre prosa corrida. `.screen-surface` es la utilidad que lo aplica; el
 hero es su versión intensa.
 
+**La Regla de la Luz Teñida.** Ninguna capa de luz del hero es blanca. Lo fueron
+—el arco, el lavado superior y un reflejo diagonal, todas `rgba(255,255,255,…)`—
+y a baja alfa sobre negro eso da **gris**: manchas neutras repartidas por una
+banda muy roja, que el ojo lee como su complementario. De ahí salían las
+"aureolas azules", sin que hubiera un solo píxel azul en la página. Teñidas en el
+mismo rojo que emiten dejan de tener complementario que disparar.
+
+El reflejo diagonal se retiró además por su forma: era un `linear-gradient` a
+107°, y su canto recto cruzando la esquina superior izquierda se leía como
+artefacto y no como atmósfera. **Un tubo no tiene aristas.**
+
 **La Regla del Fósforo Único.** El sistema **no separa espectro**. Hubo aquí una
 aberración cromática —el canal R contra el par G+B, sobre el halo del logo y sobre
 los cantos del hero— y era correcta como óptica: es lo que hace un vidrio curvo.

@@ -171,28 +171,33 @@ const t = dict(locale);
     -webkit-mask-image: var(--rd-hero-fade);
             mask-image: var(--rd-hero-fade);
   }
-  /* El cañón: detrás del texto, para que ilumine sin velarlo.
-     Encima lleva las dos huellas de un cristal convexo:
-       · el ARCO de refracción — la luz que un vidrio curvo devuelve no es una
-         banda recta sino un arco, y aquí sube ~150px del canto al centro. Es la
-         única lectura de curvatura que sobrevive: se probó arquear el propio
-         barrido y sobre fondo negro modula un nivel de luminancia, así que su
-         comba es invisible y no compensa un degradado radial de 18.000px;
-       · el reflejo diagonal de la sala, muy abierto y sin canto, para que se lea
-         como atmósfera y no como el objeto que quitamos. */
+  /* El cañón, detrás del texto para que ilumine sin velarlo, más el arco de
+     refracción: la luz que un vidrio curvo devuelve no es una banda recta sino
+     un arco, y aquí sube ~150px del canto al centro. Es la única lectura de
+     curvatura que sobrevive —arquear el barrido se midió y sobre fondo negro
+     modula un nivel de luminancia, así que su comba es invisible—.
+
+     TODA la luz del campo es cálida, y eso no es decoración. Estas capas eran
+     blancas (`rgba(255,255,255,…)`), y blanco a baja alfa sobre negro da GRIS:
+     manchas neutras repartidas por una banda muy roja. Una mancha neutra sobre
+     un rojo saturado el ojo la lee como su complementario, así que el campo se
+     llenaba de aureolas frías que no estaban en ningún píxel. Teñidas en el
+     mismo rojo que emiten dejan de tener complementario que disparar.
+
+     Se fue también el reflejo diagonal de la sala: era un `linear-gradient` a
+     107°, y su canto recto cruzando la esquina superior izquierda es lo que más
+     se leía como artefacto y no como atmósfera. Un tubo no tiene aristas. */
   .hero::before {
     z-index: 0;
     background:
       radial-gradient(120% 175% at 50% 175%,
         transparent 70%,
-        rgba(255, 255, 255, .034) 78%,
-        rgba(255, 255, 255, .011) 86%,
+        rgba(255, 176, 168, .030) 78%,
+        rgba(255, 176, 168, .010) 86%,
         transparent 96%),
-      linear-gradient(107deg,
-        rgba(255, 255, 255, .034) 0%, rgba(255, 255, 255, .011) 20%, transparent 42%),
       radial-gradient(72% 92% at 50% 34%,
         rgba(140, 20, 32, .28) 0%, rgba(140, 20, 32, .10) 46%, transparent 78%),
-      radial-gradient(100% 90% at 50% 28%, rgba(255, 255, 255, .026), transparent 78%);
+      radial-gradient(100% 90% at 50% 28%, rgba(255, 186, 178, .024), transparent 78%);
   }
   /* El cristal, delante de todo: el barrido —mismo token que los paneles— y la
      viñeta, ancha y tardía, que apaga los flancos de una banda apaisada y no
@@ -451,12 +456,12 @@ const t = dict(locale);
       background:
         radial-gradient(120% 175% at 50% 175%,
           transparent 70%,
-          rgba(255, 255, 255, .024) 78%,
-          rgba(255, 255, 255, .008) 86%,
+          rgba(255, 176, 168, .021) 78%,
+          rgba(255, 176, 168, .007) 86%,
           transparent 96%),
         radial-gradient(78% 88% at 50% 30%,
           rgba(140, 20, 32, .19) 0%, rgba(140, 20, 32, .07) 46%, transparent 78%),
-        radial-gradient(100% 90% at 50% 26%, rgba(255, 255, 255, .018), transparent 78%);
+        radial-gradient(100% 90% at 50% 26%, rgba(255, 186, 178, .017), transparent 78%);
     }
     .hero::after {
       background:

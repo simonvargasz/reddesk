@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-06T17:10:31-03:00",
+  "generatedAt": "2026-09-06T20:22:04-03:00",
   "title": "Design System: Red Desk",
   "extensions": {
     "colorMeta": {
@@ -495,6 +495,11 @@
         "name": "La Regla del Ruido que No Centellea",
         "section": "motion",
         "body": "Un grano que no cambia entre fotogramas no es grano, es suciedad. El staticNoise de CRTFilterWebGL se calcula como fract(sin(dot(uv, k)) * 43758.5453), una funcion del pixel sin termino de tiempo: el mismo patron siempre. Bajarlo lo hace mas tenue, nunca menos estatico, asi que no hay valor bueno. Antes de ajustar un parametro a ojo, leer que hace: la respuesta estaba en una linea del shader."
+      },
+      {
+        "name": "La Regla de la Luz Tenida",
+        "section": "colors",
+        "body": "Ninguna capa de luz del hero es blanca. Lo fueron —el arco, el lavado superior y un reflejo diagonal, todas rgba(255,255,255,...)— y a baja alfa sobre negro eso da gris: manchas neutras repartidas por una banda muy roja, que el ojo lee como su complementario. De ahi salian las \"aureolas azules\", sin que hubiera un solo pixel azul en la pagina. Tenidas en el mismo rojo que emiten dejan de tener complementario que disparar. El reflejo diagonal se retiro ademas por su forma: un linear-gradient a 107 grados cuyo canto recto se leia como artefacto. Un tubo no tiene aristas."
       }
     ],
     "dos": [
