@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-06T17:10:31-03:00",
+  "generatedAt": "2026-09-06T20:17:10-03:00",
   "title": "Design System: Red Desk",
   "extensions": {
     "colorMeta": {
@@ -495,6 +495,11 @@
         "name": "La Regla del Ruido que No Centellea",
         "section": "motion",
         "body": "Un grano que no cambia entre fotogramas no es grano, es suciedad. El staticNoise de CRTFilterWebGL se calcula como fract(sin(dot(uv, k)) * 43758.5453), una funcion del pixel sin termino de tiempo: el mismo patron siempre. Bajarlo lo hace mas tenue, nunca menos estatico, asi que no hay valor bueno. Antes de ajustar un parametro a ojo, leer que hace: la respuesta estaba en una linea del shader."
+      },
+      {
+        "name": "La Regla de la Mancha Neutra",
+        "section": "elevation",
+        "body": "El halo ancho del logo se midio y no tenia ni un pixel desviado al azul: cero, en 275.000. Y aun asi se veia como una aureola cian, porque sobre el bloque blanco quedaba casi neutro (177,167,168) contra un fondo muy rojo (51,27,29), y una mancha neutra sobre un rojo saturado el ojo la lee como el complementario. El artefacto no estaba en los pixeles, estaba en la percepcion. Una medicion que dice \"no hay nada\" no cierra el caso cuando lo que se juzga es lo que se ve: entonces la medicion correcta es otra. Los halos que sobreviven son pequenos y de color —prompt, cursor, boton, foco—, que es justo lo que no dispara el efecto."
       }
     ],
     "dos": [

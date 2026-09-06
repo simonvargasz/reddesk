@@ -292,8 +292,8 @@ alto.** El rojo se reserva para lo que sí se hace.
 
 **La Regla de la Óptica a Distancia de Brazo.** Toda la capa óptica baja un
 punto por debajo de 600px: el barrido de 0.14 a 0.085 de alfa, la viñeta de 0.34
-a 0.22, el cañón de 0.28 a 0.19, y el florecimiento del logo apilado a dos
-tercios del de la composición ancha, con la mitad de separación de canales. La
+a 0.22, el cañón de 0.28 a 0.19, y el filo del logo apilado un punto más corto
+que el de la composición ancha. La
 razón no es estética sino de distancia: **la misma capa que a 60cm es atmósfera,
 a 30cm es velo sobre el texto**, y en una pantalla de mano ocupa además una
 fracción mucho mayor del campo visual. Medido, la entradilla sube de 17.7:1 a
@@ -343,16 +343,13 @@ lee como widget pegado, no como decisión.
 con tres cosas, en este orden: capas tonales (`room-black` → `screen-black` →
 `panel-black`), un anillo oscuro hundido en el canto del tubo, y **luz emitida**.
 
-La luz es la herramienta principal. El logotipo florece con dos desenfoques
-gaussianos bajo el arte nítido, cada uno conservando el color del trazo que lo
-emite —el rojo florece rojo y el blanco florece blanco, cosa que un `drop-shadow`
-de un solo color no puede hacer—. El prompt, el cursor, la entradilla, el botón
-primario y el foco de teclado llevan halo.
+La luz es la herramienta principal, pero **el logotipo ya no florece**. Llevaba
+un desenfoque ancho bajo el arte nítido, y se retiró; queda sólo el filo, un
+desenfoque corto que conserva el color del trazo que lo emite. El prompt, el
+cursor, la entradilla, el botón primario y el foco de teclado sí llevan halo: son
+piezas pequeñas y de color, no una masa neutra.
 
-Sobre eso van las dos huellas de un cristal convexo. **Aberración cromática:** el
-halo se separa en canales —R hacia un lado, G+B hacia el otro— con un
-desplazamiento de 0.13 unidades del arte, así que la luz emitida se abre en cálido
-por un flanco y frío por el otro. **Arco de refracción:** un vidrio curvo no
+El **arco de refracción** sigue: un vidrio curvo no
 devuelve una banda recta de luz sino un arco, y el del hero sube unos 150px del
 canto al centro.
 
@@ -379,6 +376,16 @@ físicamente se superpone.
 hacia los cantos van sobre superficies-pantalla —donde se consultan datos— y
 nunca sobre prosa corrida. `.screen-surface` es la utilidad que lo aplica; el
 hero es su versión intensa.
+
+**La Regla de la Mancha Neutra.** El halo ancho del logo se midió y **no tenía ni
+un píxel desviado al azul**: cero, en 275.000. Y aun así se veía como una aureola
+cian, porque sobre el bloque blanco quedaba casi neutro (177,167,168) contra un
+fondo muy rojo (51,27,29), y una mancha neutra sobre un rojo saturado el ojo la
+lee como el complementario. El artefacto no estaba en los píxeles, estaba en la
+percepción, y la única forma de quitarlo era quitar la mancha. **Una medición que
+dice "no hay nada" no cierra el caso cuando lo que se juzga es lo que se ve:
+entonces la medición correcta es otra.** Los halos que sobreviven son pequeños y
+de color —prompt, cursor, botón, foco—, que es justo lo que no dispara el efecto.
 
 **La Regla del Fósforo Único.** El sistema **no separa espectro**. Hubo aquí una
 aberración cromática —el canal R contra el par G+B, sobre el halo del logo y sobre
@@ -474,7 +481,7 @@ contra él.
 El fondo del hero puede pasar por un shader: `CRTFilterWebGL`
 (`src/lib/CRTFilter.js`, MIT). La regla que gobierna la pieza salió de tres
 intentos fallidos de lo contrario: **el diseño no se toca**. El logo sigue siendo
-el mismo SVG con su mismo florecimiento, el texto sigue siendo DOM, el barrido
+el mismo SVG con su mismo filo, el texto sigue siendo DOM, el barrido
 fino sigue cruzando la letra y la viñeta sigue donde estaba.
 
 Lo único que hace el canvas es **sustituir a `.hero::before`**: pinta los mismos
