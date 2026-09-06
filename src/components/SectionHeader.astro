@@ -1,0 +1,24 @@
+---
+interface Props { n: string; title: string; id?: string; }
+const { n, title, id } = Astro.props;
+---
+<div class="sec-head">
+  <span class="sec-head__n" aria-hidden="true">{n}</span>
+  <h2 id={id}>{title}</h2>
+</div>
+
+<style>
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: clamp(32px, 4.5vw, 44px);
+  }
+  .sec-head__n {
+    font-family: var(--rd-mono);
+    font-size: var(--rd-t-label);
+    color: var(--rd-red-ink);
+    flex: none;
+  }
+  h2 { font-size: var(--rd-t-h2); letter-spacing: -0.02em; line-height: 1.15; }
+</style>

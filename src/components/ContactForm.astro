@@ -1,0 +1,198 @@
+---
+import { WEB3FORMS_KEY, EMAIL } from '../config';
+import type { Dict } from '../i18n';
+
+interface Props { t: Dict; }
+const { t } = Astro.props;
+const f = t.contact.form;
+
+/* Sin access key el formulario no se traga los envíos: se muestra
+   deshabilitado con un aviso y el correo directo pasa a ser el canal. */
+const enabled = WEB3FORMS_KEY.length > 0;
+---
+<form
+  class="form"
+  method="POST"
+  action="https://api.web3forms.com/submit"
+  novalidate
+  data-contact-form
+  data-msg-required={f.required}
+  data-msg-bad-email={f.badEmail}
+  data-msg-sending={f.sending}
+  data-msg-ok={f.ok}
+  data-msg-error={f.error.replace('{email}', EMAIL)}
+  data-submit-label={f.submit}
+>
+  <input type="hidden" name="access_key" value={WEB3FORMS_KEY} />
+  <input type="hidden" name="subject" value={`Red Desk — ${f.legend}`} />
+  <input type="hidden" name="from_name" value="Red Desk" />
+  <!-- Honeypot de Web3Forms: invisible para personas, irresistible para bots. -->
+  <input type="checkbox" name="botcheck" class="form__honey" tabindex="-1" autocomplete="off" />
+
+  {!enabled && <p class="form__notice">{f.disabled}</p>}
+
+  <fieldset class="form__fields" disabled={!enabled}>
+    <legend class="visually-hidden">{f.legend}</legend>
+
+    <div class="form__row">
+      <div class="field">
+        <label class="field__label" for="cf-name">{f.name}</label>
+        <input class="field__input" id="cf-name" name="name" type="text" required autocomplete="name" />
+      </div>
+      <div class="field">
+        <label class="field__label" for="cf-email">{f.email}</label>
+        <input class="field__input" id="cf-email" name="email" type="email" required autocomplete="email" />
+      </div>
+    </div>
+
+    <div class="form__row">
+      <div class="field">
+        <label class="field__label" for="cf-org">
+          {f.org} <span class="field__hint">({f.orgOptional})</span>
+        </label>
+        <input class="field__input" id="cf-org" name="organisation" type="text" autocomplete="organization" />
+      </div>
+      <div class="field">
+        <label class="field__label" for="cf-kind">{f.kind}</label>
+        <select class="field__input" id="cf-kind" name="kind">
+          {f.kinds.map((k) => <option value={k}>{k}</option>)}
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="cf-message">{f.message}</label>
+      <textarea
+        class="field__input field__input--area"
+        id="cf-message"
+        name="message"
+        rows="4"
+        required
+        placeholder={f.messagePlaceholder}
+      ></textarea>
+    </div>
+
+    <button class="btn btn--primary form__submit" type="submit">{f.submit}</button>
+  </fieldset>
+
+  <p class="form__status" role="status" aria-live="polite" data-form-status></p>
+</form>
+
+<style>
+  .form { display: flex; flex-direction: column; gap: 18px; }
+  .form__honey {
+    position: absolute; width: 1px; height: 1px;
+    opacity: 0; pointer-events: none;
+  }
+  .form__fields {
+    border: 0; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 18px;
+    min-width: 0;
+  }
+  .form__fields[disabled] { opacity: .55; }
+  .form__row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 18px;
+  }
+
+  .field { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .field__label {
+    font-family: var(--rd-mono);
+    font-size: var(--rd-t-meta);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--rd-ink-4);
+  }
+  .field__hint { text-transform: none; letter-spacing: 0.04em; }
+  .field__input {
+    background: var(--rd-black);
+    border: 1px solid var(--rd-graphite);
+    color: var(--rd-ink);
+    font-family: var(--rd-mono);
+    font-size: 14px;
+    padding: 12px 14px;
+    width: 100%;
+    transition: border-color .15s ease;
+  }
+  .field__input::placeholder { color: var(--rd-ink-4); }
+  .field__input:hover { border-color: var(--rd-graphite-2); }
+  .field__input:focus-visible { border-color: var(--rd-red-ink); }
+  .field__input--area { resize: vertical; min-height: 110px; line-height: 1.6; }
+  /* Sólo se marca lo que ya se intentó enviar, nunca un campo aún sin tocar. */
+  .field__input[aria-invalid] { border-color: var(--rd-red-ink); }
+
+  .form__submit { align-self: start; }
+  .form__notice,
+  .form__status {
+    font-family: var(--rd-mono);
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--rd-ink-3);
+    margin: 0;
+  }
+  .form__status:empty { display: none; }
+  .form__status[data-state='ok'] { color: var(--rd-ink); }
+  .form__status[data-state='error'] { color: var(--rd-red-ink); }
+  .form__notice {
+    border-left: 1px solid var(--rd-red);
+    padding-left: 12px;
+    color: var(--rd-ink-4);
+  }
+</style>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+  const status = document.querySelector<HTMLParagraphElement>('[data-form-status]');
+
+  if (form && status) {
+    const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const d = form.dataset;
+
+    const say = (text: string, state?: 'ok' | 'error') => {
+      status.textContent = text;
+      if (state) status.dataset.state = state;
+      else delete status.dataset.state;
+    };
+
+    form.addEventListener('input', (event) => {
+      const el = event.target as HTMLInputElement;
+      if (el.getAttribute('aria-invalid') && el.checkValidity()) el.removeAttribute('aria-invalid');
+    });
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      form.setAttribute('data-validated', '');
+
+      const fields = [...form.querySelectorAll<HTMLInputElement>('input, select, textarea')];
+      fields.forEach((el) => el.removeAttribute('aria-invalid'));
+
+      const bad = fields.find((el) => el.willValidate && !el.checkValidity());
+      if (bad) {
+        bad.setAttribute('aria-invalid', 'true');
+        say(bad.validity.typeMismatch ? d.msgBadEmail! : d.msgRequired!, 'error');
+        bad.focus();
+        return;
+      }
+
+      say(d.msgSending!);
+      if (submit) { submit.disabled = true; submit.textContent = d.msgSending!; }
+
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: new FormData(form),
+        });
+        if (!response.ok) throw new Error(String(response.status));
+        say(d.msgOk!, 'ok');
+        form.reset();
+        form.removeAttribute('data-validated');
+      } catch {
+        say(d.msgError!, 'error');
+      } finally {
+        if (submit) { submit.disabled = false; submit.textContent = d.submitLabel!; }
+      }
+    });
+  }
+</script>

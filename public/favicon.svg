@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <rect width="32" height="32" rx="5" fill="#8C1420"/>
+  <text x="15.2" y="22.2" font-family="IBM Plex Mono Medium, DejaVu Sans Mono, monospace" font-weight="500" font-size="16"
+        fill="#FFFFFF" text-anchor="middle">rd</text>
+</svg>

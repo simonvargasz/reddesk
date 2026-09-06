@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { DEFAULT_LOCALE } from '../config';
+import { t as dict } from '../i18n';
+
+const locale = DEFAULT_LOCALE;
+const t = dict(locale);
+---
+<Base t={t} locale={locale} noindex>
+  <SiteHeader t={t} locale={locale} />
+  <main id="main" class="nf">
+    <div class="shell nf__inner">
+      <p class="nf__code" aria-hidden="true">$ 404</p>
+      <h1 class="nf__title">{t.notFound.title}</h1>
+      <p class="nf__body">{t.notFound.body}</p>
+      <a class="btn btn--primary nf__cta" href={`/${locale}/`}>{t.notFound.cta}</a>
+    </div>
+  </main>
+  <SiteFooter t={t} locale={locale} />
+</Base>
+
+<style>
+  .nf { display: flex; align-items: center; min-height: 62vh; padding-block: 80px; }
+  .nf__inner { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
+  .nf__code {
+    font-family: var(--rd-mono);
+    font-size: var(--rd-t-label);
+    letter-spacing: 0.18em;
+    color: var(--rd-red-ink);
+  }
+  .nf__title { font-size: var(--rd-t-h2-lg); letter-spacing: -0.025em; line-height: 1.1; }
+  .nf__body { font-size: var(--rd-t-lead); color: var(--rd-ink-2); max-width: 46ch; }
+  .nf__cta { margin-top: 12px; }
+</style>

@@ -1,0 +1,92 @@
+---
+/**
+ * Raíz: elige idioma. Dos capas, para no depender del host:
+ *  1. public/_redirects manda con las reglas Language= de Netlify.
+ *  2. Si el host no las soporta, este script mira navigator.languages.
+ * Sin JS queda un selector visible, que es también la página de x-default.
+ */
+import '@fontsource/ibm-plex-mono/500.css';
+import '../styles/global.css';
+import { SITE, LOCALES, DEFAULT_LOCALE } from '../config';
+import { dicts, alternates } from '../i18n';
+---
+<!doctype html>
+<html lang={DEFAULT_LOCALE}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Red Desk</title>
+    <meta name="description" content={dicts[DEFAULT_LOCALE].meta.description} />
+    <link rel="canonical" href={new URL('/', SITE).href} />
+    {alternates().map((alt) => (
+      <link rel="alternate" hreflang={alt.hreflang} href={new URL(alt.href, SITE).href} />
+    ))}
+    <meta name="theme-color" content="#141312" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script is:inline define:vars={{ LOCALES, DEFAULT_LOCALE }}>
+      (function () {
+        try {
+          var wanted = (navigator.languages || [navigator.language || ''])
+            .map(function (l) { return String(l).slice(0, 2).toLowerCase(); })
+            .find(function (l) { return LOCALES.indexOf(l) !== -1; });
+          location.replace('/' + (wanted || DEFAULT_LOCALE) + '/');
+        } catch (e) { location.replace('/' + DEFAULT_LOCALE + '/'); }
+      })();
+    </script>
+  </head>
+  <body>
+    <main class="pick">
+      <p class="pick__prompt">$ locale</p>
+      <h1 class="pick__title">Red Desk</h1>
+      <nav class="pick__list" aria-label="Language">
+        {LOCALES.map((l) => (
+          <a class="pick__link" href={`/${l}/`} hreflang={l} lang={l}>
+            <span class="pick__code">{dicts[l].short}</span>
+            <span class="pick__name">{dicts[l].name}</span>
+          </a>
+        ))}
+      </nav>
+    </main>
+  </body>
+</html>
+
+<style>
+  .pick {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    max-width: 480px;
+    margin-inline: auto;
+    padding: 48px var(--rd-gutter);
+  }
+  .pick__prompt {
+    font-family: var(--rd-mono);
+    font-size: var(--rd-t-label);
+    letter-spacing: 0.18em;
+    color: var(--rd-ink-4);
+  }
+  .pick__title {
+    font-family: var(--rd-mono);
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    margin-bottom: 22px;
+  }
+  .pick__list { display: flex; flex-direction: column; }
+  .pick__link {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding: 18px 4px;
+    border-top: 1px solid var(--rd-graphite);
+    color: var(--rd-ink);
+    font-family: var(--rd-mono);
+  }
+  .pick__list a:last-child { border-bottom: 1px solid var(--rd-graphite); }
+  .pick__link:hover { color: var(--rd-red-ink); }
+  .pick__code { font-size: 13px; letter-spacing: 0.14em; color: var(--rd-red-ink); }
+  .pick__name { font-size: 14px; }
+</style>

@@ -1,0 +1,160 @@
+---
+import LangSwitcher from './LangSwitcher.astro';
+import type { Dict, Locale } from '../i18n';
+
+interface Props { t: Dict; locale: Locale; }
+const { t, locale } = Astro.props;
+---
+<header class="site-header">
+  <div class="site-header__inner shell">
+    <a class="brand" href={`/${locale}/`}>
+      <!-- Marca Terminal RD. En el header nunca aparece junto al wordmark Cursor. -->
+      <svg class="brand__mark" viewBox="0 0 108 96" width="34" height="30" aria-hidden="true" focusable="false">
+        <rect x="0.75" y="0.75" width="106.5" height="94.5" rx="7" fill="#141312" stroke="#2A2724" stroke-width="1.5"></rect>
+        <path d="M1.5 7.5A6.5 6.5 0 0 1 8 1h92a6.5 6.5 0 0 1 6.5 6.5V22h-105z" fill="#2A2724"></path>
+        <circle cx="14" cy="11.5" r="4.5" fill="#8C1420"></circle>
+        <circle cx="29.5" cy="11.5" r="4.5" fill="#4A4642"></circle>
+        <text x="26" y="71" font-family="IBM Plex Mono, ui-monospace, monospace" font-weight="500" font-size="36" fill="#FFFFFF">rd</text>
+        <rect x="73" y="43" width="9" height="30" fill="#8C1420"></rect>
+      </svg>
+      <span class="brand__name">Red Desk</span>
+    </a>
+
+    <button
+      class="site-header__toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="site-menu"
+      data-menu-toggle
+    >{t.nav.menu}</button>
+
+    <div class="site-header__menu" id="site-menu" data-menu>
+      <nav class="site-nav" aria-label={t.meta.title}>
+        {t.nav.items.map((item) => (
+          <a class="site-nav__link" href={item.href}>{item.label}</a>
+        ))}
+      </nav>
+      <div class="site-header__end">
+        <LangSwitcher current={locale} label={t.nav.language} />
+        <a class="btn btn--primary site-header__cta" href="#contacto">{t.nav.cta}</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--rd-black);
+    border-bottom: 1px solid var(--rd-graphite);
+  }
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding-block: 16px;
+  }
+
+  .brand { display: flex; align-items: center; gap: 11px; color: var(--rd-ink); }
+  .brand:hover { color: var(--rd-ink); }
+  .brand__mark { flex: none; }
+  .brand__name {
+    font-family: var(--rd-mono);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .site-header__menu { display: flex; align-items: center; gap: 26px; }
+  .site-nav { display: flex; align-items: center; gap: 26px; }
+  .site-nav__link {
+    font-family: var(--rd-mono);
+    font-size: var(--rd-t-label);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--rd-ink-3);
+  }
+  .site-nav__link:hover { color: var(--rd-ink); }
+  .site-header__end { display: flex; align-items: center; gap: 16px; }
+  .site-header__cta { padding: 10px 16px; }
+
+  .site-header__toggle {
+    display: none;
+    background: none;
+    border: 1px solid var(--rd-graphite-2);
+    color: var(--rd-ink);
+    font-family: var(--rd-mono);
+    font-size: var(--rd-t-label);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 9px 14px;
+    cursor: pointer;
+  }
+  .site-header__toggle:hover { border-color: var(--rd-ink); }
+
+  /* Bajo 760px el header no cabe: logo + 3 enlaces + 3 idiomas + botón. */
+  @media (max-width: 760px) {
+    .site-header__toggle { display: block; }
+    .site-header__menu {
+      display: none;
+      position: absolute;
+      inset-inline: 0;
+      top: 100%;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      background: var(--rd-black);
+      border-bottom: 1px solid var(--rd-graphite);
+      padding: 8px var(--rd-gutter) 24px;
+    }
+    .site-header__menu[data-open] { display: flex; }
+    .site-nav { flex-direction: column; align-items: stretch; gap: 0; }
+    .site-nav__link {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--rd-graphite);
+      font-size: 13px;
+    }
+    .site-header__end {
+      justify-content: space-between;
+      padding-top: 20px;
+      gap: 12px;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
+
+  if (toggle && menu) {
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      menu.toggleAttribute('data-open', open);
+    };
+
+    toggle.addEventListener('click', () => {
+      setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+    });
+
+    // Navegar a un ancla cierra el panel y devuelve el foco al disparador.
+    menu.addEventListener('click', (event) => {
+      if ((event.target as HTMLElement).closest('a')) setOpen(false);
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+
+    // Si se vuelve a escritorio con el panel abierto, se limpia el estado.
+    matchMedia('(min-width: 761px)').addEventListener('change', (e) => {
+      if (e.matches) setOpen(false);
+    });
+  }
+</script>

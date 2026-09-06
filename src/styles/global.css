@@ -1,0 +1,139 @@
+@import './tokens.css';
+
+/* ---------- reset ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body, h1, h2, h3, p, figure, ul, ol { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+img, svg { display: block; max-width: 100%; }
+button, input, select, textarea { font: inherit; color: inherit; }
+
+/* ---------- base ---------- */
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+  /* El header es sticky: sin esto el anclaje queda debajo de él. */
+  scroll-padding-top: 84px;
+}
+body {
+  /* En páginas cortas (404) el footer se apoya en el fondo del viewport. */
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  background: var(--rd-black);
+  color: var(--rd-ink);
+  font-family: var(--rd-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-wrap: break-word;
+}
+
+main { flex: 1 0 auto; }
+
+h1, h2, h3 { font-weight: 600; letter-spacing: -0.02em; text-wrap: balance; }
+p { text-wrap: pretty; }
+
+a { color: var(--rd-red-ink); text-decoration: none; transition: color .15s ease; }
+a:hover { color: var(--rd-ink); }
+
+/* ---------- superficies del navegador ----------
+   Lo que no dibujamos también lleva el diseño. */
+::selection { background: var(--rd-red); color: var(--rd-ink); }
+:root { scrollbar-color: var(--rd-graphite) var(--rd-black); }
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: var(--rd-black); }
+::-webkit-scrollbar-thumb {
+  background: var(--rd-graphite);
+  border: 3px solid var(--rd-black);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--rd-graphite-2); }
+input, textarea, select { caret-color: var(--rd-red-ink); }
+
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--rd-focus);
+  outline-offset: 3px;
+}
+
+/* ---------- utilidades ---------- */
+.shell { max-width: var(--rd-shell); margin-inline: auto; padding-inline: var(--rd-gutter); }
+.section { padding-block: var(--rd-section); border-top: 1px solid var(--rd-graphite); }
+.section--deep { background: var(--rd-black-deep); }
+
+.mono { font-family: var(--rd-mono); }
+.label {
+  font-family: var(--rd-mono);
+  font-size: var(--rd-t-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rd-red-ink);
+}
+.meta {
+  font-family: var(--rd-mono);
+  font-size: var(--rd-t-meta);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--rd-ink-4);
+}
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+.skip-link {
+  position: absolute; left: var(--rd-gutter); top: 0;
+  transform: translateY(-120%);
+  z-index: 50;
+  background: var(--rd-red); color: var(--rd-ink);
+  font-family: var(--rd-mono); font-size: 12px; letter-spacing: 0.06em;
+  padding: 12px 18px;
+  transition: transform .18s cubic-bezier(.16,1,.3,1);
+}
+.skip-link:focus-visible { transform: translateY(0); color: var(--rd-ink); }
+
+/* ---------- botones ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--rd-mono); font-size: 12px; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 15px 24px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color .15s ease, border-color .15s ease, color .15s ease;
+}
+.btn--primary {
+  --rd-focus: var(--rd-ink);
+  background: var(--rd-red); color: var(--rd-ink);
+}
+.btn--primary:hover { background: var(--rd-red-hover); color: var(--rd-ink); }
+.btn--ghost { border-color: var(--rd-graphite-2); color: var(--rd-ink); }
+.btn--ghost:hover { border-color: var(--rd-ink); color: var(--rd-ink); }
+.btn[disabled] { opacity: .5; cursor: not-allowed; }
+.btn[disabled]:hover { background: var(--rd-red); }
+
+/* ---------- cursor de bloque ----------
+   El único gesto animado permanente de la marca. */
+.cursor {
+  display: inline-block; flex: none;
+  background: var(--rd-red-ink);
+  animation: rdBlink 1.1s step-end infinite;
+}
+@keyframes rdBlink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .cursor { animation: none; opacity: 1; }
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+}
+
+@media print {
+  body { background: #fff; color: #000; }
+  .skip-link, .site-header { display: none; }
+}

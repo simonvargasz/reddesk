@@ -1,0 +1,66 @@
+---
+import LangSwitcher from './LangSwitcher.astro';
+import { EMAIL } from '../config';
+import type { Dict, Locale } from '../i18n';
+
+interface Props { t: Dict; locale: Locale; }
+const { t, locale } = Astro.props;
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="site-footer__inner shell">
+    <!-- Marca Cursor (wordmark). Nunca en la misma cara que Terminal RD. -->
+    <p class="wordmark">
+      <span class="wordmark__text">red_desk</span>
+      <span class="wordmark__block" aria-hidden="true"></span>
+    </p>
+
+    <div class="site-footer__end">
+      <LangSwitcher current={locale} label={t.nav.language} />
+      <p class="meta site-footer__legal">
+        &copy; {year} Red Desk &middot; <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+      </p>
+    </div>
+  </div>
+  <p class="meta site-footer__built shell">{t.footer.built}</p>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--rd-graphite);
+    background: var(--rd-black-deep);
+    padding-block: 32px;
+  }
+  .site-footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+  }
+  .site-footer__end {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .wordmark { display: flex; align-items: center; gap: 6px; }
+  .wordmark__text {
+    font-family: var(--rd-mono);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--rd-ink);
+  }
+  /* El asset negativo usa #FF4A54 sobre oscuro, no #8C1420. */
+  .wordmark__block { width: 8px; height: 15px; background: var(--rd-red-ink); }
+
+  .site-footer__legal a { color: var(--rd-ink-4); }
+  .site-footer__legal a:hover { color: var(--rd-ink); }
+  .site-footer__built {
+    margin: 24px auto 0;
+    color: var(--rd-ink-4);
+    letter-spacing: 0.1em;
+  }
+</style>

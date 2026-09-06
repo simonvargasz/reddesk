@@ -1,0 +1,32 @@
+---
+import { LOCALES, dicts, localeHref, type Locale } from '../i18n';
+
+interface Props { current: Locale; label: string; }
+const { current, label } = Astro.props;
+---
+<nav class="langs" aria-label={label}>
+  {LOCALES.map((l) => (
+    <a
+      href={localeHref(l)}
+      hreflang={dicts[l].htmlLang}
+      lang={dicts[l].htmlLang}
+      class="langs__item"
+      aria-current={l === current ? 'true' : undefined}
+    >{dicts[l].short}</a>
+  ))}
+</nav>
+
+<style>
+  .langs { display: flex; align-items: center; gap: 2px; }
+  .langs__item {
+    font-family: var(--rd-mono);
+    font-size: var(--rd-t-label);
+    letter-spacing: 0.1em;
+    color: var(--rd-ink-4);
+    padding: 5px 7px;
+    line-height: 1;
+    transition: color .15s ease, background-color .15s ease;
+  }
+  .langs__item:hover { color: var(--rd-ink); }
+  .langs__item[aria-current] { color: var(--rd-ink); background: var(--rd-graphite); }
+</style>

@@ -1,0 +1,51 @@
+/* Tokens de Red Desk — de handoff/ASSETS.md del proyecto de diseño.
+   Regla que gobierna todo: EL ROJO CAMBIA SEGÚN EL FONDO.
+   Relleno sólido y texto sobre claro -> --rd-red.
+   Rojo como TEXTO sobre negro -> --rd-red-ink (--rd-red da 2:1 y no se lee). */
+:root {
+  /* rellenos y fondos */
+  --rd-red:        #8C1420; /* botones, barras, fondos solidos */
+  --rd-red-hover:  #B0121C;
+  --rd-black:      #141312; /* fondo principal */
+  --rd-black-deep: #0F0E0E; /* secciones alternas */
+  --rd-panel:      #1B1A19; /* tarjetas sobre negro */
+  --rd-graphite:   #2A2724; /* bordes, barra de titulo del logo */
+  --rd-graphite-2: #4A4642; /* bordes de boton fantasma, punto apagado */
+  --rd-paper:      #F2F1EF; /* fondo claro */
+  --rd-hairline:   #DDD9D3; /* bordes sobre claro */
+
+  /* tinta sobre fondo OSCURO */
+  --rd-ink:        #FFFFFF;
+  --rd-ink-2:      #D6D2CD;
+  --rd-ink-3:      #B9B4AE;
+  --rd-ink-4:      #9A958F; /* metadatos: minimo legible sobre negro */
+  --rd-red-ink:    #FF4A54; /* rojo como TEXTO sobre negro (5.6:1) */
+
+  /* tinta sobre fondo CLARO */
+  --rd-ink-light:    #141312;
+  --rd-ink-light-2:  #4A4642;
+  --rd-ink-light-3:  #6B6763;
+  --rd-red-ink-light:#8C1420;
+
+  /* tipografia */
+  --rd-sans: 'Space Grotesk Variable', 'Space Grotesk', Helvetica, Arial, sans-serif;
+  --rd-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* escala */
+  --rd-t-h1:    clamp(36px, 5.4vw, 62px);
+  --rd-t-h2:    clamp(26px, 3.2vw, 34px);
+  --rd-t-h2-lg: clamp(28px, 3.6vw, 40px);
+  --rd-t-h3:    19px;
+  --rd-t-lead:  17px;
+  --rd-t-body:  14.5px;
+  --rd-t-label: 11px;   /* etiquetas mono */
+  --rd-t-meta:  10px;   /* metadatos mono */
+
+  /* ritmo */
+  --rd-shell:   1200px;
+  --rd-gutter:  clamp(20px, 4vw, 32px);
+  --rd-section: clamp(64px, 9vw, 88px);
+
+  /* foco: se sobrescribe sobre superficies rojas */
+  --rd-focus: var(--rd-red-ink);
+}

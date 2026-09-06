@@ -1,0 +1,7 @@
+# Netlify: la raíz sirve el idioma del navegador.
+# El "!" es necesario porque /index.html existe y, sin forzar, un fichero
+# estático gana a la redirección. Los idiomas no cubiertos caen en /index.html,
+# que hace la misma elección con navigator.languages.
+/  /es/  302!  Language=es
+/  /pt/  302!  Language=pt
+/  /en/  302!  Language=en

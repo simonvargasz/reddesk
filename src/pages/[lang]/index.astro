@@ -1,0 +1,281 @@
+---
+import Base from '../../layouts/Base.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import AsciiBanner from '../../components/AsciiBanner.astro';
+import TerminalPanel from '../../components/TerminalPanel.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import { EMAIL, LINKEDIN, LOCALES } from '../../config';
+import { t as dict, type Locale } from '../../i18n';
+
+export function getStaticPaths() {
+  return LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const locale = Astro.params.lang as Locale;
+const t = dict(locale);
+---
+<Base t={t} locale={locale}>
+  <SiteHeader t={t} locale={locale} />
+
+  <main id="main">
+    <section class="hero">
+      <div class="shell hero__inner">
+        <p class="hero__prompt">{t.hero.prompt}</p>
+
+        <h1 class="hero__h1">
+          <AsciiBanner />
+          <span class="visually-hidden">Red Desk — {t.hero.tagline}</span>
+        </h1>
+
+        <p class="hero__tagline" aria-hidden="true">
+          <span>{t.hero.tagline}</span><span class="cursor hero__cursor"></span>
+        </p>
+
+        <p class="hero__lead">{t.hero.lead}</p>
+
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#que-hace">{t.hero.primary}</a>
+          <a class="btn btn--ghost" href="#contacto">{t.hero.secondary}</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="enfoque" class="section" aria-labelledby="h-enfoque">
+      <div class="shell">
+        <SectionHeader n={t.thesis.n} title={t.thesis.title} id="h-enfoque" />
+        <div class="thesis">
+          <div class="thesis__body">
+            {t.thesis.body.map((p) => <p class="prose">{p}</p>)}
+          </div>
+          <div class="thesis__aside">
+            <TerminalPanel
+              command={t.thesis.terminal.command}
+              lines={t.thesis.terminal.lines}
+              last={t.thesis.terminal.last}
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="que-hace" class="section section--deep" aria-labelledby="h-que-hace">
+      <div class="shell">
+        <SectionHeader n={t.services.n} title={t.services.title} id="h-que-hace" />
+        <ul class="cards">
+          {t.services.items.map((item) => (
+            <li class="card">
+              <span class="card__rule" aria-hidden="true"></span>
+              <h3 class="card__title">{item.title}</h3>
+              <p class="card__body">{item.body}</p>
+            </li>
+          ))}
+        </ul>
+        <p class="not">
+          <span class="not__label">{t.services.notLabel}</span>
+          <span class="not__text">{t.services.not}</span>
+        </p>
+      </div>
+    </section>
+
+    <section id="proceso" class="section" aria-labelledby="h-proceso">
+      <div class="shell">
+        <SectionHeader n={t.process.n} title={t.process.title} id="h-proceso" />
+        <ol class="steps">
+          {t.process.steps.map((step) => (
+            <li class="step">
+              <p class="label step__when">{step.when}</p>
+              <h3 class="step__title">{step.title}</h3>
+              <p class="card__body">{step.body}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section id="contacto" class="section section--deep" aria-labelledby="h-contacto">
+      <div class="shell contact">
+        <div class="contact__intro">
+          <span class="sec-n" aria-hidden="true">{t.contact.n}</span>
+          <h2 id="h-contacto" class="contact__title">{t.contact.title}</h2>
+          <p class="prose contact__lead">{t.contact.lead}</p>
+
+          <dl class="channels">
+            <div class="channel">
+              <dt class="channel__k">{t.contact.emailLabel}</dt>
+              <dd class="channel__v"><a href={`mailto:${EMAIL}`}>{EMAIL}</a></dd>
+            </div>
+            {LINKEDIN && (
+              <div class="channel">
+                <dt class="channel__k">{t.contact.linkedinLabel}</dt>
+                <dd class="channel__v">
+                  <a href={LINKEDIN} rel="me noopener" target="_blank">{t.contact.linkedinCta}</a>
+                </dd>
+              </div>
+            )}
+          </dl>
+        </div>
+
+        <div class="contact__panel">
+          <ContactForm t={t} />
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <SiteFooter t={t} locale={locale} />
+</Base>
+
+<style>
+  /* ---------- hero ---------- */
+  .hero { padding-block: clamp(56px, 8vw, 88px) clamp(56px, 7vw, 80px); }
+  .hero__inner { display: flex; flex-direction: column; align-items: flex-start; }
+  .hero__prompt {
+    font-family: var(--rd-mono);
+    font-size: var(--rd-t-label);
+    letter-spacing: 0.18em;
+    color: var(--rd-ink-4);
+    margin-bottom: 14px;
+  }
+  .hero__h1 { width: 100%; margin: 0; }
+  .hero__tagline {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+    font-family: var(--rd-mono);
+    font-size: clamp(12px, 1.4vw, 15px);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--rd-ink-2);
+  }
+  .hero__cursor { width: 9px; height: 17px; }
+  .hero__lead {
+    margin-top: clamp(28px, 4vw, 40px);
+    max-width: 60ch;
+    font-size: clamp(17px, 2.1vw, 22px);
+    line-height: 1.55;
+    color: var(--rd-ink);
+  }
+  .hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+
+  /* ---------- tesis ---------- */
+  .thesis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: clamp(32px, 5vw, 56px);
+    align-items: start;
+  }
+  .thesis__body { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+  .thesis__aside { min-width: 0; display: flex; justify-content: flex-start; }
+  .prose {
+    font-size: var(--rd-t-lead);
+    line-height: 1.7;
+    color: var(--rd-ink-2);
+    max-width: 62ch;
+  }
+
+  /* ---------- tarjetas ---------- */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    /* Borde compartido de 1px: el gap es el propio grafito. */
+    gap: 1px;
+    background: var(--rd-graphite);
+    border: 1px solid var(--rd-graphite);
+  }
+  .card {
+    background: var(--rd-black);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-width: 0;
+  }
+  .card__rule { width: 26px; height: 6px; background: var(--rd-red); }
+  .card__title { font-size: var(--rd-t-h3); }
+  .card__body { font-size: var(--rd-t-body); line-height: 1.7; color: var(--rd-ink-3); }
+
+  .not { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 26px; align-items: baseline; }
+  .not__label {
+    font-family: var(--rd-mono);
+    font-size: var(--rd-t-meta);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--rd-red-ink);
+    flex: none;
+  }
+  .not__text {
+    font-family: var(--rd-mono);
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--rd-ink-4);
+    max-width: 70ch;
+  }
+
+  /* ---------- proceso ---------- */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: clamp(24px, 3vw, 32px);
+  }
+  .step {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border-top: 1px solid var(--rd-graphite);
+    padding-top: 20px;
+    min-width: 0;
+  }
+  .step__when { margin: 0; }
+  .step__title { font-size: 18px; }
+
+  /* ---------- contacto ---------- */
+  .contact {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: clamp(36px, 5vw, 48px);
+    align-items: start;
+  }
+  .contact__intro { min-width: 0; }
+  .sec-n {
+    display: block;
+    font-family: var(--rd-mono);
+    font-size: var(--rd-t-label);
+    color: var(--rd-red-ink);
+    margin-bottom: 16px;
+  }
+  .contact__title {
+    font-size: var(--rd-t-h2-lg);
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+  }
+  .contact__lead { margin-top: 18px; font-size: 16px; max-width: 46ch; }
+
+  .channels {
+    margin: 32px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+  }
+  .channel { display: flex; flex-direction: column; gap: 6px; }
+  .channel__k {
+    font-family: var(--rd-mono);
+    font-size: var(--rd-t-meta);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--rd-ink-4);
+  }
+  .channel__v { margin: 0; font-family: var(--rd-mono); font-size: 15px; }
+  .channel__v a { color: var(--rd-ink); }
+  .channel__v a:hover { color: var(--rd-red-ink); }
+
+  .contact__panel {
+    background: var(--rd-panel);
+    border: 1px solid var(--rd-graphite);
+    padding: clamp(22px, 3vw, 32px);
+    min-width: 0;
+  }
+</style>

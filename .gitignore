@@ -1,0 +1,28 @@
+# dependencias
+node_modules/
+
+# salida de build
+dist/
+.astro/
+
+# variables de entorno
+.env
+.env.*
+!.env.example
+
+# logs
+*.log
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# hosts de despliegue
+.netlify/
+.vercel/
+.wrangler/
+
+# sistema operativo y editores
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
