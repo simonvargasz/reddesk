@@ -292,7 +292,7 @@
       },
       {
         "name": "field",
-        "value": "requestAnimationFrame sobre un shader WebGL, solo en >=900px con WebGL",
+        "value": "requestAnimationFrame sobre un shader WebGL, solo en >=900px con WebGL; grano acotado a 3.7 de desviacion local (6.3 se lee como suciedad, 3.0 no se distingue del fondo liso)",
         "purpose": "Grano de fosforo y parpadeo de red sobre el fondo del hero. No dibuja nada nuevo, solo mantiene encendido lo que ya habia. Se detiene cuando el hero sale de pantalla y con prefers-reduced-motion no arranca."
       }
     ],

@@ -479,9 +479,11 @@ cuatro degradados del cañón, con sus mismos valores, y los pasa por el shader.
 cambio, ese fondo deja de ser una imagen fija y pasa a ser un tubo encendido.
 
 - **Qué aporta:** grano de fósforo que se mueve, parpadeo de red y un barrido
-  rodante muy tenue. La textura local del campo sube de 2.5 a 6.3 de desviación
-  en la zona encendida, con el color del cañón intacto (51,25,27 frente a
-  46,21,22).
+  rodante muy tenue. La textura local del campo sube de 2.5 a 3.7 de desviación
+  en la zona encendida, con el color del cañón intacto (47,23,25 frente a
+  46,21,22). El grano está acotado por observación: a 6.3 se lee como suciedad
+  de pantalla y a 3.0 no se distingue del fondo liso. **En una captura es
+  textura; en movimiento es lo que hace que el fondo esté encendido.**
 - **El grano sólo aparece donde hay luz**, y no por ajuste: el shader suma el
   ruido y después multiplica por la textura, así que sobre el negro se anula
   solo. Es lo que hace el fósforo, y evita el velo gris que dejaría un ruido

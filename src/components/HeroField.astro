@@ -62,11 +62,15 @@
 
      `verticalJitter` se pasa a 0: el shader desplaza `uv.y` DESPUÉS del último
      muestreo, así que ese parámetro no hace nada. Mejor no fingir. */
+  /* El grano está acotado por observación: a 0.16 se lee como suciedad de
+     pantalla —6.3 de desviación local frente a los 2.5 del fondo liso—, y a
+     0.05 no se distingue del fondo liso. 0.08 deja 3.7: en una captura es
+     textura, y en movimiento es lo que hace que el fondo esté encendido. */
   const CONFIG = {
     barrelDistortion: 0.05,
     curvature: 0.05,
     chromaticAberration: 0.0016,
-    staticNoise: 0.16,
+    staticNoise: 0.08,
     horizontalTearing: 0.00012,
     glowBloom: 0.02,
     verticalJitter: 0,
