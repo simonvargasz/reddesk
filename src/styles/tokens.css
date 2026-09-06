@@ -42,6 +42,13 @@
   --rd-t-label: 12px;   /* etiquetas mono */
   --rd-t-meta:  11.5px; /* metadatos mono */
 
+  /* Área segura superior: la franja que un teléfono con muesca reserva arriba.
+     Se guarda en una variable en vez de llamar a `env()` en cada sitio para que
+     se pueda falsear en las pruebas —`env()` no se puede emular— y para que
+     quede un único punto donde el valor se lee. */
+  --rd-safe-top: env(safe-area-inset-top, 0px);
+  --rd-safe-bottom: env(safe-area-inset-bottom, 0px);
+
   /* ritmo */
   --rd-shell:   1200px;
   --rd-gutter:  clamp(20px, 4vw, 32px);

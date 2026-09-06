@@ -148,7 +148,18 @@ const t = dict(locale);
   .hero {
     position: relative;
     isolation: isolate;
-    padding-block: clamp(72px, 10vw, 112px) clamp(76px, 9vw, 108px);
+    /* El hero es lo primero de la página y `viewport-fit=cover` hace que la
+       página empiece en el canto FÍSICO de la pantalla, así que su fondo ya
+       pinta por detrás de la muesca: ahí no hace falta subirlo —se probó con
+       margen negativo y sólo recorta el hero por arriba y alarga la página—.
+
+       Lo que sí hace falta es que el CONTENIDO no se meta debajo. Se le suma el
+       área segura al relleno superior, y lo mismo al selector de idioma, que
+       iba a 10px del canto y en un iPhone caía justo bajo la muesca. Donde no
+       hay muesca `env()` vale 0 y no cambia nada. */
+    padding-block:
+      calc(clamp(72px, 10vw, 112px) + var(--rd-safe-top))
+      clamp(76px, 9vw, 108px);
     min-height: 100svh;
     display: grid;
     /* Pista explícita: una columna `auto` encoge al max-content del contenido y
@@ -223,7 +234,8 @@ const t = dict(locale);
   .hero__langs {
     position: absolute;
     z-index: 3;
-    top: clamp(12px, 2vw, 20px);
+    /* Baja con el hero: si no, se metería debajo de la muesca. */
+    top: calc(clamp(12px, 2vw, 20px) + var(--rd-safe-top));
     right: max(var(--rd-gutter), env(safe-area-inset-right));
   }
   /* El selector se dibuja con caja para el dedo, y esa caja lo convertía en la
@@ -447,7 +459,7 @@ const t = dict(locale);
   @media (max-width: 599px) {
     /* El pliegue de un teléfono es corto: con el aire de escritorio el hero se
        pasaba del alto de la pantalla. */
-    .hero { padding-block: 64px 60px; }
+    .hero { padding-block: calc(64px + var(--rd-safe-top)) 60px; }
 
     /* Toda la óptica baja un punto. En una pantalla de mano el cañón y la
        viñeta ocupan proporcionalmente mucho más que en un monitor, y lo que en
@@ -483,7 +495,7 @@ const t = dict(locale);
 
     /* El selector es lo primero que se ve y no debería serlo: se aprieta de
        flanco, conservando los 44px de diana que pide el dedo. */
-    .hero__langs { top: 10px; }
+    .hero__langs { top: calc(10px + var(--rd-safe-top)); }
     .hero__langs :global(.langs) { gap: 2px; }
     .hero__langs :global(.langs__item) { padding: 15px 12px; letter-spacing: 0.08em; }
 

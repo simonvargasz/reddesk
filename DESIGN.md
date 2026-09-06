@@ -277,6 +277,22 @@ selector de idioma, formularios, salida de terminal, botones—. Sans para todo 
 lee seguido. Monoespaciar un párrafo para que parezca técnico es disfraz; en este
 sistema la mono ya significa algo y diluirla la deja sin significado.
 
+**La Regla del Área Segura.** El fondo llega al canto físico de la pantalla; el
+contenido, no. `viewport-fit=cover` hace que la página empiece detrás de la
+muesca, así que el hero ya pinta ahí y **no hay que subirlo** —se probó con
+margen negativo y sólo recorta el hero por arriba y alarga la página—. Lo que se
+aparta es el contenido: `env(safe-area-inset-top)` se suma al relleno superior
+del hero y al desplazamiento del selector de idioma, que iba a 10px del canto y
+en un iPhone caía justo bajo la muesca; `env(safe-area-inset-bottom)` hace lo
+mismo con la última línea del pie contra el indicador de inicio. Los dos valores
+viven en `--rd-safe-top` y `--rd-safe-bottom`, no en llamadas sueltas a `env()`,
+porque `env()` no se puede emular y una variable sí: las pruebas la falsean.
+
+Y una consecuencia que no es CSS: **`theme-color` no es el negro de la página
+sino el de la franja alta del hero.** El cromo del navegador pinta con ese color
+y arriba el hero arranca en cálido —medido, (28,20,19)—, así que con el
+`#141312` neutro quedaba una banda gris encima de una roja. Es `#1C1413`.
+
 **La Regla del Teléfono.** La escala se dibujó para escritorio y sube por debajo
 de 600px: cuerpo 16.5 → 17px, entradilla 19 → 18.5px, etiqueta 12 → 12.5px. Un
 metadato de 10px se lee a 60cm, no a 30cm en la calle. Los campos de formulario

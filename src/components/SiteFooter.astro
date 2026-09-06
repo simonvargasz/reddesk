@@ -26,10 +26,14 @@ const year = new Date().getFullYear();
 </footer>
 
 <style>
+  /* El mismo problema del área segura, por el otro extremo: en un teléfono con
+     indicador de inicio la última línea del pie quedaba justo debajo de él. El
+     fondo del pie sí llega al canto —es lo que debe hacer—; lo que se aparta es
+     el texto. */
   .site-footer {
     border-top: 1px solid var(--rd-graphite);
     background: var(--rd-black-deep);
-    padding-block: 32px;
+    padding-block: 32px calc(32px + var(--rd-safe-bottom));
   }
   .site-footer__inner {
     display: flex;
@@ -70,7 +74,7 @@ const year = new Date().getFullYear();
   }
 
   @media (max-width: 599px) {
-    .site-footer { padding-block: 30px 34px; }
+    .site-footer { padding-block: 30px calc(34px + var(--rd-safe-bottom)); }
     .site-footer__inner { flex-direction: column; align-items: flex-start; gap: 24px; }
     .site-footer__end { flex-direction: column; align-items: flex-start; gap: 18px; }
     .wordmark__text { font-size: 16px; }

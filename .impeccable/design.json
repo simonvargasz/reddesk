@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-06T20:22:04-03:00",
+  "generatedAt": "2026-09-06T20:44:12-03:00",
   "title": "Design System: Red Desk",
   "extensions": {
     "colorMeta": {
@@ -500,6 +500,11 @@
         "name": "La Regla de la Luz Tenida",
         "section": "colors",
         "body": "Ninguna capa de luz del hero es blanca. Lo fueron —el arco, el lavado superior y un reflejo diagonal, todas rgba(255,255,255,...)— y a baja alfa sobre negro eso da gris: manchas neutras repartidas por una banda muy roja, que el ojo lee como su complementario. De ahi salian las \"aureolas azules\", sin que hubiera un solo pixel azul en la pagina. Tenidas en el mismo rojo que emiten dejan de tener complementario que disparar. El reflejo diagonal se retiro ademas por su forma: un linear-gradient a 107 grados cuyo canto recto se leia como artefacto. Un tubo no tiene aristas."
+      },
+      {
+        "name": "La Regla del Area Segura",
+        "section": "layout",
+        "body": "El fondo llega al canto fisico de la pantalla; el contenido, no. viewport-fit=cover hace que la pagina empiece detras de la muesca, asi que el hero ya pinta ahi y no hay que subirlo. Lo que se aparta es el contenido: env(safe-area-inset-top) al relleno del hero y al selector de idioma, env(safe-area-inset-bottom) al pie. Los valores viven en --rd-safe-top y --rd-safe-bottom porque env() no se puede emular y una variable si. Y theme-color no es el negro de la pagina sino el de la franja alta del hero (#1C1413): el cromo del navegador pinta con ese color y con el negro neutro quedaba una banda gris encima de una roja."
       }
     ],
     "dos": [
