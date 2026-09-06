@@ -20,7 +20,7 @@ export const es = {
 
   hero: {
     tagline: 'Soluciones digitales a medida',
-    lead: 'Un estudio de software. Sistemas que se usan todos los días —de una empresa o de una persona— y dejan el día mejor de como estaba.',
+    lead: 'Un estudio de software. Construye sistemas que se usan todos los días y hacen el día más liviano.',
     primary: 'Qué hace',
     secondary: 'Escribir',
   },
@@ -69,19 +69,19 @@ export const es = {
     title: 'Cómo trabaja',
     steps: [
       {
-        when: 'Semana 1',
-        title: 'Entender el trabajo real',
-        body: 'Se mapea la tarea junto a quien la hace, tal como se hace hoy y no como debería hacerse.',
+        when: 'Primero',
+        title: 'Evaluación',
+        body: 'Antes de proponer nada se estudia el trabajo tal como se hace hoy y qué problema hay que resolver, junto a quien lo hace.',
       },
       {
-        when: 'Semanas 2–3',
+        when: 'Después',
         title: 'Prototipo navegable',
         body: 'Las pantallas se prueban antes de que exista código definitivo. Cambiar de opinión ahí no cuesta nada.',
       },
       {
-        when: 'Desde la 4',
-        title: 'Entregas cada dos semanas',
-        body: 'Cada entrega está funcionando y desplegada. Qué sigue se decide con el sistema ya en uso.',
+        when: 'En marcha',
+        title: 'Entregas funcionando',
+        body: 'Cada entrega está desplegada y en uso. Qué sigue se decide con el sistema funcionando, no sobre un documento.',
       },
     ],
   },

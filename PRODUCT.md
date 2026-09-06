@@ -59,9 +59,14 @@ escritorio con tiempo.
 - Integraciones: conectar lo que ya se usa para que los datos dejen de moverse
   a mano.
 
-**Cómo trabaja** — Semana 1: entender el trabajo real junto a quien lo hace.
-Semanas 2–3: prototipo navegable antes de código definitivo. Desde la semana 4:
-entregas cada dos semanas, funcionando y desplegadas.
+**Cómo trabaja** — Primero una **evaluación**: se estudia el trabajo tal como se
+hace hoy y qué problema hay que resolver, junto a quien lo hace, antes de
+proponer nada. Después un prototipo navegable, antes de código definitivo. Y en
+marcha, entregas desplegadas y en uso.
+
+El proceso deliberadamente **no promete plazos**. La maqueta original los daba en
+semanas; un estudio de una persona que rechaza lo que no puede mantener no puede
+comprometer un calendario en la portada sin arriesgarse a incumplirlo.
 
 **Qué no hace** — No vende plantillas, no hace campañas ni posicionamiento, y no
 toma un encargo que después no pueda mantener.
@@ -81,11 +86,13 @@ toma un encargo que después no pueda mantener.
   host de despliegue no tuviera fontconfig, un build allí los regeneraría con una
   fuente de respaldo sin avisar.
 
-**Explícitamente sin decidir** — Los cuatro TODO de `src/config.ts`: dominio
-definitivo (`SITE`), correo público (`EMAIL`), perfil de LinkedIn (`LINKEDIN`) y
-access key de Web3Forms (`WEB3FORMS_KEY`). La página compila y funciona sin
-ninguno; degrada de forma visible. Tampoco está decidido el mercado principal
-entre los tres idiomas.
+**Decidido** — El correo público es `contacto@reddesk.cl`.
+
+**Explícitamente sin decidir** — Los otros tres TODO de `src/config.ts`: dominio
+definitivo (`SITE`, todavía `reddesk.com` mientras el correo ya es `.cl`), perfil
+de LinkedIn (`LINKEDIN`) y access key de Web3Forms (`WEB3FORMS_KEY`). La página
+compila y funciona sin ninguno; degrada de forma visible. Tampoco está decidido
+el mercado principal entre los tres idiomas.
 
 ## Brand Commitments
 

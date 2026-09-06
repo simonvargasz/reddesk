@@ -7,8 +7,8 @@
 /** Dominio final. Alimenta canonical, og:url, hreflang y el sitemap. */
 export const SITE = 'https://reddesk.com'; // TODO: dominio definitivo
 
-/** Correo público del estudio. */
-export const EMAIL = 'hola@reddesk.com'; // TODO: correo real
+/** Correo público del estudio. Decidido. */
+export const EMAIL = 'contacto@reddesk.cl';
 
 /** Perfil de LinkedIn. Cadena vacía = el enlace no se renderiza. */
 export const LINKEDIN = ''; // TODO: https://www.linkedin.com/company/…

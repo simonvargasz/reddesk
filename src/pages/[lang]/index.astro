@@ -348,18 +348,30 @@ const t = dict(locale);
   .card__title { font-size: var(--rd-t-h3); }
   .card__body { font-size: var(--rd-t-body); line-height: 1.7; color: var(--rd-ink-3); }
 
-  .not { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 26px; align-items: baseline; }
+  /* Decir en voz alta lo que no se hace vale la pena; gritarlo, no. Deja de ser
+     un rótulo rojo a cuerpo de texto y pasa a ser una acotación al margen: sin
+     rojo, un punto más pequeña y colgada de un filete, como la nota que corrige
+     al pie de una tabla. Sigue explícita, deja de competir con las tarjetas. */
+  .not {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    margin-top: clamp(26px, 3vw, 32px);
+    align-items: baseline;
+    border-left: 1px solid var(--rd-graphite);
+    padding-left: 16px;
+  }
   .not__label {
     font-family: var(--rd-mono);
     font-size: var(--rd-t-meta);
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--rd-red-ink);
+    color: var(--rd-ink-4);
     flex: none;
   }
   .not__text {
     font-family: var(--rd-mono);
-    font-size: var(--rd-t-body);
+    font-size: var(--rd-t-note);
     line-height: 1.7;
     color: var(--rd-ink-4);
     max-width: 70ch;
@@ -442,7 +454,7 @@ const t = dict(locale);
     .thesis__aside { width: 100%; }
 
     .card { padding: 24px 20px; }
-    .not { margin-top: 22px; }
+    .not { margin-top: 24px; padding-left: 14px; }
 
     .steps { gap: 26px; }
     .step { padding-top: 18px; }

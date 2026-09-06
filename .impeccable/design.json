@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-06T14:39:58-03:00",
+  "generatedAt": "2026-09-06T15:14:42-03:00",
   "title": "Design System: Red Desk",
   "extensions": {
     "colorMeta": {
@@ -221,6 +221,10 @@
       "meta": {
         "displayName": "Meta",
         "purpose": "Metadatos, legales y pies, en Tinta 4. Mono."
+      },
+      "note": {
+        "displayName": "Note",
+        "purpose": "Acotacion al margen. Hoy solo \"lo que no hace\", colgada de un filete de Grafito. Se lee, no se anuncia."
       }
     },
     "shadows": [
@@ -431,6 +435,11 @@
         "name": "La Regla de la Lectura sin Fatiga",
         "section": "typography",
         "body": "La escala entera subió un punto sobre la maqueta —cuerpo 14.5 → 16.5px, prosa 17 → 19px— porque la audiencia evalúa en huecos de la jornada, muchas veces de pie. Un tamaño que se lee bien sentado a 60cm no es el mismo que se lee cansado; la página no gana nada por caber en menos pantallas, y sí pierde si obliga a acercarse."
+      },
+      {
+        "name": "La Regla de la Nota al Margen",
+        "section": "typography",
+        "body": "Decir lo que no se hace vale la pena; gritarlo, no. La acotacion de \"lo que no hace\" llevaba rotulo en Rojo Fosforo y cuerpo a tamano de texto, y competia de tu a tu con las tres tarjetas que tiene encima. Ahora va sin rojo, un punto mas pequena y colgada de un filete. Que algo deba estar explicito no significa que deba estar alto: el rojo se reserva para lo que si se hace."
       },
       {
         "name": "La Regla de la Columna Única",

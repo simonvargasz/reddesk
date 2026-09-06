@@ -20,7 +20,7 @@ export const pt: Dict = {
 
   hero: {
     tagline: 'Soluções digitais sob medida',
-    lead: 'Um estúdio de software. Sistemas usados todos os dias — de uma empresa ou de uma pessoa — que deixam o dia melhor do que estava.',
+    lead: 'Um estúdio de software. Constrói sistemas usados todos os dias que deixam o dia mais leve.',
     primary: 'O que faz',
     secondary: 'Escrever',
   },
@@ -69,19 +69,19 @@ export const pt: Dict = {
     title: 'Como trabalha',
     steps: [
       {
-        when: 'Semana 1',
-        title: 'Entender o trabalho real',
-        body: 'A tarefa é mapeada ao lado de quem a faz, como é feita hoje e não como deveria ser.',
+        when: 'Primeiro',
+        title: 'Avaliação',
+        body: 'Antes de propor qualquer coisa se estuda o trabalho como é feito hoje e que problema precisa ser resolvido, ao lado de quem o faz.',
       },
       {
-        when: 'Semanas 2–3',
+        when: 'Depois',
         title: 'Protótipo navegável',
         body: 'As telas são testadas antes de existir uma linha de código definitiva. Mudar de ideia ali não custa nada.',
       },
       {
-        when: 'A partir da 4',
-        title: 'Entregas a cada duas semanas',
-        body: 'Cada entrega está funcionando e no ar. O que vem depois se decide com o sistema já em uso.',
+        when: 'Em andamento',
+        title: 'Entregas funcionando',
+        body: 'Cada entrega está no ar e em uso. O que vem depois se decide com o sistema funcionando, não sobre um documento.',
       },
     ],
   },

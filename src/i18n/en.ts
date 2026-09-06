@@ -20,7 +20,7 @@ export const en: Dict = {
 
   hero: {
     tagline: 'Digital systems, built to fit',
-    lead: 'A software studio. Systems that get used every day — by a company or by one person — and leave the day lighter than they found it.',
+    lead: 'A software studio. It builds systems that get used every day and make the day lighter.',
     primary: 'What it does',
     secondary: 'Get in touch',
   },
@@ -69,19 +69,19 @@ export const en: Dict = {
     title: 'How it works',
     steps: [
       {
-        when: 'Week 1',
-        title: 'Understand the real work',
-        body: 'The task gets mapped next to the person doing it, as it is done today and not as it should be.',
+        when: 'First',
+        title: 'Assessment',
+        body: 'Before anything is proposed, the work gets studied as it is done today — and what actually needs solving — next to the person doing it.',
       },
       {
-        when: 'Weeks 2–3',
+        when: 'Then',
         title: 'Clickable prototype',
         body: 'Screens get tested before a single line of final code exists. Changing your mind there costs nothing.',
       },
       {
-        when: 'Week 4 onward',
-        title: 'Delivery every two weeks',
-        body: 'Every delivery is working and deployed. What comes next is decided with the system already in use.',
+        when: 'Ongoing',
+        title: 'Deliveries that work',
+        body: 'Every delivery is deployed and in use. What comes next is decided with the system running, not on a document.',
       },
     ],
   },

@@ -45,6 +45,12 @@ typography:
     fontWeight: 400
     lineHeight: 1.7
     letterSpacing: "normal"
+  note:
+    fontFamily: "IBM Plex Mono, ui-monospace, SFMono-Regular, Menlo, monospace"
+    fontSize: "14.5px"
+    fontWeight: 400
+    lineHeight: 1.7
+    letterSpacing: "normal"
   body-compact:
     fontFamily: "Space Grotesk Variable, Space Grotesk, Helvetica, Arial, sans-serif"
     fontSize: "16.5px"
@@ -254,6 +260,8 @@ instrumento y la prosa como voz.
   está sobre el tubo.
 - **Body** (400, 19px, 1.7, máx. 62ch): prosa de sección.
 - **Body compact** (400, 16.5px, 1.7): cuerpo de tarjeta y de paso.
+- **Note** (mono, 14.5px, 1.7, `ink-4`): la acotación al margen. Hoy sólo la usa
+  "lo que no hace", colgada de un filete de `graphite`. Se lee, no se anuncia.
 - **Control** (500, 13px, 0.06em, versalitas): botones. Mono.
 - **Label** (12px, 0.14em, versalitas, `phosphor-red`): rótulos de sección y
   claves. Mono.
@@ -270,6 +278,14 @@ sistema la mono ya significa algo y diluirla la deja sin significado.
 de 600px: cuerpo 16.5 → 17px, entradilla 19 → 18.5px, etiqueta 12 → 12.5px. Un
 metadato de 10px se lee a 60cm, no a 30cm en la calle. Los campos de formulario
 no bajan de 16px porque por debajo Safari en iOS hace zoom al enfocar.
+
+**La Regla de la Nota al Margen.** Decir lo que no se hace vale la pena; gritarlo,
+no. La acotación de "lo que no hace" llevaba rótulo en `phosphor-red` y cuerpo a
+tamaño de texto, y competía de tú a tú con las tres tarjetas que tiene encima:
+la primera cosa que el ojo leía de la sección era una negación. Ahora va sin
+rojo, un punto más pequeña y colgada de un filete, como la nota que corrige al
+pie de una tabla. **Que algo deba estar explícito no significa que deba estar
+alto.** El rojo se reserva para lo que sí se hace.
 
 **La Regla de la Lectura sin Fatiga.** La escala entera subió un punto sobre la
 maqueta —cuerpo 14.5 → 16.5px, prosa 17 → 19px— porque la audiencia evalúa en

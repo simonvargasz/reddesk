@@ -38,6 +38,7 @@
   --rd-t-h3:    21px;
   --rd-t-lead:  19px;
   --rd-t-body:  16.5px;
+  --rd-t-note:  14.5px; /* acotaciones al margen: se leen, no se anuncian */
   --rd-t-label: 12px;   /* etiquetas mono */
   --rd-t-meta:  11.5px; /* metadatos mono */
 
@@ -67,6 +68,7 @@
     --rd-t-h3:    21px;
     --rd-t-lead:  18.5px;
     --rd-t-body:  17px;
+    --rd-t-note:  15px;
     --rd-t-label: 12.5px;
     --rd-t-meta:  11.5px;
 
