@@ -62,16 +62,24 @@
 
      `verticalJitter` se pasa a 0: el shader desplaza `uv.y` DESPUÉS del último
      muestreo, así que ese parámetro no hace nada. Mejor no fingir. */
-  /* El grano está acotado por observación: a 0.16 se lee como suciedad de
-     pantalla —6.3 de desviación local frente a los 2.5 del fondo liso—, y a
-     0.05 no se distingue del fondo liso. 0.08 deja 3.7: en una captura es
-     textura, y en movimiento es lo que hace que el fondo esté encendido. */
+  /* `staticNoise` queda en 0, y no por gusto: el shader lo calcula como
+     `fract(sin(dot(uv, k)) * 43758.5453)`, una función del PÍXEL sin ningún
+     término de tiempo. Es el mismo patrón en cada fotograma. Eso no es grano de
+     fósforo —que centellea—, es un tramado fijo estampado sobre la imagen, o
+     sea suciedad en el cristal. Bajarlo lo hace más tenue, nunca menos estático,
+     así que no hay valor bueno: a 6.3 de desviación local se ve sucio y a 3.0 ya
+     no se distingue del fondo liso.
+
+     Por la misma razón se apagan el desgarro y la pérdida de señal: sobre un
+     campo de degradados suaves sólo aportan bandas que no estaban en el diseño.
+
+     Queda lo único del shader que sí depende del tiempo: el parpadeo de red. */
   const CONFIG = {
     barrelDistortion: 0.05,
     curvature: 0.05,
     chromaticAberration: 0.0016,
-    staticNoise: 0.08,
-    horizontalTearing: 0.00012,
+    staticNoise: 0,
+    horizontalTearing: 0,
     glowBloom: 0.02,
     verticalJitter: 0,
     retraceLines: true,
@@ -80,8 +88,8 @@
     brightness: 1,
     contrast: 1,
     desaturation: 0,
-    flicker: 0.02,
-    signalLoss: 0.015,
+    flicker: 0.014,
+    signalLoss: 0,
   };
 
   /* Los mismos cuatro degradados de `.hero::before`, con sus mismos valores.

@@ -292,8 +292,8 @@
       },
       {
         "name": "field",
-        "value": "requestAnimationFrame sobre un shader WebGL, solo en >=900px con WebGL; grano acotado a 3.7 de desviacion local (6.3 se lee como suciedad, 3.0 no se distingue del fondo liso)",
-        "purpose": "Grano de fosforo y parpadeo de red sobre el fondo del hero. No dibuja nada nuevo, solo mantiene encendido lo que ya habia. Se detiene cuando el hero sale de pantalla y con prefers-reduced-motion no arranca."
+        "value": "requestAnimationFrame sobre un shader WebGL, solo en >=900px con WebGL",
+        "purpose": "Parpadeo de red sobre el fondo del hero. El grano de fosforo se apago: el shader lo calcula sin termino de tiempo, asi que es un tramado fijo y se lee como suciedad. Medida contra el fondo de CSS: 0.65 niveles de diferencia media."
       }
     ],
     "breakpoints": [
@@ -495,6 +495,11 @@
         "name": "La Regla de la Capa que se Suma",
         "section": "motion",
         "body": "Un efecto se anade detras de lo que ya funciona, nunca reestructurando lo que ya funciona. Tres intentos de meter el logo dentro del shader acabaron los tres en un halo mas blando o en un churrete, porque al arte le quitaban su propio florecimiento para devolverselo peor. Lo que si cabe es sustituir una capa que ya era fondo, con sus mismos valores, y ganar que este viva. Si un efecto exige desmontar el diseno para entrar, el que sobra es el efecto."
+      },
+      {
+        "name": "La Regla del Ruido que No Centellea",
+        "section": "motion",
+        "body": "Un grano que no cambia entre fotogramas no es grano, es suciedad. El staticNoise de CRTFilterWebGL se calcula como fract(sin(dot(uv, k)) * 43758.5453), una funcion del pixel sin termino de tiempo: el mismo patron siempre. Bajarlo lo hace mas tenue, nunca menos estatico, asi que no hay valor bueno. Antes de ajustar un parametro a ojo, leer que hace: la respuesta estaba en una linea del shader."
       }
     ],
     "dos": [
