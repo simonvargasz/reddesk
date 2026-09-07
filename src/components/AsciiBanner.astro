@@ -73,7 +73,10 @@ const PX_PER_EM = 19; // equivalente al font-size máximo de la maqueta
         {Array.from({ length: b.rows }, (_, r) => (
           <g class="banner__row" style={`--i:${r}`}>
             {b.rects.filter((rect) => rect.r === r).map((rect) => (
-              <rect x={rect.x} y={rect.y} width={rect.w} height={rect.h} fill={rect.fill} />
+              <rect
+                class="banner__rect"
+                x={rect.x} y={rect.y} width={rect.w} height={rect.h} fill={rect.fill}
+              />
             ))}
           </g>
         ))}
@@ -107,15 +110,19 @@ const PX_PER_EM = 19; // equivalente al font-size máximo de la maqueta
     .banner__svg--stack { display: block; }
   }
 
-  .banner__row {
-    /* El arranque: el banner se dibuja fila a fila antes que nada, y el
-       revelado del resto de la página entra detrás. */
-    animation: rdBoot .55s cubic-bezier(.16, 1, .3, 1) backwards;
-    animation-delay: calc(var(--i) * 55ms);
-  }
-  @keyframes rdBoot { from { opacity: 0; } }
+  /* El arranque lo dibuja Motion, bloque a bloque, desde el script de abajo.
+     Aquí sólo vive el estado inicial, y sólo bajo `.rd-js` —la clase que el
+     layout escribe antes de pintar— para que sin JS el logo esté siempre a la
+     vista. La red de seguridad de src/scripts/motion.ts retira esa clase si algo
+     no arranca.
+
+     Sin `will-change`: son 49 rectángulos, promover cada uno a su capa costaría
+     más de lo que ahorra, y la API de animaciones del navegador ya compone la
+     opacidad por su cuenta. Ponerlo en la fila tampoco valdría — quien anima es
+     el bloque. */
+  :global(.rd-js) .banner__rect { opacity: 0; }
   @media (prefers-reduced-motion: reduce) {
-    .banner__row { animation: none; }
+    :global(.rd-js) .banner__rect { opacity: 1; }
   }
   /* Quien pide más contraste quiere el filo de la letra, no el halo ni la
      franja de color: el CSS gana al atributo de presentación. */
@@ -123,3 +130,43 @@ const PX_PER_EM = 19; // equivalente al font-size máximo de la maqueta
     .banner__lit { filter: none; }
   }
 </style>
+
+<script>
+  /* El encendido del logo, bloque a bloque, con Motion.
+   *
+   * Antes lo hacía una animación CSS por FILA: cinco pasos y todos los bloques
+   * de una fila a la vez. La retícula tiene 49 rectángulos y el orden en que un
+   * tubo los pintaría no es por filas enteras sino por barrido —de arriba a
+   * abajo, y dentro de cada fila de izquierda a derecha—. Eso son 49 retardos
+   * distintos, que en CSS es una variable por bloque y aquí es un `stagger`.
+   *
+   * Se importa de `motion/mini`, no de `motion`: la entrada completa trae el
+   * motor propio de la librería y pesaba 22KB comprimidos, más de lo que cuesta
+   * todo el resto de la página. `mini` delega en la API de animaciones del
+   * navegador —el trabajo por fotograma lo hace el compositor— y cabe en una
+   * fracción. El logo es lo primero que se ve y no puede esperar.
+   *
+   * `mini` no trae `stagger`, y aquí no hace falta: el retardo de cada bloque es
+   * su índice por 12ms, que es una multiplicación.
+   *
+   * Sólo se anima la composición visible: la otra está en `display: none` y
+   * animarla sería trabajo tirado. */
+  import { animate } from 'motion/mini';
+
+  const visible = [...document.querySelectorAll<SVGSVGElement>('.banner__svg')]
+    .find((s) => s.getBoundingClientRect().width > 0);
+  const bloques = visible ? [...visible.querySelectorAll<SVGRectElement>('.banner__rect')] : [];
+
+  if (bloques.length && matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+    /* 12ms por bloque: los 49 caben en 0.6s, que es lo que duraba el arranque
+       por filas. El barrido se nota, la espera no cambia. El orden del DOM ya es
+       el del barrido —fila a fila, y dentro de cada fila de izquierda a
+       derecha—, porque así lo emite src/lib/ascii.mjs. */
+    bloques.forEach((bloque, i) => {
+      animate(bloque, { opacity: [0, 1] },
+        { duration: 0.26, delay: i * 0.012, ease: [0.16, 1, 0.3, 1] });
+    });
+  } else {
+    bloques.forEach((b) => { b.style.opacity = '1'; });
+  }
+</script>

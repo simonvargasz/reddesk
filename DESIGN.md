@@ -573,14 +573,28 @@ al final.
 
 ### Motion
 
-El movimiento lo lleva **GSAP con ScrollTrigger** (`src/scripts/motion.ts`).
-Entró por lo que un `IntersectionObserver` no sabe hacer: escalonar hermanos que
-entran juntos, encadenar líneas dentro de un panel y atar una animación al
-progreso del scroll en vez de a su cruce.
+El movimiento se reparte entre dos librerías, y el reparto es por peso, no por
+gusto.
 
-- **Arranque del banner** (`rdBoot`, `.55s cubic-bezier(.16,1,.3,1)`, escalón de
-  55ms por fila): el logo se dibuja fila a fila al cargar. Es lo primero que
-  ocurre; el revelado de la página entra detrás.
+**GSAP con ScrollTrigger** (`src/scripts/motion.ts`, 45KB comprimidos) lleva todo
+lo que depende del scroll: entró por lo que un `IntersectionObserver` no sabe
+hacer —escalonar hermanos que entran juntos, encadenar líneas dentro de un panel
+y atar una animación al progreso del scroll en vez de a su cruce— y llega
+diferido, bajo el pliegue.
+
+**Motion** (`motion/mini`, 3.2KB) lleva sólo el encendido del logo, que es lo
+primero que se ve y no puede esperar a los 45KB del otro. La entrada completa de
+Motion pesa 22.5KB porque trae su propio motor; `mini` delega en la API de
+animaciones del navegador y cabe en una séptima parte. **Antes de importar una
+librería, mirar si tiene una puerta pequeña.**
+
+- **Arranque del banner** (`.26s cubic-bezier(.16,1,.3,1)`, escalón de 12ms por
+  **bloque**): el logo se enciende bloque a bloque, no fila a fila. La retícula
+  tiene 49 rectángulos y el orden en que un tubo los pintaría es el del barrido
+  —de arriba a abajo y, dentro de cada fila, de izquierda a derecha—, que es
+  exactamente el orden en que `src/lib/ascii.mjs` los emite. Los 49 caben en
+  0.6s, lo que duraba el arranque por filas: se nota el barrido, no la espera.
+  Lo lleva **Motion** (`motion/mini`), no GSAP.
 - **Revelado al desplazar** (`.55s power3.out`, opacidad y 14px de subida): cada
   pieza aparece una vez y deja de observarse. El escalón entre hermanos sale de
   **lo que entra junto en el mismo fotograma** (`ScrollTrigger.batch`, 75ms), no
