@@ -288,6 +288,12 @@ hero **entra en rampa por arriba**: sin ella el cañón ya sumaba en la fila 0 y
 centro salía nueve niveles más cálido que la banda. Medido, la fila 0 del hero da
 (26,20,19) en los tres puntos de su ancho: Δ 0 contra el fondo.
 
+La rampa es larga —18%, unos 150px— y eso no es un número al azar. Una rampa
+corta **no quita el escalón, lo mueve**: sigue habiendo un punto donde la luz
+sube deprisa y el ojo lo lee como filete. Repartida, la subida deja de tener
+canto. Es el mismo criterio que la caída de abajo, que se reparte sobre el 58%
+de la banda.
+
 **La Regla del Área Segura.** El fondo llega al canto físico de la pantalla; el
 contenido, no. `viewport-fit=cover` hace que la página empiece detrás de la
 muesca, así que el hero ya pinta ahí y **no hay que subirlo** —se probó con
