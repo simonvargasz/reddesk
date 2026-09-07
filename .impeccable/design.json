@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-06T20:44:12-03:00",
+  "generatedAt": "2026-09-06T22:22:54-03:00",
   "title": "Design System: Red Desk",
   "extensions": {
     "colorMeta": {
@@ -67,7 +67,7 @@
       "screen-black": {
         "role": "neutral",
         "displayName": "Negro de Pantalla",
-        "canonical": "#141312",
+        "canonical": "#1A1413",
         "tonalRamp": [
           "#282624",
           "#474340",
@@ -505,6 +505,11 @@
         "name": "La Regla del Area Segura",
         "section": "layout",
         "body": "El fondo llega al canto fisico de la pantalla; el contenido, no. viewport-fit=cover hace que la pagina empiece detras de la muesca, asi que el hero ya pinta ahi y no hay que subirlo. Lo que se aparta es el contenido: env(safe-area-inset-top) al relleno del hero y al selector de idioma, env(safe-area-inset-bottom) al pie. Los valores viven en --rd-safe-top y --rd-safe-bottom porque env() no se puede emular y una variable si. Y theme-color no es el negro de la pagina sino el de la franja alta del hero (#1C1413): el cromo del navegador pinta con ese color y con el negro neutro quedaba una banda gris encima de una roja."
+      },
+      {
+        "name": "La Regla del Negro Unico",
+        "section": "colors",
+        "body": "El negro del documento, el theme-color y la primera franja del hero son el mismo color, #1A1413. Safari en iOS no usa theme-color: tine la banda de la muesca con el background-color de la pagina; Chrome si usa theme-color. Si los tres no coinciden, uno de los dos navegadores ensena un escalon a todo lo ancho. De ahi que el negro base se templara de #141312 (20/19/18, neutro) a #1A1413 (26/20/19), y que el fundido del hero entre en rampa por arriba: sin ella el canon ya sumaba en la fila 0. Medido, la fila 0 da (26,20,19) en los tres puntos de su ancho: delta 0 contra el fondo."
       }
     ],
     "dos": [

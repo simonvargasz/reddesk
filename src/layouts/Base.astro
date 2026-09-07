@@ -40,10 +40,10 @@ const org = {
       <link rel="alternate" hreflang={alt.hreflang} href={new URL(alt.href, SITE).href} />
     ))}
 
-    <!-- No es el negro de la página sino el de la franja alta del hero, medido:
-         el cromo del navegador pinta con este color y el hero arranca en cálido,
-         así que con `#141312` quedaba una banda neutra encima de una roja. -->
-    <meta name="theme-color" content="#1C1413" />
+    <!-- El mismo negro que `--rd-black`. Chrome pinta con esto la barra de
+         estado; Safari en iOS la tiñe con el fondo del documento, así que los
+         dos tienen que valer lo mismo o reaparece el filete. -->
+    <meta name="theme-color" content="#1A1413" />
     <meta name="color-scheme" content="dark" />
 
     <meta property="og:type" content="website" />

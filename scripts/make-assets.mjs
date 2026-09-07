@@ -22,7 +22,7 @@ const fontDir = path.join(fontHome, 'fonts');
 const C = {
   red: '#8C1420',
   redInk: '#FF4A54',
-  black: '#141312',
+  black: '#1A1413',
   graphite: '#2A2724',
   ink: '#FFFFFF',
   ink2: '#D6D2CD',

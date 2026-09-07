@@ -6,7 +6,7 @@ colors:
   oxide-red-hover: "#B0121C"
   phosphor-red: "#FF4A54"
   room-black: "#0F0E0E"
-  screen-black: "#141312"
+  screen-black: "#1A1413"
   panel-black: "#1B1A19"
   graphite: "#2A2724"
   graphite-lit: "#4A4642"
@@ -276,6 +276,17 @@ instrumento y la prosa como voz.
 selector de idioma, formularios, salida de terminal, botones—. Sans para todo lo que se
 lee seguido. Monoespaciar un párrafo para que parezca técnico es disfraz; en este
 sistema la mono ya significa algo y diluirla la deja sin significado.
+
+**La Regla del Negro Único.** El negro del documento, el `theme-color` y la
+primera franja del hero son **el mismo color**, `#1A1413`, y eso no es una
+coincidencia sino la única forma de que no haya filete bajo la muesca. Safari en
+iOS no usa `theme-color`: tiñe esa banda con el `background-color` de la página.
+Chrome sí usa `theme-color`. Si los tres valores no coinciden, uno de los dos
+navegadores enseña un escalón a todo lo ancho. Por eso el negro base se templó de
+`#141312` (20/19/18, neutro) a `#1A1413` (26/20/19), y por eso el fundido del
+hero **entra en rampa por arriba**: sin ella el cañón ya sumaba en la fila 0 y el
+centro salía nueve niveles más cálido que la banda. Medido, la fila 0 del hero da
+(26,20,19) en los tres puntos de su ancho: Δ 0 contra el fondo.
 
 **La Regla del Área Segura.** El fondo llega al canto físico de la pantalla; el
 contenido, no. `viewport-fit=cover` hace que la página empiece detrás de la

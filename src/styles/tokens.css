@@ -6,7 +6,12 @@
   /* rellenos y fondos */
   --rd-red:        #8C1420; /* botones, barras, fondos solidos */
   --rd-red-hover:  #B0121C;
-  --rd-black:      #141312; /* fondo principal */
+  /* El negro del documento, y no es un negro cualquiera: Safari en iOS tiñe la
+     franja de la muesca con el `background-color` de la página, no con
+     `theme-color`. Con el neutro anterior (#141312, 20/19/18) quedaba un filete
+     gris a todo lo ancho contra el arranque del hero, que mide 28/20/19. Este
+     vale 26/20/19: la franja y el hero son ya el mismo negro. */
+  --rd-black:      #1A1413; /* fondo principal */
   --rd-black-deep: #0F0E0E; /* secciones alternas */
   --rd-panel:      #1B1A19; /* tarjetas sobre negro */
   --rd-graphite:   #2A2724; /* bordes, barra de titulo del logo */

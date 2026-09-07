@@ -166,12 +166,17 @@ const t = dict(locale);
        .shell deja de caer sobre la medida de la página. */
     grid-template-columns: minmax(0, 1fr);
     align-content: center;
-    /* La luz no debe chocar contra el resto del cuerpo. Las dos capas se
-       disuelven hacia abajo, así que la textura y la viñeta mueren mucho antes
-       del filete de la sección siguiente y el hero se funde con el fondo en vez
-       de cortarse. */
+    /* La luz no debe chocar ni por abajo ni por arriba. Hacia abajo se disuelve
+       para que la textura muera antes del filete de la sección siguiente.
+
+       Hacia ARRIBA entra en rampa, y eso es lo que quita el filete de la muesca:
+       la primera franja del hero queda en el negro exacto del documento, que es
+       con el que Safari tiñe esa banda en iOS. Sin la rampa el cañón ya sumaba
+       en la fila 0 y el centro salía nueve niveles más cálido que la banda —un
+       escalón a todo lo ancho—. El 8% cae justo por debajo de la muesca, así que
+       el resplandor arranca donde empieza la pantalla útil y no se pierde nada. */
     --rd-hero-fade: linear-gradient(
-      to bottom, #000 0%, #000 42%, transparent 100%);
+      to bottom, transparent 0%, #000 8%, #000 42%, transparent 100%);
   }
   .hero::before,
   .hero::after {
