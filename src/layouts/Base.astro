@@ -74,28 +74,11 @@ const org = {
     <slot />
 
     <script>
-      /* Revelado al desplazar. Cada pieza se muestra una vez y deja de mirarse:
-         no es una animación de estado, es la impresión de la página. */
-      const items = [...document.querySelectorAll<HTMLElement>('[data-reveal]')];
-      const show = (el: Element) => el.setAttribute('data-shown', '');
-
-      if (!('IntersectionObserver' in window)) {
-        items.forEach(show);
-      } else {
-        const io = new IntersectionObserver(
-          (entries, obs) => {
-            entries.forEach((entry) => {
-              if (!entry.isIntersecting) return;
-              show(entry.target);
-              obs.unobserve(entry.target);
-            });
-          },
-          /* Un pelo dentro de la pantalla, no en el filo: así el material no
-             termina de aparecer justo cuando ya se salió por arriba. */
-          { rootMargin: '0px 0px -10% 0px', threshold: 0.01 },
-        );
-        items.forEach((el) => io.observe(el));
-      }
+      /* Todo el movimiento de la página vive en un módulo aparte, porque ya no
+         es un observador de diez líneas: revelado escalonado, filetes que se
+         trazan, el panel de terminal imprimiendo y el paralaje de salida del
+         hero. Ver src/scripts/motion.ts. */
+      import '../scripts/motion.ts';
     </script>
   </body>
 </html>

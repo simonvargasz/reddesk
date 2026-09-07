@@ -573,15 +573,29 @@ al final.
 
 ### Motion
 
-Dos momentos autorizados, un gesto permanente y un fondo vivo.
+El movimiento lo lleva **GSAP con ScrollTrigger** (`src/scripts/motion.ts`).
+Entró por lo que un `IntersectionObserver` no sabe hacer: escalonar hermanos que
+entran juntos, encadenar líneas dentro de un panel y atar una animación al
+progreso del scroll en vez de a su cruce.
 
 - **Arranque del banner** (`rdBoot`, `.55s cubic-bezier(.16,1,.3,1)`, escalón de
   55ms por fila): el logo se dibuja fila a fila al cargar. Es lo primero que
   ocurre; el revelado de la página entra detrás.
-- **Revelado al desplazar** (`.55s cubic-bezier(.16,1,.3,1)`, opacidad y 14px de
-  subida): cada pieza aparece una vez, al entrar en pantalla, y deja de mirarse.
-  El escalón entre hermanos de una rejilla (`--rd-reveal-delay`, 90–100ms por
-  índice) lo pone la plantilla, no un temporizador.
+- **Revelado al desplazar** (`.55s power3.out`, opacidad y 14px de subida): cada
+  pieza aparece una vez y deja de observarse. El escalón entre hermanos sale de
+  **lo que entra junto en el mismo fotograma** (`ScrollTrigger.batch`, 75ms), no
+  de un índice de plantilla: una tarjeta que entra sola ya no arrastra el retardo
+  de la tercera.
+- **Filete de sección** (`.7s power2.out`, `scaleX` desde el flanco izquierdo):
+  el separador se traza en vez de aparecer. Es un separador de terminal.
+- **Panel de terminal** (`.34s`, escalón de 110ms): las salidas entran una detrás
+  de otra, como una orden que va escupiendo resultado. Puramente visual: el panel
+  lleva su propio `aria-label` con el texto completo.
+- **Paralaje de salida del hero** (atado al progreso del scroll, `scrub`): al
+  bajar, la luz se queda atrás respecto del texto —64px contra 108px— y el
+  conjunto se apaga hasta 0.35. Es lo único que responde al progreso y no a un
+  cruce, y es lo que hace que la primera pantalla entregue la página en vez de
+  cortarse.
 - **Cursor de bloque** (`rdBlink`, `1.1s step-end infinite`): el único gesto
   animado permanente de la marca.
 - **Campo del hero** (`requestAnimationFrame`, sólo en escritorio con WebGL):
@@ -607,6 +621,15 @@ en un halo más blando o en un churrete, porque al arte le quitaban su propio
 florecimiento para devolvérselo peor. Lo que sí cabe es sustituir una capa que ya
 era fondo, con sus mismos valores, y ganar que esté viva. **Si un efecto exige
 desmontar el diseño para entrar, el que sobra es el efecto.**
+
+**La Regla de la Primera Pantalla sin Dependencias.** El módulo de movimiento
+pesa 45KB comprimidos y llega diferido. Nada de lo que se ve en el primer pliegue
+puede colgar de él: la entradilla y los botones entran con una animación CSS que
+ya está en el primer pintado, encadenada detrás del arranque del banner, y
+`data-reveal` no aparece ni una vez dentro del hero. GSAP empieza **bajo el
+pliegue**, que es donde hace falta y donde nadie está esperando. La audiencia
+evalúa desde el móvil: una librería de animación no puede ser lo que retrasa la
+frase que explica qué es esto.
 
 **La Regla del Revelado Reversible.** Nada se oculta si no hay quien lo
 desoculte. El estado inicial del revelado cuelga de `.rd-js`, una clase que el

@@ -41,9 +41,9 @@ const t = dict(locale);
           <span class="cursor hero__cursor"></span>
         </p>
 
-        <p class="hero__lead" data-reveal style="--rd-reveal-delay:400ms">{t.hero.lead}</p>
+        <p class="hero__lead">{t.hero.lead}</p>
 
-        <div class="hero__actions" data-reveal style="--rd-reveal-delay:500ms">
+        <div class="hero__actions">
           <a class="btn btn--primary" href="#que-hace">{t.hero.primary}</a>
           <a class="btn btn--ghost" href="#contacto">{t.hero.secondary}</a>
         </div>
@@ -55,11 +55,9 @@ const t = dict(locale);
         <SectionHeader n={t.thesis.n} title={t.thesis.title} id="h-enfoque" />
         <div class="thesis">
           <div class="thesis__body">
-            {t.thesis.body.map((p, i) => (
-              <p class="prose" data-reveal style={`--rd-reveal-delay:${i * 90}ms`}>{p}</p>
-            ))}
+            {t.thesis.body.map((p) => <p class="prose" data-reveal>{p}</p>)}
           </div>
-          <div class="thesis__aside" data-reveal style="--rd-reveal-delay:180ms">
+          <div class="thesis__aside" data-reveal>
             <TerminalPanel
               command={t.thesis.terminal.command}
               lines={t.thesis.terminal.lines}
@@ -74,8 +72,8 @@ const t = dict(locale);
       <div class="shell">
         <SectionHeader n={t.services.n} title={t.services.title} id="h-que-hace" />
         <ul class="cards screen-surface">
-          {t.services.items.map((item, i) => (
-            <li class="card" data-reveal style={`--rd-reveal-delay:${i * 100}ms`}>
+          {t.services.items.map((item) => (
+            <li class="card" data-reveal>
               <span class="card__rule" aria-hidden="true"></span>
               <h3 class="card__title">{item.title}</h3>
               <p class="card__body">{item.body}</p>
@@ -93,8 +91,8 @@ const t = dict(locale);
       <div class="shell">
         <SectionHeader n={t.process.n} title={t.process.title} id="h-proceso" />
         <ol class="steps">
-          {t.process.steps.map((step, i) => (
-            <li class="step" data-reveal style={`--rd-reveal-delay:${i * 100}ms`}>
+          {t.process.steps.map((step) => (
+            <li class="step" data-reveal>
               <p class="label step__when">{step.when}</p>
               <h3 class="step__title">{step.title}</h3>
               <p class="card__body">{step.body}</p>
@@ -108,9 +106,9 @@ const t = dict(locale);
       <div class="shell contact">
         <div class="contact__intro">
           <SectionHeader n={t.contact.n} title={t.contact.title} id="h-contacto" lg />
-          <p class="prose contact__lead" data-reveal style="--rd-reveal-delay:90ms">{t.contact.lead}</p>
+          <p class="prose contact__lead" data-reveal>{t.contact.lead}</p>
 
-          <dl class="channels" data-reveal style="--rd-reveal-delay:150ms">
+          <dl class="channels" data-reveal>
             <div class="channel">
               <dt class="channel__k">{t.contact.emailLabel}</dt>
               <dd class="channel__v"><a href={`mailto:${EMAIL}`}>{EMAIL}</a></dd>
@@ -126,7 +124,7 @@ const t = dict(locale);
           </dl>
         </div>
 
-        <div class="contact__panel screen-surface" data-reveal style="--rd-reveal-delay:120ms">
+        <div class="contact__panel screen-surface" data-reveal>
           <ContactForm t={t} />
         </div>
       </div>
@@ -191,6 +189,11 @@ const t = dict(locale);
     pointer-events: none;
     -webkit-mask-image: var(--rd-hero-fade);
             mask-image: var(--rd-hero-fade);
+    /* El paralaje de salida: al desplazarse, la luz se queda atrás respecto del
+       texto. Lo mueve GSAP escribiendo la variable, porque un pseudo-elemento no
+       se puede seleccionar desde JS pero una custom property sí se hereda. */
+    transform: translate3d(0, var(--rd-hero-shift, 0px), 0);
+    will-change: transform;
   }
   /* El cañón, detrás del texto para que ilumine sin velarlo, más el arco de
      refracción: la luz que un vidrio curvo devuelve no es una banda recta sino
@@ -305,6 +308,22 @@ const t = dict(locale);
   /* Centrada como bloque, justificada de renglón: los flancos quedan a plomo y
      la última línea vuelve al centro, que es lo que sostiene el eje del logo.
      La medida sube a 56ch porque justificar en corto abre ríos entre palabras. */
+  /* La primera pantalla NO entra por GSAP. El módulo de movimiento pesa 45KB
+     comprimidos y llega diferido; si la entradilla y los botones colgaran de él,
+     en un teléfono lento aparecerían un par de décimas después del logo. Su
+     entrada es una animación CSS que ya está en el primer pintado, encadenada
+     detrás del arranque del banner. Lo de GSAP empieza bajo el pliegue, que es
+     donde hace falta y donde nadie está esperando. */
+  .hero__lead,
+  .hero__actions {
+    animation: rdEntra .55s cubic-bezier(.16, 1, .3, 1) backwards;
+  }
+  .hero__lead { animation-delay: .40s; }
+  .hero__actions { animation-delay: .50s; }
+  @keyframes rdEntra {
+    from { opacity: 0; transform: translateY(14px); }
+  }
+
   .hero__lead {
     margin: clamp(26px, 4vw, 40px) auto 0;
     max-width: 56ch;

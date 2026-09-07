@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-06T22:22:54-03:00",
+  "generatedAt": "2026-09-07T00:51:15-03:00",
   "title": "Design System: Red Desk",
   "extensions": {
     "colorMeta": {
@@ -271,11 +271,6 @@
         "purpose": "El bloque de cursor. Único gesto animado permanente de la marca."
       },
       {
-        "name": "scroll-reveal",
-        "value": ".55s cubic-bezier(.16,1,.3,1) sobre opacidad y 14px de subida, con --rd-reveal-delay de 90–100ms por índice",
-        "purpose": "Cada pieza aparece una vez al entrar en pantalla y deja de observarse. Es lo que sustituye al menú: la página se lee bajando."
-      },
-      {
         "name": "state",
         "value": ".15s ease",
         "purpose": "Color, fondo y borde en cambios de estado."
@@ -289,6 +284,26 @@
         "name": "field",
         "value": "requestAnimationFrame sobre un shader WebGL, solo en >=900px con WebGL",
         "purpose": "Parpadeo de red sobre el fondo del hero. El grano de fosforo se apago: el shader lo calcula sin termino de tiempo, asi que es un tramado fijo y se lee como suciedad. Medida contra el fondo de CSS: 0.65 niveles de diferencia media."
+      },
+      {
+        "name": "scroll-reveal",
+        "value": ".55s power3.out, opacidad y 14px, escalon de 75ms via ScrollTrigger.batch",
+        "purpose": "Cada pieza aparece una vez al entrar en pantalla. El escalon sale de lo que entra junto en el mismo fotograma, no de un indice de plantilla."
+      },
+      {
+        "name": "rule-draw",
+        "value": ".7s power2.out, scaleX desde el flanco izquierdo",
+        "purpose": "El filete de seccion se traza en vez de aparecer. Es un separador de terminal."
+      },
+      {
+        "name": "terminal-print",
+        "value": ".34s con escalon de 110ms",
+        "purpose": "Las salidas del panel entran una detras de otra, como una orden escupiendo resultado. Puramente visual: el panel lleva aria-label con el texto completo."
+      },
+      {
+        "name": "hero-parallax",
+        "value": "atado al progreso del scroll (scrub .4): luz 64px, texto 108px, opacidad a 0.35",
+        "purpose": "Al bajar, la luz se queda atras respecto del texto. Es lo unico atado al progreso y no a un cruce."
       }
     ],
     "breakpoints": [
@@ -510,6 +525,11 @@
         "name": "La Regla del Negro Unico",
         "section": "colors",
         "body": "El negro del documento, el theme-color y la primera franja del hero son el mismo color, #1A1413. Safari en iOS no usa theme-color: tine la banda de la muesca con el background-color de la pagina; Chrome si usa theme-color. Si los tres no coinciden, uno de los dos navegadores ensena un escalon a todo lo ancho. De ahi que el negro base se templara de #141312 (20/19/18, neutro) a #1A1413 (26/20/19), y que el fundido del hero entre en rampa por arriba: sin ella el canon ya sumaba en la fila 0. Medido, la fila 0 da (26,20,19) en los tres puntos de su ancho: delta 0 contra el fondo."
+      },
+      {
+        "name": "La Regla de la Primera Pantalla sin Dependencias",
+        "section": "motion",
+        "body": "El modulo de movimiento pesa 45KB comprimidos y llega diferido. Nada de lo que se ve en el primer pliegue puede colgar de el: la entradilla y los botones entran con una animacion CSS que ya esta en el primer pintado, y data-reveal no aparece ni una vez dentro del hero. GSAP empieza bajo el pliegue. La audiencia evalua desde el movil: una libreria de animacion no puede ser lo que retrasa la frase que explica que es esto."
       }
     ],
     "dos": [

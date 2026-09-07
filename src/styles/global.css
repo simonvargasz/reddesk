@@ -173,27 +173,23 @@ input, textarea, select { caret-color: var(--rd-red-ink); }
    Sin barra de navegación la página se lee bajando, así que el material tiene
    que llegar al ritmo del desplazamiento en vez de estar ya todo puesto.
 
-   Sólo se esconde bajo `.rd-js`, la clase que el layout escribe en el propio
-   <html> antes de pintar: si el script no corre —o si el observador no existe—
-   nunca hay nada oculto que un fallo pudiera dejar invisible para siempre.
+   Aquí sólo vive el ESTADO INICIAL, y sólo bajo `.rd-js`, la clase que el layout
+   escribe en el propio <html> antes de pintar: si el script no corre nunca hay
+   nada oculto que un fallo pudiera dejar invisible para siempre. El movimiento
+   lo lleva GSAP desde `src/scripts/motion.ts`, que además retira esta clase si
+   algo falla al arrancar.
 
-   El gesto es el de una terminal imprimiendo: sube unos píxeles y aparece, sin
-   escala ni desenfoque. `--rd-reveal-delay` escalona a los hermanos de una
-   rejilla; lo pone la plantilla por índice, no un temporizador. */
-.rd-js [data-reveal] {
-  opacity: 0;
-  transform: translateY(14px);
-  transition:
-    opacity .55s cubic-bezier(.16, 1, .3, 1) var(--rd-reveal-delay, 0ms),
-    transform .55s cubic-bezier(.16, 1, .3, 1) var(--rd-reveal-delay, 0ms);
-}
-.rd-js [data-reveal][data-shown] { opacity: 1; transform: none; }
+   No hay `transition` porque la habría que pelear con GSAP: quien anima manda
+   sobre la propiedad entera. */
+.rd-js [data-reveal] { opacity: 0; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .cursor { animation: none; opacity: 1; }
   /* El material aparece igual, sin desplazamiento ni espera. */
   .rd-js [data-reveal] { opacity: 1; transform: none; }
+  /* El desplazamiento del hero al salir tampoco ocurre. */
+  .hero { --rd-hero-shift: 0px; }
   *, *::before, *::after {
     animation-duration: .001ms !important;
     animation-iteration-count: 1 !important;
